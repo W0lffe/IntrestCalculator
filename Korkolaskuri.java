@@ -10,6 +10,7 @@
 
 /******IMPORTS******/
 import java.util.Scanner;
+import java.util.Random;
 
 
 public class Korkolaskuri {
@@ -28,7 +29,7 @@ public class Korkolaskuri {
 
             do {
                 command = Error.Selection(myScanner);
-                if(command == 0 || command == 1){
+                if(command == 0 || command == 1 || command == 2){
                     break;
                 }
             } while (true);
@@ -36,7 +37,10 @@ public class Korkolaskuri {
 
             switch (command) {
                 case 1:
-                    Functions.Collect(myScanner);
+                    Functions.Collect(myScanner, 1);
+                    break;
+                case 2:
+                    Functions.Collect(myScanner, 2);
                     break;
                 case 0:
                     System.out.println("Exiting program...");
@@ -62,37 +66,46 @@ class Functions{
         
         switch (function) {
             case 1:
-            System.out.println("\nSelect one: ");
-            System.out.println("1. CALCULATE INTEREST ");
-            System.out.println("0. CLOSE PROGRAM");
+                System.out.println("\nSelect one: ");
+                System.out.println("1. CALCULATE INTEREST (LINEAR)");
+                System.out.println("2. CALCULATE INTEREST (ADVANCED)");
+                System.out.println("0. CLOSE PROGRAM");
                 break;
             
             case 2:
-            System.out.println("CALCULATE INTEREST\n");
-            System.out.println("Choose how to calculate interest: ");
-            System.out.println("1. Yearly expectation");
-            System.out.println("2. Monthly expectation");
-            System.out.println("0. Go back");
+                System.out.println("CALCULATE INTEREST (LINEAR)\n");
+                System.out.println("Choose how to calculate interest: ");
+                System.out.println("1. Yearly expectation");
+                System.out.println("2. Monthly expectation");
+                System.out.println("0. Go back");
+                break;
+
+            case 3:
+                System.out.println("CALCULATE INTEREST (ADVANCED)\n");
+                System.out.println("Choose how to calculate interest: ");
+                System.out.println("1. Yearly expectation");
+                System.out.println("2. Monthly expectation");
+                System.out.println("0. Go back");
                 break;
             
-            case 3:
-            int x = 0;
-            String toPrint = "Calculating";
-            System.out.printf("%s", toPrint);
-            
-            /*Make a delay between printing "." */
-            while (x != 3) {
-                try {
-                    Thread.sleep(350);
-                    System.out.print(".");
-                    x++;
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+            case 4:
+                int x = 0;
+                String toPrint = "Calculating";
+                System.out.printf("%s", toPrint);
+                
+                /*Make a delay between printing "." */
+                while (x != 3) {
+                    try {
+                        Thread.sleep(350);
+                        System.out.print(".");
+                        x++;
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
-            System.out.println("");
-
+                System.out.println("");
             break;
+
             default:
                 break;
         }
@@ -103,10 +116,18 @@ class Functions{
 
 
     /*Function collects all information needed for calculating interest */
-    public static void Collect(Scanner myScanner){
+    public static void Collect(Scanner myScanner, int method){
 
-        print(2);
+        boolean advanced = false;
 
+        if (method == 2) {
+            print(3);
+            advanced = true;
+        }
+        else{
+            print(2);
+        }
+        
         float percentage;
         int time;
         int input;
@@ -121,14 +142,14 @@ class Functions{
 
         switch (input) {
             case 1:
-                time = askTime(1, myScanner);
-                percentage  = askPercentage(myScanner, 1); 
-                Calculate(time, percentage, myScanner,1);
+                time = askTime("years", myScanner, advanced);
+                percentage  = askPercentage(myScanner, "year"); 
+                Calculate(time, percentage, myScanner,"years", advanced);
                 break;
             case 2:
-                time = askTime(2, myScanner);
-                percentage  = askPercentage(myScanner, 2); 
-                Calculate(time, percentage, myScanner, 2);
+                time = askTime("months", myScanner, advanced);
+                percentage  = askPercentage(myScanner, "month"); 
+                Calculate(time, percentage, myScanner, "months", advanced);
                 break;
             case 0:
                 System.out.println("Going back to Main Menu\n");
@@ -136,6 +157,7 @@ class Functions{
         }
 
         }
+     
 
         /*Function asks from deposit and handles errors, making sure value is float-type*/
         public static float Deposit(Scanner myScanner){
@@ -156,21 +178,12 @@ class Functions{
         }
 
         /*Function asks interest percentage*/
-        public static float askPercentage(Scanner myScanner, int period){
-            float input = 0;
-            String toPrint = "";
-
-            if (period == 1) {
-                toPrint = "per year";
-            }
-            else{
-                toPrint = "per month";
-
-            }
+        public static float askPercentage(Scanner myScanner, String period){
+            float input;
     
             while (true) {
                 try {
-                    System.out.printf("Enter estimated growth percentage (%s): ", toPrint);
+                    System.out.printf("Enter estimated growth percentage per %s: ", period);
                     input = Float.parseFloat(myScanner.nextLine());
                     break;
                 } catch (Exception e) {
@@ -182,53 +195,67 @@ class Functions{
         }
 
         /*Function asks for time*/
-        public static int askTime(int duration, Scanner myScanner){
+        public static int askTime(String duration, Scanner myScanner, boolean advanced){
 
             int time = 0;
-
-            switch (duration) {
-                case 1:
-                    System.out.println("How many years?");
-                    time = Error.Time(myScanner, 1);
-                    break;
-                case 2:
-                    System.out.println("How many months?");
-                    time = Error.Time(myScanner, 2);
-                    break;
-                
-            }
-
+            System.out.printf("How many %s?\n", duration);
+            time = Error.Time(myScanner, duration);
+         
             return time;  
         } 
 
         /*Function uses all the information collected and makes a theoretical calculation for interest. And prints out.*/
-        public static void Calculate(int time, float percentage, Scanner myScanner, int period){
-
+        public static void Calculate(int time, float percentage, Scanner myScanner, String period, boolean advanced){
+            
             float deposit = Deposit(myScanner);
             float afterInterest = deposit;
-            float temp = afterInterest;
-            String toPrint = "";
-            float increment = (percentage/100);
-            print(3);
+            int days;
 
-            if (period == 1) {
-                toPrint = "years";
+            if (advanced == true) {
+                if (period.equals("year")){
+                    days = 252 * time; //conversion to open market days
+                }
+                else{
+                    days = 21 * time; //conversion to open market days
+                }
+
+                //afterInterest = CalculateAdvanced(deposit, percentage, days);
             }
-            else{
-                toPrint = "months";
-            }
-    
-            
+            else{   
+            float temp = afterInterest;
+            float increment = (percentage/100);
+            print(4);
+
             for (int i = 0; i < time; i++) {
                 afterInterest += temp * increment;
             }
+            }
 
-            System.out.printf("\nAfter %d %s and %.2f%% your deposit: %.2f euros has theoretically risen to: %.2f euros. \n", time, toPrint, percentage, deposit, afterInterest);
+
+            System.out.printf("\nAfter %d %s and %.2f%% your deposit: %.2f euros has theoretically risen to: %.2f euros. \n", time, period, percentage, deposit, afterInterest);
             float earnings = afterInterest - deposit;
             System.out.println("Your earnings are: " +  earnings);
 
         }
-    }
+
+
+        /* public static float CalculateAdvanced(float deposit, float percentage, int days){
+
+            float volatilityMonth = (15/100)/12;  //typical index fund volatility is 15% a year
+            float volatility_min = (percentage/100) - volatilityMonth;
+            float volatility_max = (percentage/100) + volatilityMonth;
+            float afterCalculating = deposit;
+
+
+    
+            
+
+
+    
+    
+        }
+            */
+    } 
 
 
 /******Class contains error handling functions******/
@@ -256,20 +283,12 @@ class Error{
         return input;
     }
 
-    public static int Time(Scanner myScanner, int period){
+    public static int Time(Scanner myScanner, String duration){
         int input;
-        String toPrint = "";
-
-        if (period == 1) {
-            toPrint = "in years";
-        }
-        else{
-            toPrint = "in months";
-        }
-
+    
         while (true) {
             try {
-                System.out.printf("Enter time (%s): ", toPrint);
+                System.out.printf("Enter time (in %s): ", duration);
                 input = Integer.parseInt(myScanner.nextLine());
                 break;
             } catch (Exception e) {
