@@ -10,8 +10,6 @@
 
 /******IMPORTS******/
 import java.util.Scanner;
-import java.util.Random;
-
 
 public class Korkolaskuri {
     
@@ -209,52 +207,62 @@ class Functions{
             
             float deposit = Deposit(myScanner);
             float afterInterest = deposit;
-            int days;
+            float temp = afterInterest;
+            float increment;
 
             if (advanced == true) {
-                if (period.equals("year")){
-                    days = 252 * time; //conversion to open market days
-                }
-                else{
-                    days = 21 * time; //conversion to open market days
-                }
+                
+                increment = CalculateVolatilityAverage(percentage, time, period);
 
-                //afterInterest = CalculateAdvanced(deposit, percentage, days);
+                for (int j = 0; j < time; j++) {
+                    afterInterest += temp * increment;
+                }
+                percentage = (increment*100);
+
             }
             else{   
-            float temp = afterInterest;
-            float increment = (percentage/100);
+                increment = (percentage/100);
+
+                for (int i = 0; i < time; i++) {
+                    afterInterest += temp * increment;
+                }
+            }
             print(4);
-
-            for (int i = 0; i < time; i++) {
-                afterInterest += temp * increment;
-            }
-            }
-
 
             System.out.printf("\nAfter %d %s and %.2f%% your deposit: %.2f euros has theoretically risen to: %.2f euros. \n", time, period, percentage, deposit, afterInterest);
             float earnings = afterInterest - deposit;
-            System.out.println("Your earnings are: " +  earnings);
+            System.out.printf("Your earnings are: %.2f euro", earnings);
 
         }
 
 
-        /* public static float CalculateAdvanced(float deposit, float percentage, int days){
-
-            float volatilityMonth = (15/100)/12;  //typical index fund volatility is 15% a year
-            float volatility_min = (percentage/100) - volatilityMonth;
-            float volatility_max = (percentage/100) + volatilityMonth;
-            float afterCalculating = deposit;
-
-
-    
+         public static float CalculateVolatilityAverage(float percentage, int time, String period){   
             
+            float increment;
+            float newPercentage = 0;
 
+            int days;
+            if (period.equals("year")){
+                days = 252 * time; //conversion to open market days
+            }
+            else{
+                days = 21 * time; //conversion to open market days
+            }
 
-    
+            float percent = (percentage/days)/100;
+            float volatility = (15.0f/days)/100; //15% divided by time and converted to decimal form
+            float volatility_min = percent - volatility;
+            float volatility_max = percent + volatility;
+
+            for (int j = 0; j < days; j++) {
+                increment = (float)(Math.random() * volatility_max - volatility_min) + volatility_min;
+                newPercentage += increment;
+            }
+            
+            return newPercentage;
     
         }
-            */
+            
     } 
 
 
