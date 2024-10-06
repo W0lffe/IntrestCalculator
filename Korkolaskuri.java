@@ -1,5 +1,5 @@
 /*FILE: Korkolaskuri.java
- * Version: 0.2
+ * Version: 0.3
  * Date: 1.10.2024
  * Author: Henry Karppinen
  * Description: This program is made for my own use to calculate interest made with funds.
@@ -9,25 +9,29 @@
 
 
 /******IMPORTS******/
+
 import java.util.Scanner;
 
 public class Korkolaskuri {
-    
-    /******Main******/
+    public static boolean advancedCalculation = false;
+
+     /******Main******/
     public static void main(String[] args) {
 
         Scanner myScanner = new Scanner(System.in);      
         int command = -1;
         System.out.println("KORKOLASKURI\n");
-        System.out.println("Please follow the instructions carefully");
-
+        System.out.println("!!Please follow the instructions carefully!!");
 
         do {
-            Functions.print(1);
+            Print.print(1);
 
             do {
-                command = Error.Selection(myScanner);
+                command = Validation.Selection(myScanner);
                 if(command == 0 || command == 1 || command == 2){
+                    if (command == 2) {
+                        advancedCalculation = true;
+                    }
                     break;
                 }
             } while (true);
@@ -35,10 +39,8 @@ public class Korkolaskuri {
 
             switch (command) {
                 case 1:
-                    Functions.Collect(myScanner, 1);
-                    break;
                 case 2:
-                    Functions.Collect(myScanner, 2);
+                    Functions.Collect(myScanner);
                     break;
                 case 0:
                     System.out.println("Exiting program...");
@@ -54,11 +56,179 @@ public class Korkolaskuri {
         myScanner.close();
     }
 
+
 }
+
 
 /******Class contains Functions******/
 class Functions{
 
+    /*DEFINES FOR PRIVATE VARIABLES*/
+    private static final int OPEN_MARKET_YEARLY = 252;
+    private static final int OPEN_MARKET_MONTHLY = 21;
+    private static final float VOLATILITY_PERCENTAGE = 15.0f;
+    private static final String[] YEAR = {"years", "year"};
+    private static final String[] MONTH = {"months", "month"};
+
+
+    /*Function collects all information needed for calculating interest */
+    public static void Collect(Scanner myScanner){
+
+        if (Korkolaskuri.advancedCalculation == true) {
+            System.out.println("\nCALCULATE INTEREST (ADVANCED)");
+        }
+        else{
+            System.out.println("\nCALCULATE INTEREST (LINEAR)");
+
+        }
+
+        Print.print(2);
+        
+        float percentage;
+        int time, userInput;
+        String duration = "";
+        String period = "";
+
+        
+        do {
+            userInput = Validation.Selection(myScanner);
+            if (userInput == 0 || userInput == 1 ||userInput == 2){
+                break;
+            }
+        } while (true);
+        
+        if (userInput == 1){
+            duration  = YEAR[0];
+            period = YEAR[1];
+            System.out.println("You chose yearly expectation.");
+            
+        }
+        else if(userInput == 2){
+            duration  = MONTH[0];
+            period = MONTH[1];
+            System.out.println("You chose monthly expectation.");
+
+        }
+        else if (userInput == 0) {
+            System.out.println("Going back to Main Menu\n");
+            return;
+        }
+
+        time = askTime(duration, myScanner);
+        percentage  = askPercentage(myScanner, period); 
+        Calculate(time, percentage, myScanner, duration);
+        
+        }
+
+        private static int askTime(String duration, Scanner myScanner){
+
+            int time = 0;
+            System.out.printf("How many %s?\n", duration);
+            time = Validation.Time(myScanner, duration);
+         
+            return time;  
+        } 
+
+        private static float askPercentage(Scanner myScanner, String time){
+            float userInput;
+    
+            while (true) {
+                try {
+                    System.out.printf("Enter estimated growth percentage per %s: ", time);
+                    userInput = Float.parseFloat(myScanner.nextLine());
+                    if (userInput > 0) {
+                        break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("\nUnknown input format! Enter again!\n");
+                }
+            }
+
+            return userInput;
+        }
+
+        private static void Calculate(int time, float percentage, Scanner myScanner, String period){
+            
+            float deposit = Deposit(myScanner);
+            float afterInterest = deposit;
+            float temp = afterInterest;
+            float increment;
+
+            if (Korkolaskuri.advancedCalculation == true) {
+                
+                increment = CalculateVolatilityAverage(percentage, time, period);
+
+                for (int j = 0; j < time; j++) {
+                    afterInterest += temp * increment;
+                }
+                percentage = (increment*100);
+
+            }
+            else{   
+                increment = (percentage/100);
+
+                for (int i = 0; i < time; i++) {
+                    afterInterest += temp * increment;
+                }
+            }
+            Print.print(3);
+
+            System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", time, period, percentage, deposit, afterInterest);
+            float earnings = afterInterest - deposit;
+            System.out.printf("Your earnings are: %.2f euros. \n", earnings);
+
+        }
+
+        private static float Deposit(Scanner myScanner){
+            float userInput;
+            while (true) {
+                try {
+                    System.out.print("Enter initial deposit amount: ");
+                    userInput = Float.parseFloat(myScanner.nextLine());
+                    if (userInput > 0) {
+                        break;
+                    }
+                } catch (Exception e) {
+                    System.out.println("\nUnknown input format! \nEnter again!");
+                }
+            }
+
+            return userInput;
+
+
+        }
+
+
+        public static float CalculateVolatilityAverage(float percentage, int time, String period){   
+            
+            float increment;
+            float newPercentage = 0;
+
+            int days;
+            if (period.equals("year")){
+                days = OPEN_MARKET_YEARLY * time; //conversion to open market days
+            }
+            else{
+                days = OPEN_MARKET_MONTHLY * time; //conversion to open market days
+            }
+
+            float percent = (percentage/days)/100;
+            float volatility = (VOLATILITY_PERCENTAGE/days)/100; //15% divided by time and converted to decimal form
+            float volatility_min = percent - volatility;
+            float volatility_max = percent + volatility;
+
+            for (int j = 0; j < days; j++) {
+                increment = (float)(Math.random() * volatility_max - volatility_min) + volatility_min;
+                newPercentage += increment;
+            }
+            
+            return newPercentage;
+    
+        }
+}
+
+
+class Print{
     /*Prints different menus based on INT FUNCTION(value given from different functions*/
     public static void print(int function){
         
@@ -71,7 +241,6 @@ class Functions{
                 break;
             
             case 2:
-                System.out.println("CALCULATE INTEREST (LINEAR)\n");
                 System.out.println("Choose how to calculate interest: ");
                 System.out.println("1. Yearly expectation");
                 System.out.println("2. Monthly expectation");
@@ -79,14 +248,6 @@ class Functions{
                 break;
 
             case 3:
-                System.out.println("CALCULATE INTEREST (ADVANCED)\n");
-                System.out.println("Choose how to calculate interest: ");
-                System.out.println("1. Yearly expectation");
-                System.out.println("2. Monthly expectation");
-                System.out.println("0. Go back");
-                break;
-            
-            case 4:
                 int x = 0;
                 String toPrint = "Calculating";
                 System.out.printf("%s", toPrint);
@@ -112,164 +273,13 @@ class Functions{
 
     }
 
-
-    /*Function collects all information needed for calculating interest */
-    public static void Collect(Scanner myScanner, int method){
-
-        boolean advanced = false;
-
-        if (method == 2) {
-            print(3);
-            advanced = true;
-        }
-        else{
-            print(2);
-        }
-        
-        float percentage;
-        int time;
-        int input;
-        
-        do {
-            input = Error.Selection(myScanner);
-            if (input == 0 || input == 1 ||input == 2){
-                break;
-            }
-        } while (true);
-        
-
-        switch (input) {
-            case 1:
-                time = askTime("years", myScanner, advanced);
-                percentage  = askPercentage(myScanner, "year"); 
-                Calculate(time, percentage, myScanner,"years", advanced);
-                break;
-            case 2:
-                time = askTime("months", myScanner, advanced);
-                percentage  = askPercentage(myScanner, "month"); 
-                Calculate(time, percentage, myScanner, "months", advanced);
-                break;
-            case 0:
-                System.out.println("Going back to Main Menu\n");
-                break;
-        }
-
-        }
-     
-
-        /*Function asks from deposit and handles errors, making sure value is float-type*/
-        public static float Deposit(Scanner myScanner){
-            float input;
-            while (true) {
-                try {
-                    System.out.print("Enter initial deposit amount: ");
-                    input = Float.parseFloat(myScanner.nextLine());
-                    break;
-                } catch (Exception e) {
-                    System.out.println("\nUnknown input format! \nEnter again!");
-                }
-            }
-
-            return input;
-
-
-        }
-
-        /*Function asks interest percentage*/
-        public static float askPercentage(Scanner myScanner, String period){
-            float input;
-    
-            while (true) {
-                try {
-                    System.out.printf("Enter estimated growth percentage per %s: ", period);
-                    input = Float.parseFloat(myScanner.nextLine());
-                    break;
-                } catch (Exception e) {
-                    System.out.println("\nUnknown input format! \nEnter again!");
-                }
-            }
-
-            return input;
-        }
-
-        /*Function asks for time*/
-        public static int askTime(String duration, Scanner myScanner, boolean advanced){
-
-            int time = 0;
-            System.out.printf("How many %s?\n", duration);
-            time = Error.Time(myScanner, duration);
-         
-            return time;  
-        } 
-
-        /*Function uses all the information collected and makes a theoretical calculation for interest. And prints out.*/
-        public static void Calculate(int time, float percentage, Scanner myScanner, String period, boolean advanced){
-            
-            float deposit = Deposit(myScanner);
-            float afterInterest = deposit;
-            float temp = afterInterest;
-            float increment;
-
-            if (advanced == true) {
-                
-                increment = CalculateVolatilityAverage(percentage, time, period);
-
-                for (int j = 0; j < time; j++) {
-                    afterInterest += temp * increment;
-                }
-                percentage = (increment*100);
-
-            }
-            else{   
-                increment = (percentage/100);
-
-                for (int i = 0; i < time; i++) {
-                    afterInterest += temp * increment;
-                }
-            }
-            print(4);
-
-            System.out.printf("\nAfter %d %s and %.2f%% your deposit: %.2f euros has theoretically risen to: %.2f euros. \n", time, period, percentage, deposit, afterInterest);
-            float earnings = afterInterest - deposit;
-            System.out.printf("Your earnings are: %.2f euro", earnings);
-
-        }
-
-
-         public static float CalculateVolatilityAverage(float percentage, int time, String period){   
-            
-            float increment;
-            float newPercentage = 0;
-
-            int days;
-            if (period.equals("year")){
-                days = 252 * time; //conversion to open market days
-            }
-            else{
-                days = 21 * time; //conversion to open market days
-            }
-
-            float percent = (percentage/days)/100;
-            float volatility = (15.0f/days)/100; //15% divided by time and converted to decimal form
-            float volatility_min = percent - volatility;
-            float volatility_max = percent + volatility;
-
-            for (int j = 0; j < days; j++) {
-                increment = (float)(Math.random() * volatility_max - volatility_min) + volatility_min;
-                newPercentage += increment;
-            }
-            
-            return newPercentage;
-    
-        }
-            
-    } 
-
+}
 
 /******Class contains error handling functions******/
-class Error{
+class Validation{
 
     /*Function is called from different part of code, this makes sure that value returned is INT*/
+
     public static int Selection(Scanner myScanner){
         
         boolean test = false;
@@ -280,12 +290,14 @@ class Error{
                 System.out.print("\nYour choice: ");
                 input = Integer.parseInt(myScanner.nextLine());
             } catch (Exception e) {
-                System.out.println("\nUnknown input format! \nEnter again!");
+                System.out.println("\nUnknown input format! Enter again!");
             }
 
             if (input == 0 || input == 1 || input == 2) {
                 test = true;   
-            } 
+            }else{
+                System.out.println("Invalid choice!");
+            }
            
         }
         return input;
@@ -296,17 +308,17 @@ class Error{
     
         while (true) {
             try {
-                System.out.printf("Enter time (in %s): ", duration);
+                System.out.printf("\nEnter time (in %s): ", duration);
                 input = Integer.parseInt(myScanner.nextLine());
-                break;
+                if (input > 0) {
+                    break;
+                }
             } catch (Exception e) {
-                System.out.println("\nUnknown input format! \nEnter time again!");
+                System.out.println("\nUnknown input format! Enter time again!");
             }
         }
 
         return input;
 
-
     }
 }
-
