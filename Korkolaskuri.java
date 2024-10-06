@@ -74,14 +74,6 @@ class Functions{
     /*Function collects all information needed for calculating interest */
     public static void Collect(Scanner myScanner){
 
-        if (Korkolaskuri.advancedCalculation == true) {
-            System.out.println("\nCALCULATE INTEREST (ADVANCED)");
-        }
-        else{
-            System.out.println("\nCALCULATE INTEREST (LINEAR)");
-
-        }
-
         Print.print(2);
         
         float percentage;
@@ -177,6 +169,11 @@ class Functions{
             float earnings = afterInterest - deposit;
             System.out.printf("Your earnings are: %.2f euros. \n", earnings);
 
+
+
+            Files.SaveFile(myScanner, time, percentage, deposit, afterInterest);
+
+
         }
 
         private static float Deposit(Scanner myScanner){
@@ -228,6 +225,32 @@ class Functions{
 }
 
 
+/******This class contains methods for saving data on textfile******/
+class Files{
+
+    public static void SaveFile(Scanner myScanner, int time, float percentage, float deposit, float afterInterest){
+        int userInput;
+        System.out.println("\nDo you wish to save this data?\n1.Yes\n2.No");
+
+        do {
+            userInput = Validation.Selection(myScanner);
+            if (userInput == 1 || userInput == 2) {
+                break;
+            }
+        } while (true);
+        
+        if (userInput == 2) {
+            return;
+        }
+
+        System.out.println("TALLENNETAAN");
+        
+
+    }
+}
+
+
+/******This class contains method for printing various things through program******/
 class Print{
     /*Prints different menus based on INT FUNCTION(value given from different functions*/
     public static void print(int function){
@@ -241,6 +264,13 @@ class Print{
                 break;
             
             case 2:
+                if (Korkolaskuri.advancedCalculation == true) {
+                    System.out.println("\nCALCULATE INTEREST (ADVANCED)");
+                }
+                else{
+                    System.out.println("\nCALCULATE INTEREST (LINEAR)");
+        
+                }
                 System.out.println("Choose how to calculate interest: ");
                 System.out.println("1. Yearly expectation");
                 System.out.println("2. Monthly expectation");
