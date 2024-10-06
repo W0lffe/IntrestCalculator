@@ -1,0 +1,15 @@
+Investing time: 10 years
+Percentage:  15.8%
+Initial deposit:  1000.0 euros
+After intrest: 2580.0 euros
+Earnings: 1580.0 eurosInvesting time: 10 years
+Percentage:  15.084012%
+Initial deposit:  10000.0 euros
+After intrest: 25084.008 euros
+Earnings: 15084.008 euros
+
+Investing time: 20 years
+Percentage:  14.904756%
+Initial deposit:  10000.0 euros
+After intrest: 39809.527 euros
+Earnings: 29809.527 euros

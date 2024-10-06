@@ -2,8 +2,8 @@
  * Version: 0.3
  * Date: 1.10.2024
  * Author: Henry Karppinen
- * Description: This program is made for my own use to calculate interest made with funds.
- * It is designed to collect information such as deposit amount, investment time, theoretical interest percentage 
+ * Description: This program is made for my own use to calculate intrest made with funds.
+ * It is designed to collect information such as deposit amount, investment time, theoretical intrest percentage 
  * and program will calculate based on that information. PROGRAM IS IN EARLY STAGES SO IT IS SUBJECT TO CHANGE!!
  */
 
@@ -11,6 +11,10 @@
 /******IMPORTS******/
 
 import java.util.Scanner;
+import java.io.File;
+import java.io.IOException;
+import java.io.FileWriter;
+
 
 public class Korkolaskuri {
     public static boolean advancedCalculation = false;
@@ -71,7 +75,7 @@ class Functions{
     private static final String[] MONTH = {"months", "month"};
 
 
-    /*Function collects all information needed for calculating interest */
+    /*Function collects all information needed for calculating intrest */
     public static void Collect(Scanner myScanner){
 
         Print.print(2);
@@ -142,8 +146,8 @@ class Functions{
         private static void Calculate(int time, float percentage, Scanner myScanner, String period){
             
             float deposit = Deposit(myScanner);
-            float afterInterest = deposit;
-            float temp = afterInterest;
+            float afterIntrest = deposit;
+            float temp = afterIntrest;
             float increment;
 
             if (Korkolaskuri.advancedCalculation == true) {
@@ -151,7 +155,7 @@ class Functions{
                 increment = CalculateVolatilityAverage(percentage, time, period);
 
                 for (int j = 0; j < time; j++) {
-                    afterInterest += temp * increment;
+                    afterIntrest += temp * increment;
                 }
                 percentage = (increment*100);
 
@@ -160,18 +164,18 @@ class Functions{
                 increment = (percentage/100);
 
                 for (int i = 0; i < time; i++) {
-                    afterInterest += temp * increment;
+                    afterIntrest += temp * increment;
                 }
             }
             Print.print(3);
 
-            System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", time, period, percentage, deposit, afterInterest);
-            float earnings = afterInterest - deposit;
+            System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", time, period, percentage, deposit, afterIntrest);
+            float earnings = afterIntrest - deposit;
             System.out.printf("Your earnings are: %.2f euros. \n", earnings);
 
 
 
-            Files.SaveFile(myScanner, time, percentage, deposit, afterInterest);
+            Files.SaveFile(myScanner, time, percentage, deposit, afterIntrest, earnings, period);
 
 
         }
@@ -228,7 +232,10 @@ class Functions{
 /******This class contains methods for saving data on textfile******/
 class Files{
 
-    public static void SaveFile(Scanner myScanner, int time, float percentage, float deposit, float afterInterest){
+    private static String path = "saved/";
+
+
+    public static void SaveFile(Scanner myScanner, int time, float percentage, float deposit, float afterIntrest, float earnings, String period){
         int userInput;
         System.out.println("\nDo you wish to save this data?\n1.Yes\n2.No");
 
@@ -243,9 +250,50 @@ class Files{
             return;
         }
 
+        String dataToSave = toSave(time, period, percentage, deposit, afterIntrest, earnings);
+
+        while (true) {
+            System.out.print("Give a name to file: ");
+            String name = myScanner.nextLine();
+            String newFilePath = path + name + ".txt";
+    
+            try {
+                File newFile = new File(newFilePath);
+                if (newFile.createNewFile()) {
+                    System.out.println("Created file: " + newFile.getName());
+                    FileWriter myWriter = new FileWriter(newFile);
+                    myWriter.write(dataToSave);
+                    myWriter.close();
+                    break;
+                }
+                else if(!newFile.createNewFile()){
+                    System.out.println("File already exists! Text appended! \n");
+                    FileWriter myWriter = new FileWriter(newFile, true);
+                    myWriter.append("\n\n" + dataToSave);
+                    myWriter.close();
+                    break;
+                }
+            } catch (IOException e) {
+                System.out.println("Something went wrong!");
+            }
+        }
+       
+
+
+
         System.out.println("TALLENNETAAN");
         
 
+    }
+
+    private static String toSave(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
+        String dataToSave = "Investing time: " + Integer.toString(time);
+        dataToSave += " " + period;
+        dataToSave += "\nPercentage:  "+ Float.toString(percentage) + "%";
+        dataToSave += "\nInitial deposit:  " + Float.toString(deposit) + " euros";
+        dataToSave += "\nAfter intrest: "  + Float.toString(afterIntrest) + " euros";
+        dataToSave += "\nEarnings: " + Float.toString(earnings) + " euros";
+        return dataToSave;
     }
 }
 
@@ -258,20 +306,20 @@ class Print{
         switch (function) {
             case 1:
                 System.out.println("\nSelect one: ");
-                System.out.println("1. CALCULATE INTEREST (LINEAR)");
-                System.out.println("2. CALCULATE INTEREST (ADVANCED)");
+                System.out.println("1. CALCULATE INTREST (LINEAR)");
+                System.out.println("2. CALCULATE INTREST (ADVANCED)");
                 System.out.println("0. CLOSE PROGRAM");
                 break;
             
             case 2:
                 if (Korkolaskuri.advancedCalculation == true) {
-                    System.out.println("\nCALCULATE INTEREST (ADVANCED)");
+                    System.out.println("\nCALCULATE INTREST (ADVANCED)");
                 }
                 else{
-                    System.out.println("\nCALCULATE INTEREST (LINEAR)");
+                    System.out.println("\nCALCULATE INTREST (LINEAR)");
         
                 }
-                System.out.println("Choose how to calculate interest: ");
+                System.out.println("Choose how to calculate intrest: ");
                 System.out.println("1. Yearly expectation");
                 System.out.println("2. Monthly expectation");
                 System.out.println("0. Go back");
