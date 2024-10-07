@@ -1,5 +1,11 @@
-Investing time: 10
-Percentage:  17.63242
-Initial deposit:  5000.0
-After intrest: 13816.211
-Earnings: 8816.211
+Investing time: 1 years
+Percentage:  24.9%
+Initial deposit:  1000.0 euros
+After intrest: 1249.0 euros
+Earnings: 249.0 euros
+
+Investing time: 1 years
+Percentage:  16.14046%
+Initial deposit:  10000.0 euros
+After intrest: 11614.046 euros
+Earnings: 1614.0459 euros

@@ -14,6 +14,8 @@ import java.util.Scanner;
 import java.io.File;
 import java.io.IOException;
 import java.io.FileWriter;
+import java.awt.Desktop;
+import java.time.LocalDate;
 
 
 public class Korkolaskuri {
@@ -32,7 +34,7 @@ public class Korkolaskuri {
 
             do {
                 command = Validation.Selection(myScanner);
-                if(command == 0 || command == 1 || command == 2){
+                if(command == 0 || command == 1 || command == 2 || command == 3){
                     if (command == 2) {
                         advancedCalculation = true;
                     }
@@ -45,6 +47,9 @@ public class Korkolaskuri {
                 case 1:
                 case 2:
                     Functions.Collect(myScanner);
+                    break;
+                case 3:
+                    Files.ReadFile(myScanner);
                     break;
                 case 0:
                     System.out.println("Exiting program...");
@@ -176,6 +181,7 @@ class Functions{
 
 
             Files.SaveFile(myScanner, time, percentage, deposit, afterIntrest, earnings, period);
+            Korkolaskuri.advancedCalculation = false;
 
 
         }
@@ -226,6 +232,16 @@ class Functions{
             return newPercentage;
     
         }
+
+
+        public static void Delay(){
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
 }
 
 
@@ -233,6 +249,7 @@ class Functions{
 class Files{
 
     private static String path = "saved/";
+    private static LocalDate currentDate = LocalDate.now();
 
 
     public static void SaveFile(Scanner myScanner, int time, float percentage, float deposit, float afterIntrest, float earnings, String period){
@@ -267,7 +284,7 @@ class Files{
                     break;
                 }
                 else if(!newFile.createNewFile()){
-                    System.out.println("File already exists! Text appended! \n");
+                    System.out.println("File already exists! Data appended! \n");
                     FileWriter myWriter = new FileWriter(newFile, true);
                     myWriter.append("\n\n" + dataToSave);
                     myWriter.close();
@@ -279,16 +296,82 @@ class Files{
         }
        
 
-
-
-        System.out.println("TALLENNETAAN");
+        Functions.Delay();
+        System.out.println("Data saved!");
         
 
     }
 
+    public static void ReadFile(Scanner myScanner){
+
+        File folder = new File(path);
+        int a = 1;
+        int command;
+
+        if(folder.exists() && folder.isDirectory()){
+            File[] folderFiles = folder.listFiles(file -> file.isFile() && file.canRead() && file.canWrite());
+
+            System.out.println("\nFolder has files: ");
+           
+            for (File file : folderFiles) {
+                if (file.canRead() && file.canWrite()) {
+                    System.out.println(a + ". " +file.getName());
+                    a++;
+                }
+            }
+            
+            System.out.println("Which file would you like to read?\n");
+
+            while (true) {
+                try {
+                    System.out.print("Your choice: ");
+                    command = Integer.parseInt(myScanner.nextLine());
+                    if (command > 0 && command < a) {
+                        break;
+                    }
+                    else{
+                        System.out.println("File not found! Try again");
+                    }
+                } catch (Exception e) {
+                    System.out.println("Error occured!");
+
+                }
+            }
+            System.out.println("You chose file: " + folderFiles[command-1].getName());
+            String newPath = path + folderFiles[command-1].getName();
+
+            File file = new File(newPath);
+
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                Functions.Delay();
+                    try {
+                        desktop.open(file);
+                        
+                    } catch (IOException e) {
+                       System.out.println("Unable to open file!");
+                       e.printStackTrace();
+                    }
+                }
+            
+            else{
+                System.out.println("This system is not capable for desktop operations.");
+            }
+            
+        }
+        else{
+            System.out.println("Folder is not found.");
+        }
+    }
+
     private static String toSave(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
-        String dataToSave = "Investing time: " + Integer.toString(time);
-        dataToSave += " " + period;
+
+      
+        String dataToSave = "Current date: " + currentDate;
+        if (Korkolaskuri.advancedCalculation == true) {
+            dataToSave += " (ADVANCED)";
+        }
+        dataToSave += "\n\nInvesting time: " + Integer.toString(time) + " " + period;
         dataToSave += "\nPercentage:  "+ Float.toString(percentage) + "%";
         dataToSave += "\nInitial deposit:  " + Float.toString(deposit) + " euros";
         dataToSave += "\nAfter intrest: "  + Float.toString(afterIntrest) + " euros";
@@ -308,6 +391,7 @@ class Print{
                 System.out.println("\nSelect one: ");
                 System.out.println("1. CALCULATE INTREST (LINEAR)");
                 System.out.println("2. CALCULATE INTREST (ADVANCED)");
+                System.out.println("3. READ PREVIOUSLY SAVED DATA");
                 System.out.println("0. CLOSE PROGRAM");
                 break;
             
@@ -371,7 +455,7 @@ class Validation{
                 System.out.println("\nUnknown input format! Enter again!");
             }
 
-            if (input == 0 || input == 1 || input == 2) {
+            if (input == 0 || input == 1 || input == 2 || input == 3) {
                 test = true;   
             }else{
                 System.out.println("Invalid choice!");
