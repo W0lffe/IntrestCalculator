@@ -30,9 +30,9 @@ class Test{
         Calculations.Calculate(12, 2.7f, myScanner, DataCollect.MONTH[0]);
         Calculations.Calculate(1, 12.7f, myScanner, DataCollect.YEAR[0]);
 
-        MainKorkolaskuri.advancedCalculation = true;
+        MainKorkolaskuri.includeVolatility = true;
         Calculations.Calculate(12, 3.9f, myScanner, DataCollect.MONTH[0]);
-        MainKorkolaskuri.advancedCalculation = true;
+        MainKorkolaskuri.includeVolatility = true;
         Calculations.Calculate(1, 25.4f, myScanner, DataCollect.YEAR[0]);
 
         testCase = false;

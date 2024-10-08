@@ -1,8 +1,10 @@
 Roadmap:
 
 1. Linear calculations -- DONE
-2. Advanced calculations -- 1 option done NOTE: BUG NOTICED, MONTHLY VOLATILITY CALCULATION IS OFF. WILL BE FIXED
-3. Saving to textfile -- Saving to new and pre existing files work.
-4. Reading textfiles with the software
-5. Exploring to GUI options
-6. Backend??
+2. Advanced calculations -- INCLUDING VOLATILITY(FOR FUNDS) OPTION DONE
+3. Advanced calculations -- !Interval mode planned!
+4. Saving to textfile -- DONE
+5. Reading textfiles with the software -- DONE
+6. Testcases for bugtesting -- DONE
+7. Exploring to GUI options
+8. Backend??

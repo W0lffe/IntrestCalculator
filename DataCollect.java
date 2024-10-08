@@ -8,14 +8,13 @@ class DataCollect{
 
     /*Function collects all information needed for calculating intrest */
     public static void Collect(Scanner myScanner){
-
-        OtherFunctions.print(2);
         
         float percentage;
         int time, userInput;
         String duration = "";
         String period = "";
 
+        OtherFunctions.print(2);
         
         do {
             userInput = Validation.Selection(myScanner);
@@ -74,11 +73,17 @@ class DataCollect{
             return userInput;
         }
 
-        public static float Deposit(Scanner myScanner){
+        public static float Deposit(Scanner myScanner, int deposit){
             float userInput;
             while (true) {
                 try {
-                    System.out.print("Enter initial deposit amount: ");
+                    switch (deposit) {
+                        case 1:
+                            System.out.print("Enter initial deposit amount: ");
+                            break;
+                        default:
+                            break;
+                    }
                     userInput = Float.parseFloat(myScanner.nextLine());
                     if (userInput > 0) {
                         break;

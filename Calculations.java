@@ -15,25 +15,23 @@ class Calculations {
                 deposit = 10000;
             }
             else{
-                deposit = DataCollect.Deposit(myScanner);
+                deposit = DataCollect.Deposit(myScanner, 1);
             }
 
             float afterIntrest = deposit;
             float temp = afterIntrest;
             float increment;
 
-            if (MainKorkolaskuri.advancedCalculation == true) {
+            if (MainKorkolaskuri.includeVolatility == true ) {
                 
                 increment = CalculateVolatilityAverage(percentage, time, period);
-
                 for (int j = 0; j < time; j++) {
                     afterIntrest += temp * increment;
                 }
-                
                 percentage = (increment*100);
                 //System.out.println("Calculated percent: " + percentage); for bug checking
 
-            }
+            }      
             else{   
                 increment = (percentage/100);
 
@@ -47,17 +45,14 @@ class Calculations {
             float earnings = afterIntrest - deposit;
             System.out.printf("Your earnings are: %.2f euros. \n", earnings);
 
+            Files.SaveFile(myScanner, time, percentage, deposit, afterIntrest, earnings, period);   
 
-            if (Test.testCase == false) {
-                Files.SaveFile(myScanner, time, percentage, deposit, afterIntrest, earnings, period);   
-            }
-            MainKorkolaskuri.advancedCalculation = false;
+            MainKorkolaskuri.includeVolatility = false;
 
 
         }
 
-
-    public static float CalculateVolatilityAverage(float percentage, int time, String period){   
+    private static float CalculateVolatilityAverage(float percentage, int time, String period){   
             
         float increment;
         float newPercentage = 0;

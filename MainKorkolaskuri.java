@@ -13,8 +13,7 @@
 import java.util.Scanner;
 
 public class MainKorkolaskuri {
-    public static boolean advancedCalculation = false;
-
+    public static boolean includeVolatility = false;
 
      /******Main******/
     public static void main(String[] args) {
@@ -26,15 +25,15 @@ public class MainKorkolaskuri {
 
         do {
             OtherFunctions.print(1);
-
             do {
                 command = Validation.Selection(myScanner);
                 if(command == 0 || command == 1 || command == 2 
                     || command == 3 || command == 4){
                     
                         if (command == 2) {
-                        advancedCalculation = true;
-                    }
+                        includeVolatility = true;
+                        }
+                      
                     break;
                 }
             } while (true);
@@ -86,20 +85,20 @@ class OtherFunctions{
                 case 1:
                     System.out.println("\nSelect one: ");
                     System.out.println("1. CALCULATE INTREST (LINEAR)");
-                    System.out.println("2. CALCULATE INTREST (ADVANCED)");
+                    System.out.println("2. CALCULATE INTREST (INC. VOLATILITY)");
                     System.out.println("3. READ PREVIOUSLY SAVED DATA");
                     System.out.println("4. TEST CASE");
                     System.out.println("0. CLOSE PROGRAM");
                     break;
                 
                 case 2:
-                    if (MainKorkolaskuri.advancedCalculation == true) {
-                        System.out.println("\nCALCULATE INTREST (ADVANCED)");
+                    if (MainKorkolaskuri.includeVolatility == true) {
+                        System.out.println("\nCALCULATE INTREST (INC. VOLATILITY)");
                     }
                     else{
                         System.out.println("\nCALCULATE INTREST (LINEAR)");
-            
                     }
+
                     System.out.println("Choose how to calculate intrest: ");
                     System.out.println("1. Yearly expectation");
                     System.out.println("2. Monthly expectation");
@@ -123,7 +122,6 @@ class OtherFunctions{
                     }
                     System.out.println("");
                 break;
-    
                 default:
                     break;
             } 

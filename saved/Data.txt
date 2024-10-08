@@ -1,11 +1,15 @@
-Investing time: 1 years
-Percentage:  24.9%
-Initial deposit:  1000.0 euros
-After intrest: 1249.0 euros
-Earnings: 249.0 euros
+Current date: 2024-10-08T17:53:05.995247700 (LINEAR)
 
-Investing time: 1 years
-Percentage:  16.14046%
+Investing time: 6 years
+Percentage:  23.8%
 Initial deposit:  10000.0 euros
-After intrest: 11614.046 euros
-Earnings: 1614.0459 euros
+After intrest: 24280.0 euros
+Earnings: 14280.0 euros
+
+Current date: 2024-10-08T17:53:05.995247700 (ADVANCED)
+
+Investing time: 5 years
+Percentage:  25.15006%
+Initial deposit:  10000.0 euros
+After intrest: 22575.03 euros
+Earnings: 12575.029 euros

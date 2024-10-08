@@ -1,5 +1,5 @@
 import java.util.Scanner;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.awt.Desktop;
 class Files{
 
     private static String path = "saved/";
-    private static LocalDate currentDate = LocalDate.now();
+    private static LocalDateTime currentDate = LocalDateTime.now();
 
 
     public static void SaveFile(Scanner myScanner, int time, float percentage, float deposit, float afterIntrest, float earnings, String period){
@@ -16,10 +16,20 @@ class Files{
         System.out.println("\nDo you wish to save this data?\n1.Yes\n2.No");
 
         do {
-            userInput = Validation.Selection(myScanner);
+
+
+            if(Test.testCase==true){
+                userInput = 1;
+            }
+            else{
+                userInput = Validation.Selection(myScanner);
+
+            }
+                      
             if (userInput == 1 || userInput == 2) {
                 break;
             }
+
         } while (true);
         
         if (userInput == 2) {
@@ -29,8 +39,16 @@ class Files{
         String dataToSave = toSave(time, period, percentage, deposit, afterIntrest, earnings);
 
         while (true) {
-            System.out.print("Give a name to file: ");
-            String name = myScanner.nextLine();
+            String name;
+            
+            if(Test.testCase==true){
+                name = "Testcase";
+            }
+            else{
+                System.out.print("Give a name to file: ");
+                name = myScanner.nextLine();
+            }
+
             String newFilePath = path + name + ".txt";
     
             try {
@@ -97,8 +115,8 @@ class Files{
                 }
             }
             System.out.println("You chose file: " + folderFiles[command-1].getName());
+            
             String newPath = path + folderFiles[command-1].getName();
-
             File file = new File(newPath);
 
             if (Desktop.isDesktopSupported()) {
@@ -125,8 +143,8 @@ class Files{
     private static String toSave(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
 
         String dataToSave = "Current date: " + currentDate;
-        if (MainKorkolaskuri.advancedCalculation == true) {
-            dataToSave += " (ADVANCED)";
+        if (MainKorkolaskuri.includeVolatility == true) {
+            dataToSave += " (INC. VOLATILITY)";
         }
         else{
             dataToSave += " (LINEAR)";
