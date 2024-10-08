@@ -75,7 +75,7 @@ class Functions{
     /*DEFINES FOR PRIVATE VARIABLES*/
     private static final int OPEN_MARKET_YEARLY = 252;
     private static final int OPEN_MARKET_MONTHLY = 21;
-    private static final float VOLATILITY_PERCENTAGE = 15.0f;
+    private static final float VOLATILITY_PERCENTAGE = 0.15f;
     private static final String[] YEAR = {"years", "year"};
     private static final String[] MONTH = {"months", "month"};
 
@@ -162,7 +162,9 @@ class Functions{
                 for (int j = 0; j < time; j++) {
                     afterIntrest += temp * increment;
                 }
+                
                 percentage = (increment*100);
+                //System.out.println("Calculated percent: " + percentage); for bug checking
 
             }
             else{   
@@ -219,16 +221,17 @@ class Functions{
                 days = OPEN_MARKET_MONTHLY * time; //conversion to open market days
             }
 
-            float percent = (percentage/days)/100;
-            float volatility = (VOLATILITY_PERCENTAGE/days)/100; //15% divided by time and converted to decimal form
+            float percent = (percentage/100f)/(float)days;
+            float volatility = VOLATILITY_PERCENTAGE/days; //15% divided by time and converted to decimal form
             float volatility_min = percent - volatility;
             float volatility_max = percent + volatility;
 
             for (int j = 0; j < days; j++) {
-                increment = (float)(Math.random() * volatility_max - volatility_min) + volatility_min;
+                increment = (float)(Math.random() * (volatility_max - volatility_min)) + volatility_min;
                 newPercentage += increment;
             }
-            
+
+            //System.out.println("Volatility percentage " + newPercentage); for bug checking
             return newPercentage;
     
         }
