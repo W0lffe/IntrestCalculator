@@ -1,0 +1,31 @@
+Current date: 2024-10-08 (LINEAR)
+
+Investing time: 10 years
+Percentage:  12.8%
+Initial deposit:  10000.0 euros
+After intrest: 22800.0 euros
+Earnings: 12800.0 euros
+
+Current date: 2024-10-08 (LINEAR)
+
+Investing time: 120 months
+Percentage:  3.8%
+Initial deposit:  10000.0 euros
+After intrest: 55600.0 euros
+Earnings: 45600.0 euros
+
+Current date: 2024-10-08 (ADVANCED)
+
+Investing time: 10 years
+Percentage:  12.831196%
+Initial deposit:  10000.0 euros
+After intrest: 22831.191 euros
+Earnings: 12831.191 euros
+
+Current date: 2024-10-08 (ADVANCED)
+
+Investing time: 120 months
+Percentage:  3.7845838%
+Initial deposit:  10000.0 euros
+After intrest: 55414.945 euros
+Earnings: 45414.945 euros

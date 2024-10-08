@@ -17,9 +17,9 @@ import java.io.FileWriter;
 import java.awt.Desktop;
 import java.time.LocalDate;
 
-
 public class Korkolaskuri {
     public static boolean advancedCalculation = false;
+
 
      /******Main******/
     public static void main(String[] args) {
@@ -34,8 +34,10 @@ public class Korkolaskuri {
 
             do {
                 command = Validation.Selection(myScanner);
-                if(command == 0 || command == 1 || command == 2 || command == 3){
-                    if (command == 2) {
+                if(command == 0 || command == 1 || command == 2 
+                    || command == 3 || command == 4){
+                    
+                        if (command == 2) {
                         advancedCalculation = true;
                     }
                     break;
@@ -50,6 +52,9 @@ public class Korkolaskuri {
                     break;
                 case 3:
                     Files.ReadFile(myScanner);
+                    break;
+                case 4:
+                    Test.TestMain(myScanner);
                     break;
                 case 0:
                     System.out.println("Exiting program...");
@@ -76,8 +81,8 @@ class Functions{
     private static final int OPEN_MARKET_YEARLY = 252;
     private static final int OPEN_MARKET_MONTHLY = 21;
     private static final float VOLATILITY_PERCENTAGE = 0.15f;
-    private static final String[] YEAR = {"years", "year"};
-    private static final String[] MONTH = {"months", "month"};
+    public static final String[] YEAR = {"years", "year"};
+    public static final String[] MONTH = {"months", "month"};
 
 
     /*Function collects all information needed for calculating intrest */
@@ -148,9 +153,17 @@ class Functions{
             return userInput;
         }
 
-        private static void Calculate(int time, float percentage, Scanner myScanner, String period){
+        public static void Calculate(int time, float percentage, Scanner myScanner, String period){
             
-            float deposit = Deposit(myScanner);
+            float deposit;
+
+            if (Test.testCase == true) {
+                deposit = 10000;
+            }
+            else{
+                deposit = Deposit(myScanner);
+            }
+
             float afterIntrest = deposit;
             float temp = afterIntrest;
             float increment;
@@ -181,8 +194,9 @@ class Functions{
             System.out.printf("Your earnings are: %.2f euros. \n", earnings);
 
 
-
-            Files.SaveFile(myScanner, time, percentage, deposit, afterIntrest, earnings, period);
+            if (Test.testCase == false) {
+                Files.SaveFile(myScanner, time, percentage, deposit, afterIntrest, earnings, period);   
+            }
             Korkolaskuri.advancedCalculation = false;
 
 
@@ -359,8 +373,7 @@ class Files{
             
             else{
                 System.out.println("This system is not capable for desktop operations.");
-            }
-            
+            }    
         }
         else{
             System.out.println("Folder is not found.");
@@ -369,10 +382,13 @@ class Files{
 
     private static String toSave(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
 
-      
         String dataToSave = "Current date: " + currentDate;
         if (Korkolaskuri.advancedCalculation == true) {
             dataToSave += " (ADVANCED)";
+        }
+        else{
+            dataToSave += " (LINEAR)";
+
         }
         dataToSave += "\n\nInvesting time: " + Integer.toString(time) + " " + period;
         dataToSave += "\nPercentage:  "+ Float.toString(percentage) + "%";
@@ -383,6 +399,47 @@ class Files{
     }
 }
 
+class Test{
+
+    public static boolean testCase = false;
+
+    public static void TestMain(Scanner myScanner){
+        
+        System.out.println("TEST CASE");
+        System.out.println("1. Run");
+        System.out.println("0. Go back");
+        int userInput;
+        
+        while (true) {
+            try {
+                userInput = Validation.Selection(myScanner);
+                if(userInput == 1){
+                    TestCase(myScanner);   
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Error occured!");
+            }
+        }
+    }
+
+    private static void TestCase(Scanner myScanner){
+        testCase = true;
+        
+        Functions.Calculate(12, 2.7f, myScanner, Functions.MONTH[0]);
+        Functions.Calculate(1, 12.7f, myScanner, Functions.YEAR[0]);
+
+        Korkolaskuri.advancedCalculation = true;
+        Functions.Calculate(12, 3.9f, myScanner, Functions.MONTH[0]);
+        Korkolaskuri.advancedCalculation = true;
+        Functions.Calculate(1, 25.4f, myScanner, Functions.YEAR[0]);
+
+        testCase = false;
+    }
+
+
+
+}
 
 /******This class contains method for printing various things through program******/
 class Print{
@@ -395,6 +452,7 @@ class Print{
                 System.out.println("1. CALCULATE INTREST (LINEAR)");
                 System.out.println("2. CALCULATE INTREST (ADVANCED)");
                 System.out.println("3. READ PREVIOUSLY SAVED DATA");
+                System.out.println("4. TEST CASE");
                 System.out.println("0. CLOSE PROGRAM");
                 break;
             
@@ -432,12 +490,8 @@ class Print{
 
             default:
                 break;
-        }
-        
-        
-
+        } 
     }
-
 }
 
 /******Class contains error handling functions******/
@@ -447,25 +501,26 @@ class Validation{
 
     public static int Selection(Scanner myScanner){
         
-        boolean test = false;
-        int input = -1;
+        int userInput = -1;
 
-        while (test==false) {
+        while (true) {
             try {
                 System.out.print("\nYour choice: ");
-                input = Integer.parseInt(myScanner.nextLine());
+                userInput = Integer.parseInt(myScanner.nextLine());
+                
+                if (userInput == 0 || userInput == 1 || userInput == 2
+                || userInput == 3 || userInput == 4) {
+                    break;
+                }
+                else{
+                    System.out.println("Invalid choice!");
+                }
+
             } catch (Exception e) {
                 System.out.println("\nUnknown input format! Enter again!");
             }
-
-            if (input == 0 || input == 1 || input == 2 || input == 3) {
-                test = true;   
-            }else{
-                System.out.println("Invalid choice!");
-            }
-           
         }
-        return input;
+        return userInput;
     }
 
     public static int Time(Scanner myScanner, String duration){
