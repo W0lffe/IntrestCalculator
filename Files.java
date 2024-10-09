@@ -2,6 +2,7 @@ import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.io.File;
 import java.awt.Desktop;
 
@@ -140,14 +141,14 @@ class Files{
     }
 
     private static String toSave(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
-
+        DecimalFormat df = new DecimalFormat("0.00");
         String dataToSave = "Current date: " + currentDate;
         dataToSave += CalcAndType(); 
-        dataToSave += "\n\nInvesting time: " + Integer.toString(time) + " " + period;
-        dataToSave += "\nPercentage:  "+ Float.toString(percentage) + "%";
-        dataToSave += "\nInitial deposit:  " + Float.toString(deposit) + " euros";
-        dataToSave += "\nAfter intrest: "  + Float.toString(afterIntrest) + " euros";
-        dataToSave += "\nEarnings: " + Float.toString(earnings) + " euros";
+        dataToSave += "\n\nInvesting time: " + time + " " + period;
+        dataToSave += "\nPercentage:  "+ df.format(percentage) + "%";
+        dataToSave += "\nInitial deposit:  " + df.format(deposit) + " euros";
+        dataToSave += "\nAfter intrest: "  + df.format(afterIntrest) + " euros";
+        dataToSave += "\nEarnings: " + df.format(earnings) + " euros";
         return dataToSave;
     }
 

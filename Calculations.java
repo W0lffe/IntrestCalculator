@@ -1,9 +1,12 @@
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 class Calculations {
     
     /*DEFINES VARIABLES*/
     public static float VOLATILITY_PERCENTAGE = 0;
+    public static ArrayList<String> Storage = new ArrayList<String>();
     
     public static void Calculate(int time, float percentage, float deposit, Scanner myScanner, String period){
             float afterIntrest = deposit;
@@ -39,6 +42,10 @@ class Calculations {
             System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", time, period, percentage, deposit, afterIntrest);
             float earnings = afterIntrest - deposit;
             System.out.printf("Your earnings are: %.2f euros. \n", earnings);
+
+            if (Test.testCase==false) {
+                StoreData(time, period, percentage, deposit, afterIntrest, earnings);
+            }
 
             Files.SaveFile(myScanner, time, percentage, deposit, afterIntrest, earnings, period);   
 
@@ -76,5 +83,15 @@ class Calculations {
         //System.out.println("Volatility percentage " + (newPercentage)); //for bug checking
         return newPercentage;
     
+        }
+
+        private static void StoreData(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
+            DecimalFormat df = new DecimalFormat("0.00");
+            String toStore = "Time: " + time + " " + period;
+            toStore += "\nPercentage: " + df.format(percentage);
+            toStore += "\nDeposit: " + df.format(deposit);
+            toStore += "\nAfter intrest: " + df.format(afterIntrest);
+            toStore += "\nEarnings: " + df.format(earnings);
+            Storage.add(toStore);
         }
 }

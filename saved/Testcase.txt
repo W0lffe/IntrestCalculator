@@ -1,97 +1,33 @@
 
 
-Current date: 2024-10-09T19:47:22.723709300 (METHOD: LINEAR)
+Current date: 2024-10-09T21:02:39.837059100 (METHOD: LINEAR)
 
 Investing time: 12 months
-Percentage:  1.5%
-Initial deposit:  10000.0 euros
-After intrest: 11800.0 euros
-Earnings: 1800.0 euros
+Percentage:  1,50%
+Initial deposit:  10000,00 euros
+After intrest: 11800,00 euros
+Earnings: 1800,00 euros
 
-Current date: 2024-10-09T19:47:22.723709300 (METHOD: LINEAR)
+Current date: 2024-10-09T21:02:39.837059100 (METHOD: LINEAR)
 
 Investing time: 1 years
-Percentage:  18.0%
-Initial deposit:  10000.0 euros
-After intrest: 11800.0 euros
-Earnings: 1800.0 euros
+Percentage:  18,00%
+Initial deposit:  10000,00 euros
+After intrest: 11800,00 euros
+Earnings: 1800,00 euros
 
-Current date: 2024-10-09T19:47:22.723709300 (METHOD: VOLATILITY)
+Current date: 2024-10-09T21:02:39.837059100 (METHOD: VOLATILITY)
 
 Investing time: 12 months
-Percentage:  -2.2864492%
-Initial deposit:  10000.0 euros
-After intrest: 7256.263 euros
-Earnings: -2743.7368 euros
+Percentage:  0,03%
+Initial deposit:  10000,00 euros
+After intrest: 10039,40 euros
+Earnings: 39,40 euros
 
-Current date: 2024-10-09T19:47:22.723709300 (METHOD: VOLATILITY)
-
-Investing time: 1 years
-Percentage:  20.30246%
-Initial deposit:  10000.0 euros
-After intrest: 12030.246 euros
-Earnings: 2030.2461 euros
-
-Current date: 2024-10-09T19:47:22.723709300 (METHOD: LINEAR)
-
-Investing time: 12 months
-Percentage:  1.5%
-Initial deposit:  10000.0 euros
-After intrest: 11800.0 euros
-Earnings: 1800.0 euros
-
-Current date: 2024-10-09T19:47:22.723709300 (METHOD: LINEAR)
+Current date: 2024-10-09T21:02:39.837059100 (METHOD: VOLATILITY)
 
 Investing time: 1 years
-Percentage:  18.0%
-Initial deposit:  10000.0 euros
-After intrest: 11800.0 euros
-Earnings: 1800.0 euros
-
-Current date: 2024-10-09T19:47:22.723709300 (METHOD: VOLATILITY)
-
-Investing time: 12 months
-Percentage:  -0.47304556%
-Initial deposit:  10000.0 euros
-After intrest: 9432.344 euros
-Earnings: -567.65625 euros
-
-Current date: 2024-10-09T19:47:22.723709300 (METHOD: VOLATILITY)
-
-Investing time: 1 years
-Percentage:  8.212772%
-Initial deposit:  10000.0 euros
-After intrest: 10821.277 euros
-Earnings: 821.27734 euros
-
-Current date: 2024-10-09T20:02:47.733112300 (METHOD: LINEAR)
-
-Investing time: 12 months
-Percentage:  1.5%
-Initial deposit:  10000.0 euros
-After intrest: 11800.0 euros
-Earnings: 1800.0 euros
-
-Current date: 2024-10-09T20:02:47.733112300 (METHOD: LINEAR)
-
-Investing time: 1 years
-Percentage:  18.0%
-Initial deposit:  10000.0 euros
-After intrest: 11800.0 euros
-Earnings: 1800.0 euros
-
-Current date: 2024-10-09T20:02:47.733112300 (METHOD: VOLATILITY)
-
-Investing time: 12 months
-Percentage:  0.83195555%
-Initial deposit:  10000.0 euros
-After intrest: 10998.344 euros
-Earnings: 998.34375 euros
-
-Current date: 2024-10-09T20:02:47.733112300 (METHOD: VOLATILITY)
-
-Investing time: 1 years
-Percentage:  10.547384%
-Initial deposit:  10000.0 euros
-After intrest: 11054.738 euros
-Earnings: 1054.7383 euros
+Percentage:  24,45%
+Initial deposit:  10000,00 euros
+After intrest: 12444,70 euros
+Earnings: 2444,70 euros

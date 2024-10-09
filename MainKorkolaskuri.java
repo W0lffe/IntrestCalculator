@@ -18,21 +18,21 @@ public class MainKorkolaskuri {
     public static void main(String[] args) {
 
         Scanner myScanner = new Scanner(System.in);      
-        int command;
+        int userInput;
         System.out.println("KORKOLASKURI\n");
         System.out.println("!!Please follow the instructions carefully!!");
 
         do {
             OtherFunctions.print(1);
             do {
-                command = Validation.UserInput(myScanner);
-                if(command == 0 || command == 1 || command == 2 || command == 3){         
+                userInput = Validation.UserInput(myScanner);
+                if(userInput == 0 || userInput == 1 || userInput == 2 || userInput == 3 || userInput == 4){         
                     break;
                 }
             } while (true);
             
 
-            switch (command) {
+            switch (userInput) {
                 case 1:
                     DataCollect.Mode(myScanner);
                     break;
@@ -40,13 +40,22 @@ public class MainKorkolaskuri {
                     Files.ReadFile(myScanner);
                     break;
                 case 3:
+                    if (!Calculations.Storage.isEmpty()) {
+                        OtherFunctions.ShowCache();
+                        break;
+                    }
+                    else{
+                        System.out.println("Cache is empty! Nothing to show..");
+                        break;
+                    }
+                case 4:
                     Test.TestMain(myScanner);
                     break;
                 case 0:
                     System.out.println("Exiting program...");
                     break;
             }
-        } while (command != 0);
+        } while (userInput != 0);
         myScanner.close();
     }
 }
@@ -72,8 +81,9 @@ class OtherFunctions{
                 case 1:
                     System.out.println("\nSelect one: ");
                     System.out.println("1. CALCULATE INTREST");
-                    System.out.println("2. READ PREVIOUSLY SAVED DATA");
-                    System.out.println("3. TEST CASE");
+                    System.out.println("2. READ PREVIOUSLY SAVED FILES");
+                    System.out.println("3. SHOW CACHE");
+                    System.out.println("4. TEST CASE");
                     System.out.println("0. CLOSE PROGRAM");
                     break;
                 
@@ -121,5 +131,13 @@ class OtherFunctions{
                 default:
                     break;
             } 
+        }
+
+        public static void ShowCache(){
+            int round = 1;
+            for (String data : Calculations.Storage) {
+                    System.out.println("\nRound: " + round + "\n" + data);
+                    round++;
+            }
         }
 }

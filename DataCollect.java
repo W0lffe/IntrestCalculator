@@ -144,7 +144,7 @@ class DataCollect{
                 try {
                     System.out.printf("Enter estimated growth percentage per %s: ", time);
                     userInput = Float.parseFloat(myScanner.nextLine());
-                    if (userInput > 0) {
+                    if (userInput > 0 || userInput < 0) {
                         break;
                     }
                 } catch (Exception e) {
