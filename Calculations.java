@@ -3,43 +3,38 @@ import java.util.Scanner;
 class Calculations {
     
     /*DEFINES VARIABLES*/
-    private static final int OPEN_MARKET_YEARLY = 252;
-    private static final int OPEN_MARKET_MONTHLY = 21;
-    private static final float VOLATILITY_PERCENTAGE = 0.15f;
+    public static float VOLATILITY_PERCENTAGE = 0;
     
-    public static void Calculate(int time, float percentage, Scanner myScanner, String period){
-            
-            float deposit;
-
-            if (Test.testCase == true) {
-                deposit = 10000;
-            }
-            else{
-                deposit = DataCollect.Deposit(myScanner, 1);
-            }
-
+    public static void Calculate(int time, float percentage, float deposit, Scanner myScanner, String period){
             float afterIntrest = deposit;
             float temp = afterIntrest;
             float increment;
 
-            if (MainKorkolaskuri.includeVolatility == true ) {
+            String method = DataCollect.checkMode();
+
+            switch (method) {
+                case "Linear":
+                    increment = (percentage/100);
+                    for (int i = 0; i < time; i++) {
+                        afterIntrest += temp * increment;
+                    }
+                    break;
+                case "Volatility":
+                    increment = CalculateVolatilityAverage(percentage, time, period);
+                    for (int i = 0; i < time; i++) {
+                        afterIntrest += temp * increment;
+                    }
+                    percentage = (increment*100);
+                    //System.out.println("Calculated percent: " + percentage); //for bug checking
+                    break;
+                case "Interval":
+                    //CREATE A NEW FUNCTION FOR THIS METHOD
+                    System.out.println("Not implemented yet!!");
+                    break;
                 
-                increment = CalculateVolatilityAverage(percentage, time, period);
-                for (int j = 0; j < time; j++) {
-                    afterIntrest += temp * increment;
-                }
-                percentage = (increment*100);
-                //System.out.println("Calculated percent: " + percentage); for bug checking
-
-            }      
-            else{   
-                increment = (percentage/100);
-
-                for (int i = 0; i < time; i++) {
-                    afterIntrest += temp * increment;
-                }
             }
-            OtherFunctions.print(3);
+          
+            OtherFunctions.print(4);
 
             System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", time, period, percentage, deposit, afterIntrest);
             float earnings = afterIntrest - deposit;
@@ -47,35 +42,38 @@ class Calculations {
 
             Files.SaveFile(myScanner, time, percentage, deposit, afterIntrest, earnings, period);   
 
-            MainKorkolaskuri.includeVolatility = false;
-
-
         }
 
     private static float CalculateVolatilityAverage(float percentage, int time, String period){   
             
         float increment;
-        float newPercentage = 0;
+        float newPercentage = 0f;
+        float average = 0f;
+        float volatility;
 
-        int days;
-        if (period.equals("year")){
-            days = OPEN_MARKET_YEARLY * time; //conversion to open market days
+        if (period.equals("month")){
+            volatility = VOLATILITY_PERCENTAGE/12f;
         }
         else{
-            days = OPEN_MARKET_MONTHLY * time; //conversion to open market days
+            volatility = VOLATILITY_PERCENTAGE;
         }
-
-        float percent = (percentage/100f)/(float)days;
-        float volatility = VOLATILITY_PERCENTAGE/days; //15% divided by time and converted to decimal form
+        
+        float[] increments = new float[time];
+        float percent = (percentage/100f);
         float volatility_min = percent - volatility;
         float volatility_max = percent + volatility;
 
-        for (int j = 0; j < days; j++) {
+        for (int j = 0; j < time; j++) {
             increment = (float)(Math.random() * (volatility_max - volatility_min)) + volatility_min;
-            newPercentage += increment;
+            increments[j] = increment;
         }
 
-        //System.out.println("Volatility percentage " + newPercentage); for bug checking
+        for (float f : increments) {
+                average += f;
+        }
+
+        newPercentage = (average/increments.length);
+        //System.out.println("Volatility percentage " + (newPercentage)); //for bug checking
         return newPercentage;
     
         }

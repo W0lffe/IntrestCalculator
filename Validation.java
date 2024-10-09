@@ -7,15 +7,15 @@ class Validation{
 
     public static int Selection(Scanner myScanner){
         
-        int userInput = -1;
+        int userInput;
 
         while (true) {
             try {
                 System.out.print("\nYour choice: ");
                 userInput = Integer.parseInt(myScanner.nextLine());
                 
-                if (userInput == 0 || userInput == 1 || userInput == 2
-                || userInput == 3 || userInput == 4) {
+                if (userInput == 0 || userInput == 1 || userInput == 2 || userInput == 3
+                    || userInput == 4  || userInput == 9) {
                     break;
                 }
                 else{

@@ -27,13 +27,18 @@ class Test{
     private static void TestCase(Scanner myScanner){
         testCase = true;
         
-        Calculations.Calculate(12, 2.7f, myScanner, DataCollect.MONTH[0]);
-        Calculations.Calculate(1, 12.7f, myScanner, DataCollect.YEAR[0]);
+        DataCollect.LinearCalc = true;
+        Calculations.Calculate(12, 1.5f, 10000, myScanner, DataCollect.MONTH[0]);
+        Calculations.Calculate(1, 18.0f, 10000, myScanner, DataCollect.YEAR[0]);
+        DataCollect.LinearCalc = false;
 
-        MainKorkolaskuri.includeVolatility = true;
-        Calculations.Calculate(12, 3.9f, myScanner, DataCollect.MONTH[0]);
-        MainKorkolaskuri.includeVolatility = true;
-        Calculations.Calculate(1, 25.4f, myScanner, DataCollect.YEAR[0]);
+
+        DataCollect.VolatilityCalc = true;
+        Calculations.VOLATILITY_PERCENTAGE=0.15f;
+        Calculations.Calculate(12, 1.5f, 10000, myScanner, DataCollect.MONTH[0]);
+        Calculations.Calculate(1, 18.0f, 10000, myScanner, DataCollect.YEAR[0]);
+        Calculations.VOLATILITY_PERCENTAGE=0f;
+        DataCollect.VolatilityCalc = false;
 
         testCase = false;
     }

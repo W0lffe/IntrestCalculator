@@ -20,15 +20,18 @@ class Files{
 
             if(Test.testCase==true){
                 userInput = 1;
+                break;
             }
             else{
                 userInput = Validation.Selection(myScanner);
-
-            }
-                      
+            } 
             if (userInput == 1 || userInput == 2) {
                 break;
             }
+            else{
+                System.out.println("Invalid choice!");
+            }   
+            
 
         } while (true);
         
@@ -72,11 +75,8 @@ class Files{
             }
         }
        
-
         OtherFunctions.Delay();
         System.out.println("Data saved!");
-        
-
     }
 
     public static void ReadFile(Scanner myScanner){
@@ -111,9 +111,9 @@ class Files{
                     }
                 } catch (Exception e) {
                     System.out.println("Error occured!");
-
                 }
             }
+
             System.out.println("You chose file: " + folderFiles[command-1].getName());
             
             String newPath = path + folderFiles[command-1].getName();
@@ -130,7 +130,6 @@ class Files{
                        e.printStackTrace();
                     }
                 }
-            
             else{
                 System.out.println("This system is not capable for desktop operations.");
             }    
@@ -143,18 +142,39 @@ class Files{
     private static String toSave(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
 
         String dataToSave = "Current date: " + currentDate;
-        if (MainKorkolaskuri.includeVolatility == true) {
-            dataToSave += " (INC. VOLATILITY)";
-        }
-        else{
-            dataToSave += " (LINEAR)";
-
-        }
+        dataToSave += CalcAndType(); 
         dataToSave += "\n\nInvesting time: " + Integer.toString(time) + " " + period;
         dataToSave += "\nPercentage:  "+ Float.toString(percentage) + "%";
         dataToSave += "\nInitial deposit:  " + Float.toString(deposit) + " euros";
         dataToSave += "\nAfter intrest: "  + Float.toString(afterIntrest) + " euros";
         dataToSave += "\nEarnings: " + Float.toString(earnings) + " euros";
+        return dataToSave;
+    }
+
+    private static String CalcAndType(){
+        String dataToSave = "";
+        float type = Calculations.VOLATILITY_PERCENTAGE;
+
+        if (DataCollect.VolatilityCalc == true) {
+            dataToSave += " (METHOD: VOLATILITY)";
+        }
+        else if(DataCollect.IntervalCalc == true){
+            dataToSave += " (METHOD: INTERVALS)";
+        }
+        else{
+            dataToSave += " (METHOD: LINEAR)";
+        } 
+        
+        if (type == 0.10f) {
+            dataToSave += " (TYPE: Bonds, Low-Risk ETF)";   
+        }
+        else if(type == 0.18f){
+            dataToSave += " (TYPE: Index Funds, Medium-Risk ETF)";
+        }
+        else if(type == 0.40f){
+            dataToSave += " (TYPE: Stocks, Cryptocurrencies, Commodities)";
+        }
+
         return dataToSave;
     }
 }

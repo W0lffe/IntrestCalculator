@@ -1,5 +1,5 @@
 /*FILE: Korkolaskuri.java
- * Version: 0.3
+ * Version: 0.4
  * Date: 1.10.2024
  * Author: Henry Karppinen
  * Description: This program is made for my own use to calculate intrest made with funds.
@@ -13,7 +13,6 @@
 import java.util.Scanner;
 
 public class MainKorkolaskuri {
-    public static boolean includeVolatility = false;
 
      /******Main******/
     public static void main(String[] args) {
@@ -27,13 +26,7 @@ public class MainKorkolaskuri {
             OtherFunctions.print(1);
             do {
                 command = Validation.Selection(myScanner);
-                if(command == 0 || command == 1 || command == 2 
-                    || command == 3 || command == 4){
-                    
-                        if (command == 2) {
-                        includeVolatility = true;
-                        }
-                      
+                if(command == 0 || command == 1 || command == 2 || command == 3){         
                     break;
                 }
             } while (true);
@@ -41,27 +34,21 @@ public class MainKorkolaskuri {
 
             switch (command) {
                 case 1:
-                case 2:
-                    DataCollect.Collect(myScanner);
+                    DataCollect.Mode(myScanner);
                     break;
-                case 3:
+                case 2:
                     Files.ReadFile(myScanner);
                     break;
-                case 4:
+                case 3:
                     Test.TestMain(myScanner);
                     break;
                 case 0:
                     System.out.println("Exiting program...");
                     break;
-            
-                default:
-                    System.out.println("Unknown command!");
             }
         } while (command != 0);
         myScanner.close();
     }
-
-
 }
 
 
@@ -84,28 +71,31 @@ class OtherFunctions{
             switch (function) {
                 case 1:
                     System.out.println("\nSelect one: ");
-                    System.out.println("1. CALCULATE INTREST (LINEAR)");
-                    System.out.println("2. CALCULATE INTREST (INC. VOLATILITY)");
-                    System.out.println("3. READ PREVIOUSLY SAVED DATA");
-                    System.out.println("4. TEST CASE");
+                    System.out.println("1. CALCULATE INTREST");
+                    System.out.println("2. READ PREVIOUSLY SAVED DATA");
+                    System.out.println("3. TEST CASE");
                     System.out.println("0. CLOSE PROGRAM");
                     break;
                 
                 case 2:
-                    if (MainKorkolaskuri.includeVolatility == true) {
-                        System.out.println("\nCALCULATE INTREST (INC. VOLATILITY)");
-                    }
-                    else{
-                        System.out.println("\nCALCULATE INTREST (LINEAR)");
-                    }
-
-                    System.out.println("Choose how to calculate intrest: ");
-                    System.out.println("1. Yearly expectation");
-                    System.out.println("2. Monthly expectation");
+                    System.out.println("Which mode would you like to use?\n");
+                    System.out.println("1. Linear Calculation");
+                    System.out.println("2. Included Volatility Calculation");
+                    System.out.println("3. Interval Calculation");
                     System.out.println("0. Go back");
                     break;
+
+                case 3: 
+                    System.out.println("Settings for calculation");
+                    System.out.println("1. Time");
+                    System.out.println("2. Estimated percentage");
+                    System.out.println("3. Initial Deposit");
+                    System.out.println("4. Type of Investment (ignore if going Linear)");
+                    System.out.println("9. Go back to Main Menu. (Resets all values)");
+                    System.out.println("0. Calculate");
+                    break;
     
-                case 3:
+                case 4:
                     int x = 0;
                     String toPrint = "Calculating";
                     System.out.printf("%s", toPrint);
@@ -122,6 +112,12 @@ class OtherFunctions{
                     }
                     System.out.println("");
                 break;
+                case 5:
+                    System.out.println("What kind of investment is this?");
+                    System.out.println("1. Bonds, Low-Risk ETF");
+                    System.out.println("2. Index Funds, Medium-Risk ETF");
+                    System.out.println("3. Stocks, Cryptocurrencies, Commodities");
+                    break;
                 default:
                     break;
             } 

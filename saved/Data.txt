@@ -1,15 +1,47 @@
-Current date: 2024-10-08T17:53:05.995247700 (LINEAR)
+Current date: 2024-10-09T19:58:46.908940100 (METHOD: LINEAR)
 
-Investing time: 6 years
-Percentage:  23.8%
-Initial deposit:  10000.0 euros
-After intrest: 24280.0 euros
-Earnings: 14280.0 euros
+Investing time: 10 years
+Percentage:  10.0%
+Initial deposit:  1000.0 euros
+After intrest: 2000.0 euros
+Earnings: 1000.0 euros
 
-Current date: 2024-10-08T17:53:05.995247700 (ADVANCED)
+Current date: 2024-10-09T19:58:46.908940100 (METHOD: VOLATILITY) (TYPE: Stocks, Cryptocurrencies, Commodities)
 
 Investing time: 5 years
-Percentage:  25.15006%
+Percentage:  -3.3107538%
 Initial deposit:  10000.0 euros
-After intrest: 22575.03 euros
-Earnings: 12575.029 euros
+After intrest: 8344.624 euros
+Earnings: -1655.376 euros
+
+Current date: 2024-10-09T19:58:46.908940100 (METHOD: VOLATILITY) (TYPE: Bonds, Low-Risk ETF)
+
+Investing time: 10 years
+Percentage:  5.321564%
+Initial deposit:  10000.0 euros
+After intrest: 15321.5625 euros
+Earnings: 5321.5625 euros
+
+Current date: 2024-10-09T19:58:46.908940100 (METHOD: VOLATILITY) (TYPE: Bonds, Low-Risk ETF)
+
+Investing time: 24 months
+Percentage:  2.2357595%
+Initial deposit:  10000.0 euros
+After intrest: 15365.828 euros
+Earnings: 5365.828 euros
+
+Current date: 2024-10-09T19:58:46.908940100 (METHOD: VOLATILITY) (TYPE: Bonds, Low-Risk ETF)
+
+Investing time: 24 months
+Percentage:  1.6386817%
+Initial deposit:  10000.0 euros
+After intrest: 13932.836 euros
+Earnings: 3932.836 euros
+
+Current date: 2024-10-09T20:02:47.733112300 (METHOD: VOLATILITY) (TYPE: Stocks, Cryptocurrencies, Commodities)
+
+Investing time: 5 years
+Percentage:  20.2072%
+Initial deposit:  15000.0 euros
+After intrest: 30155.4 euros
+Earnings: 15155.4 euros
