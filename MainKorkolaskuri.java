@@ -25,7 +25,7 @@ public class MainKorkolaskuri {
         do {
             OtherFunctions.print(1);
             do {
-                command = Validation.Selection(myScanner);
+                command = Validation.UserInput(myScanner);
                 if(command == 0 || command == 1 || command == 2 || command == 3){         
                     break;
                 }

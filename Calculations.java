@@ -10,7 +10,7 @@ class Calculations {
             float temp = afterIntrest;
             float increment;
 
-            String method = DataCollect.checkMode();
+            String method = DataCollect.CheckMode();
 
             switch (method) {
                 case "Linear":

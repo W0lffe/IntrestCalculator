@@ -16,7 +16,7 @@ class DataCollect{
 
       
         while (true) {
-            userInput = Validation.Selection(myScanner);
+            userInput = Validation.UserInput(myScanner);
                 if (userInput == 0 || userInput == 1 || userInput == 2 || userInput == 3) {
                     break;       
                 }
@@ -38,11 +38,11 @@ class DataCollect{
                     return;
             }
 
-            Collect(myScanner);
+            CollectData(myScanner);
     }
 
     /*Function collects all information needed for calculating intrest */
-    private static void Collect(Scanner myScanner){
+    private static void CollectData(Scanner myScanner){
     
         int userInput;
         int time = 0;
@@ -55,7 +55,7 @@ class DataCollect{
             OtherFunctions.print(3);
 
             do {
-                userInput = Validation.Selection(myScanner);
+                userInput = Validation.UserInput(myScanner);
                 if(userInput == 0 || userInput == 1 || userInput == 2 || userInput == 3 
                 || userInput == 4 || userInput == 9){         
                     break;
@@ -64,7 +64,7 @@ class DataCollect{
 
             switch (userInput) {
                 case 1:
-                    time = askTime(myScanner);
+                    time = InputTime(myScanner);
                     if (yearlyExpectation == true) {
                         duration = YEAR[0];
                         period = YEAR[1];
@@ -75,10 +75,10 @@ class DataCollect{
                     }
                     break;
                 case 2:
-                    percentage = askPercentage(myScanner, period);
+                    percentage = InputPercentage(myScanner, period);
                     break;
                 case 3:
-                    deposit = Deposit(myScanner);
+                    deposit = InputDeposit(myScanner);
                     break;
                 case 4:
                     Calculations.VOLATILITY_PERCENTAGE=InvestmentType(myScanner);
@@ -89,6 +89,7 @@ class DataCollect{
                     IntervalCalc = false;
                     yearlyExpectation = false;
                     monthlyExpectation = false;
+                    Calculations.VOLATILITY_PERCENTAGE=0f;
                     return;
                 case 0:
                 if (time !=0 && percentage !=0 && deposit !=0){
@@ -104,12 +105,12 @@ class DataCollect{
                 
         }
 
-        private static int askTime(Scanner myScanner){
+        private static int InputTime(Scanner myScanner){
             System.out.println("\n1. Yearly\n2. Monthly");
             int choice, time;
             String duration;
             while (true) {
-                choice = Validation.Selection(myScanner);
+                choice = Validation.UserInput(myScanner);
                 if (choice == 1 || choice == 2) {
                     break;   
                 }
@@ -136,7 +137,7 @@ class DataCollect{
             return time;  
         } 
 
-        private static float askPercentage(Scanner myScanner, String time){
+        private static float InputPercentage(Scanner myScanner, String time){
             float userInput;
     
             while (true) {
@@ -154,7 +155,7 @@ class DataCollect{
             return userInput;
         }
 
-        private static float Deposit(Scanner myScanner){
+        private static float InputDeposit(Scanner myScanner){
             float userInput;
             while (true) {
                 try {
@@ -178,7 +179,7 @@ class DataCollect{
             int userInput;
             float volatility = 0f;
             while (true) {
-                userInput = Validation.Selection(myScanner);
+                userInput = Validation.UserInput(myScanner);
                 if(userInput == 1 || userInput == 2 || userInput == 3){
                     break;
                 }
@@ -199,7 +200,7 @@ class DataCollect{
             return volatility;
         }
 
-        public static String checkMode(){
+        public static String CheckMode(){
 
             if (VolatilityCalc==true) {
                 return "Volatility";

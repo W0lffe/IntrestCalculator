@@ -13,7 +13,7 @@ class Test{
         
         while (true) {
             try {
-                userInput = Validation.Selection(myScanner);
+                userInput = Validation.UserInput(myScanner);
                 if(userInput == 1){
                     TestCase(myScanner);   
                 }

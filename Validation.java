@@ -5,7 +5,7 @@ class Validation{
 
     /*Function is called from different part of code, this makes sure that value returned is INT*/
 
-    public static int Selection(Scanner myScanner){
+    public static int UserInput(Scanner myScanner){
         
         int userInput;
 

@@ -23,7 +23,7 @@ class Files{
                 break;
             }
             else{
-                userInput = Validation.Selection(myScanner);
+                userInput = Validation.UserInput(myScanner);
             } 
             if (userInput == 1 || userInput == 2) {
                 break;
