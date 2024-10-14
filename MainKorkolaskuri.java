@@ -91,7 +91,6 @@ class OtherFunctions{
                     System.out.println("Which mode would you like to use?\n");
                     System.out.println("1. Linear Calculation");
                     System.out.println("2. Included Volatility Calculation");
-                    System.out.println("3. Interval Calculation");
                     System.out.println("0. Go back");
                     break;
 

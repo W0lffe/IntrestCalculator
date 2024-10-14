@@ -159,9 +159,6 @@ class Files{
         if (DataCollect.VolatilityCalc == true) {
             dataToSave += " (METHOD: VOLATILITY)";
         }
-        else if(DataCollect.IntervalCalc == true){
-            dataToSave += " (METHOD: INTERVALS)";
-        }
         else{
             dataToSave += " (METHOD: LINEAR)";
         } 

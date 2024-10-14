@@ -30,11 +30,6 @@ class Calculations {
                     percentage = (increment*100);
                     //System.out.println("Calculated percent: " + percentage); //for bug checking
                     break;
-                case "Interval":
-                    //CREATE A NEW FUNCTION FOR THIS METHOD
-                    System.out.println("Not implemented yet!!");
-                    break;
-                
             }
           
             OtherFunctions.print(4);

@@ -1,0 +1,32 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile JavaFX Application",
+            "type": "shell",
+            "command": "javac",
+            "args": [
+                "--module-path",
+                "F:/Java-Programs/javafx-sdk-23/lib",
+                "--add-modules",
+                "javafx.controls",
+                "Main.java"
+            ]
+        },
+        {
+            "type": "java (buildArtifact)",
+            "mainClass": "MainKorkolaskuri",
+            "targetPath": "${workspaceFolder}/${workspaceFolderBasename}.jar",
+            "elements": [
+                "${compileOutput}",
+                "${dependencies}"
+            ],
+            "problemMatcher": [],
+            "label": "java (buildArtifact): IntrestCalculator",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        }
+    ]
+}

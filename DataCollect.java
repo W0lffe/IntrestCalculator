@@ -6,7 +6,6 @@ class DataCollect{
     public static final String[] MONTH = {"months", "month"};
     public static boolean LinearCalc = false;
     public static boolean VolatilityCalc = false;
-    public static boolean IntervalCalc = false;
     public static boolean yearlyExpectation = false;
     public static boolean monthlyExpectation = false;
 
@@ -17,7 +16,7 @@ class DataCollect{
       
         while (true) {
             userInput = Validation.UserInput(myScanner);
-                if (userInput == 0 || userInput == 1 || userInput == 2 || userInput == 3) {
+                if (userInput == 0 || userInput == 1 || userInput == 2) {
                     break;       
                 }
         }
@@ -29,10 +28,6 @@ class DataCollect{
                 case 2:
                     VolatilityCalc = true;
                     System.out.println("\nYou chose: Including volatility calculation!\n");
-                    break;
-                case 3:
-                    IntervalCalc = true;
-                    System.out.println("\nYou chose: Interval calculation!\n");
                     break;
                 case 0:
                     return;
@@ -75,8 +70,14 @@ class DataCollect{
                     }
                     break;
                 case 2:
-                    percentage = InputPercentage(myScanner, period);
-                    break;
+                    if (time !=0) {
+                        percentage = InputPercentage(myScanner, period);
+                        break;
+                    }
+                    else{
+                        System.out.println("Please enter time first!\n");
+                        break;
+                    }
                 case 3:
                     deposit = InputDeposit(myScanner);
                     break;
@@ -86,7 +87,6 @@ class DataCollect{
                 case 9:
                     LinearCalc = false;
                     VolatilityCalc = false;
-                    IntervalCalc = false;
                     yearlyExpectation = false;
                     monthlyExpectation = false;
                     Calculations.VOLATILITY_PERCENTAGE=0f;
@@ -204,9 +204,6 @@ class DataCollect{
 
             if (VolatilityCalc==true) {
                 return "Volatility";
-            }
-            else if(IntervalCalc==true){
-                return "Interval";
             }
             else{
                 return "Linear";
