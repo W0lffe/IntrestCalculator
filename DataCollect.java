@@ -1,148 +1,151 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 class DataCollect{
 
-    public static final String[] YEAR = {"years", "year"};
-    public static final String[] MONTH = {"months", "month"};
-    public static boolean LinearCalc = false;
-    public static boolean VolatilityCalc = false;
-    public static boolean yearlyExpectation = false;
-    public static boolean monthlyExpectation = false;
+    private static final String[] YEAR = {"years", "year"};
+    private static final String[] MONTH = {"months", "month"};
+   
+    private static ArrayList<Integer[]> validInputs = new ArrayList<>(Arrays.asList(
+        new Integer[]{0, 1, 2},
+        new Integer[]{0, 1, 2, 3, 4, 5, 9},
+        new Integer[]{0, 1, 2, 3}
+    ));
 
-    public static void Mode(Scanner myScanner){
+    private static Investment investment = new Investment(false, 0, 0, 0, 0, null, null);
+
+
+    private static void Mode(Scanner myScanner){
         OtherFunctions.print(2);
         int userInput;
 
-      
         while (true) {
             userInput = Validation.UserInput(myScanner);
-                if (userInput == 0 || userInput == 1 || userInput == 2) {
+                if (Arrays.asList(validInputs.get(0)).contains(userInput)) {
                     break;       
+                }
+                else{
+                    System.out.println("Invalid choice!\n");
                 }
         }
             switch (userInput) {
                 case 1:
-                    LinearCalc = true;
+                    investment.setVolatility(false);
                     System.out.println("\nYou chose: Linear calculation!\n");
                     break;
                 case 2:
-                    VolatilityCalc = true;
-                    System.out.println("\nYou chose: Including volatility calculation!\n");
+                    investment.setVolatility(true);
+                    System.out.println("\nYou chose: Volatility included calculation!\n");
                     break;
                 case 0:
                     return;
             }
 
-            CollectData(myScanner);
     }
 
     /*Function collects all information needed for calculating intrest */
-    private static void CollectData(Scanner myScanner){
+    public static void CollectData(Scanner myScanner){
     
-        int userInput;
-        int time = 0;
-        String duration = "";
-        String period = "";
-        float percentage = 0;
-        float deposit = 0;
-        
+        int userInput;  
         do {
             OtherFunctions.print(3);
 
             do {
                 userInput = Validation.UserInput(myScanner);
-                if(userInput == 0 || userInput == 1 || userInput == 2 || userInput == 3 
-                || userInput == 4 || userInput == 9){         
+                if(Arrays.asList(validInputs.get(1)).contains(userInput)){         
                     break;
                 }
+                else{
+                    System.out.println("Invalid choice!");
+                }
+
             } while (true);
 
             switch (userInput) {
                 case 1:
-                    time = InputTime(myScanner);
-                    if (yearlyExpectation == true) {
-                        duration = YEAR[0];
-                        period = YEAR[1];
-                    }
-                    else{
-                        duration = MONTH[0];
-                        period = MONTH[1];
-                    }
+                    Mode(myScanner);
                     break;
                 case 2:
-                    if (time !=0) {
-                        percentage = InputPercentage(myScanner, period);
+                    InputTime(myScanner);
+                    break;
+                case 3:
+                    if (investment.getTime() != 0) {
+                        InputPercentage(myScanner);
                         break;
                     }
                     else{
                         System.out.println("Please enter time first!\n");
                         break;
                     }
-                case 3:
-                    deposit = InputDeposit(myScanner);
-                    break;
                 case 4:
-                    Calculations.VOLATILITY_PERCENTAGE=InvestmentType(myScanner);
+                    InputDeposit(myScanner);
                     break;
+                case 5:
+                    if (investment.getVolatility()) {
+                        InvestmentType(myScanner);  
+                        break;
+
+                    }
+                    else{
+                        System.out.println("You have chosen volatility calculation!");
+                        break;
+                    }
                 case 9:
-                    LinearCalc = false;
-                    VolatilityCalc = false;
-                    yearlyExpectation = false;
-                    monthlyExpectation = false;
-                    Calculations.VOLATILITY_PERCENTAGE=0f;
-                    return;
+                    if (investment.getTime() !=0 && investment.getPercentage() !=0 && investment.getDeposit() !=0){
+                        Calculations.Calculate(myScanner, investment);
+                        break;
+                    }
+                    else{
+                        System.out.println("Insufficient Setup!\n");
+                    }
                 case 0:
-                if (time !=0 && percentage !=0 && deposit !=0){
-                    Calculations.Calculate(time, percentage, deposit, myScanner, duration);
-                    break;
-                }
-                else{
-                    System.out.println("Insufficient Setup!\n");
-                }
-                    
+                    ResetValues();
+                    return;
+    
             }
-        } while (userInput != 9);
+        } while (userInput != 0);
                 
         }
 
-        private static int InputTime(Scanner myScanner){
-            System.out.println("\n1. Yearly\n2. Monthly");
-            int choice, time;
-            String duration;
+        private static void InputTime(Scanner myScanner){
+            System.out.println("\n1. Yearly\n2. Monthly\n0. Go Back");
+            int userInput;
             while (true) {
-                choice = Validation.UserInput(myScanner);
-                if (choice == 1 || choice == 2) {
+                userInput = Validation.UserInput(myScanner);
+                if (Arrays.asList(validInputs.get(0)).contains(userInput)) {
                     break;   
                 }
+                else{
+                    System.out.println("Invalid choice!");
+                }
             }
-            switch (choice) {
+
+            switch (userInput) {
                 case 1:
                     System.out.println("You chose yearly expectation.");
-                    yearlyExpectation = true;
+                    investment.setPeriod(YEAR[0]);
+                    investment.setDuration(YEAR[1]);
                     break;
                 case 2:
                     System.out.println("You chose monthly expectation.");
-                    monthlyExpectation = true;
+                    investment.setPeriod(MONTH[0]);
+                    investment.setDuration(MONTH[1]);
                     break;
+                case 0:
+                    return;
             }
 
-            if (yearlyExpectation == true) {
-                duration = YEAR[0];
-            }
-            else{
-                duration = MONTH[0];
-            }
-            time = Validation.Time(myScanner, duration);
+            investment.setTime(Validation.Time(myScanner, investment.getPeriod()));
          
-            return time;  
         } 
 
-        private static float InputPercentage(Scanner myScanner, String time){
+        private static void InputPercentage(Scanner myScanner){
             float userInput;
     
             while (true) {
                 try {
-                    System.out.printf("Enter estimated growth percentage per %s: ", time);
+                    System.out.printf("Enter estimated growth percentage per %s: ", investment.getDuration());
                     userInput = Float.parseFloat(myScanner.nextLine());
                     if (userInput > 0 || userInput < 0) {
                         break;
@@ -151,11 +154,10 @@ class DataCollect{
                     System.out.println("\nUnknown input format! Enter again!\n");
                 }
             }
-
-            return userInput;
+            investment.setPercentage(userInput);
         }
 
-        private static float InputDeposit(Scanner myScanner){
+        private static void InputDeposit(Scanner myScanner){
             float userInput;
             while (true) {
                 try {
@@ -169,45 +171,47 @@ class DataCollect{
                 }
             }
 
-            return userInput;
-
+            investment.setDeposit(userInput);
 
         }
 
-        private static float InvestmentType(Scanner myScanner){
+        private static void InvestmentType(Scanner myScanner){
             OtherFunctions.print(5);
             int userInput;
-            float volatility = 0f;
             while (true) {
                 userInput = Validation.UserInput(myScanner);
-                if(userInput == 1 || userInput == 2 || userInput == 3){
+                if(Arrays.asList(validInputs.get(2)).contains(userInput)){
                     break;
+                }
+                else{
+                    System.out.println("Invalid choice!");
                 }
             }
 
             switch (userInput) {
                 case 1:
-                    volatility = 0.10f;
+                    investment.setType(0.10f);
                     break;
                 case 2:
-                    volatility = 0.18f;
+                    investment.setType(0.20f);
                     break;
                 case 3:
-                    volatility = 0.40f;
+                    investment.setType(0.40f);
                     break;
+                case 0:
+                    return;
             }
 
-            return volatility;
         }
 
-        public static String CheckMode(){
-
-            if (VolatilityCalc==true) {
-                return "Volatility";
-            }
-            else{
-                return "Linear";
-            }
+        private static void ResetValues(){
+            investment.setDeposit(0);
+            investment.setDuration("");
+            investment.setPercentage(0);
+            investment.setPeriod("");
+            investment.setTime(0);
+            investment.setType(0);
+            investment.setVolatility(false);
         }
 
 }

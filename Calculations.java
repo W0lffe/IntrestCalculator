@@ -5,67 +5,62 @@ import java.util.Scanner;
 class Calculations {
     
     /*DEFINES VARIABLES*/
-    public static float VOLATILITY_PERCENTAGE = 0;
     public static ArrayList<String> Storage = new ArrayList<String>();
     
-    public static void Calculate(int time, float percentage, float deposit, Scanner myScanner, String period){
-            float afterIntrest = deposit;
+    public static void Calculate(Scanner myScanner, Investment investment){
+            float afterIntrest = investment.getDeposit();
             float temp = afterIntrest;
             float increment;
 
-            String method = DataCollect.CheckMode();
-
-            switch (method) {
-                case "Linear":
-                    increment = (percentage/100);
-                    for (int i = 0; i < time; i++) {
-                        afterIntrest += temp * increment;
-                    }
-                    break;
-                case "Volatility":
-                    increment = CalculateVolatilityAverage(percentage, time, period);
-                    for (int i = 0; i < time; i++) {
-                        afterIntrest += temp * increment;
-                    }
-                    percentage = (increment*100);
-                    //System.out.println("Calculated percent: " + percentage); //for bug checking
-                    break;
+            if(investment.getVolatility()) {
+                increment = CalculateVolatilityAverage(investment);
+                for (int i = 0; i < investment.getTime(); i++) {
+                    afterIntrest += temp * increment;
+                }
+                investment.setPercentage((increment*100));
+                //System.out.println("Calculated percent: " + PERCENTAGE); //for bug checking
             }
-          
+            else{
+                increment = (investment.getPercentage()/100);
+                for (int i = 0; i < investment.getTime(); i++) {
+                    afterIntrest += temp * increment;
+                }
+            }
+       
             OtherFunctions.print(4);
 
-            System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", time, period, percentage, deposit, afterIntrest);
-            float earnings = afterIntrest - deposit;
+            System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", investment.getTime(), investment.getPeriod(), investment.getPercentage(), investment.getDeposit(), afterIntrest);
+            float earnings = afterIntrest - investment.getDeposit();
             System.out.printf("Your earnings are: %.2f euros. \n", earnings);
 
-            if (Test.testCase==false) {
-                StoreData(time, period, percentage, deposit, afterIntrest, earnings);
+             if (!Test.test.getTestCase()) {
+                StoreData(afterIntrest, earnings, investment);
             }
 
-            Files.SaveFile(myScanner, time, percentage, deposit, afterIntrest, earnings, period);   
-
+            Files.SaveFile(myScanner, afterIntrest, earnings, investment);  
+ 
         }
 
-    private static float CalculateVolatilityAverage(float percentage, int time, String period){   
+    private static float CalculateVolatilityAverage(Investment investment){   
             
         float increment;
         float newPercentage = 0f;
         float average = 0f;
         float volatility;
 
-        if (period.equals("month")){
-            volatility = VOLATILITY_PERCENTAGE/12f;
+        if (investment.getDuration().equals("month")){
+            volatility = investment.getType()/12f;
         }
         else{
-            volatility = VOLATILITY_PERCENTAGE;
+            volatility = investment.getType();
         }
         
-        float[] increments = new float[time];
-        float percent = (percentage/100f);
+        float[] increments = new float[investment.getTime()];
+        float percent = (investment.getPercentage()/100f);
         float volatility_min = percent - volatility;
         float volatility_max = percent + volatility;
 
-        for (int j = 0; j < time; j++) {
+        for (int j = 0; j < investment.getTime(); j++) {
             increment = (float)(Math.random() * (volatility_max - volatility_min)) + volatility_min;
             increments[j] = increment;
         }
@@ -80,13 +75,13 @@ class Calculations {
     
         }
 
-        private static void StoreData(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
+        private static void StoreData(float afterIntrest, float earnings, Investment investment){
             DecimalFormat df = new DecimalFormat("0.00");
-            String toStore = "Time: " + time + " " + period;
-            toStore += "\nPercentage: " + df.format(percentage);
-            toStore += "\nDeposit: " + df.format(deposit);
+            String toStore = "Time: " + investment.getTime() + " " + investment.getPeriod();
+            toStore += "\nPercentage: " + df.format(investment.getPercentage());
+            toStore += "\nDeposit: " + df.format(investment.getDeposit());
             toStore += "\nAfter intrest: " + df.format(afterIntrest);
             toStore += "\nEarnings: " + df.format(earnings);
             Storage.add(toStore);
-        }
+        } 
 }

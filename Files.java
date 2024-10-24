@@ -12,14 +12,13 @@ class Files{
     private static LocalDateTime currentDate = LocalDateTime.now();
 
 
-    public static void SaveFile(Scanner myScanner, int time, float percentage, float deposit, float afterIntrest, float earnings, String period){
+    public static void SaveFile(Scanner myScanner, float afterIntrest, float earnings, Investment investment){
         int userInput;
         System.out.println("\nDo you wish to save this data?\n1.Yes\n2.No");
 
         do {
 
-
-            if(Test.testCase==true){
+            if(Test.test.getTestCase()){
                 userInput = 1;
                 break;
             }
@@ -40,12 +39,12 @@ class Files{
             return;
         }
 
-        String dataToSave = toSave(time, period, percentage, deposit, afterIntrest, earnings);
+        String dataToSave = toSave(investment, afterIntrest, earnings);
 
         while (true) {
             String name;
             
-            if(Test.testCase==true){
+            if(Test.test.getTestCase()){
                 name = "Testcase";
             }
             else{
@@ -140,23 +139,22 @@ class Files{
         }
     }
 
-    private static String toSave(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
+    private static String toSave(Investment investment, float afterIntrest, float earnings){
         DecimalFormat df = new DecimalFormat("0.00");
         String dataToSave = "Current date: " + currentDate;
-        dataToSave += CalcAndType(); 
-        dataToSave += "\n\nInvesting time: " + time + " " + period;
-        dataToSave += "\nPercentage:  "+ df.format(percentage) + "%";
-        dataToSave += "\nInitial deposit:  " + df.format(deposit) + " euros";
+        dataToSave += CalcAndType(investment.getType(), investment.getVolatility()); 
+        dataToSave += "\n\nInvesting time: " + investment.getTime() + " " + investment.getPeriod();
+        dataToSave += "\nPercentage:  "+ df.format(investment.getPercentage()) + "%";
+        dataToSave += "\nInitial deposit:  " + df.format(investment.getDeposit()) + " euros";
         dataToSave += "\nAfter intrest: "  + df.format(afterIntrest) + " euros";
         dataToSave += "\nEarnings: " + df.format(earnings) + " euros";
         return dataToSave;
     }
 
-    private static String CalcAndType(){
+    private static String CalcAndType(float type, boolean mode){
         String dataToSave = "";
-        float type = Calculations.VOLATILITY_PERCENTAGE;
 
-        if (DataCollect.VolatilityCalc == true) {
+        if (mode) {
             dataToSave += " (METHOD: VOLATILITY)";
         }
         else{
