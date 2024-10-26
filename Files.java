@@ -2,7 +2,6 @@ import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.io.File;
 import java.awt.Desktop;
 

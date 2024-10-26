@@ -5,6 +5,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URI;
 import java.util.List;
 import java.util.Scanner;
 import com.google.gson.Gson;
@@ -60,8 +61,8 @@ public class Cache {
 private static void SendToServer(String StringJSON){
 
         try {
-
-            URL server_url = new URL("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
+            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
+            URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
@@ -90,7 +91,9 @@ private static void SendToServer(String StringJSON){
         Gson gson = new Gson();
         
         try {
-            URL server_url = new URL("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
+           
+            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
+            URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("GET");
 
