@@ -7,9 +7,10 @@ public class Investment {
     private float type;
     private String period;
     private String duration;
+    private float afterIntrest;
+    private float earnings;
     
-    
-    public Investment(boolean volatility, int time, float percentage, float deposit, float type, String period, String duration) {
+    public Investment(boolean volatility, int time, float percentage, float deposit, float type, String period, String duration, float afterIntrest, float earnings) {
         this.volatility = volatility;
         this.time = time;
         this.percentage = percentage;
@@ -17,6 +18,8 @@ public class Investment {
         this.type = type;
         this.period = period;
         this.duration = duration;
+        this.afterIntrest = afterIntrest;
+        this.earnings = earnings;
 
     }
 
@@ -88,6 +91,26 @@ public class Investment {
     public void setType(float type) {
         this.type = type;
     }
+
+    public float getAfterIntrest() {
+        return afterIntrest;
+    }
+
+
+    public void setAfterIntrest(float afterIntrest) {
+        this.afterIntrest = afterIntrest;
+    }
+
+
+    public float getEarnings() {
+        return earnings;
+    }
+
+
+    public void setEarnings(float earnings) {
+        this.earnings = earnings;
+    }
+
 
 
 

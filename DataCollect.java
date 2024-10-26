@@ -13,7 +13,7 @@ class DataCollect{
         new Integer[]{0, 1, 2, 3}
     ));
 
-    private static Investment investment = new Investment(false, 0, 0, 0, 0, null, null);
+    private static Investment investment = new Investment(false, 0, 0, 0, 0, null, null, 0, 0);
 
 
     private static void Mode(Scanner myScanner){

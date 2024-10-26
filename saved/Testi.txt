@@ -1,0 +1,7 @@
+Current date: 2024-10-26T16:31:27.446815800 (METHOD: VOLATILITY) (TYPE: Stocks, Cryptocurrencies, Commodities)
+
+Investing time: 5 years
+Percentage:  21,62%
+Initial deposit:  50000,00 euros
+After intrest: 104039,06 euros
+Earnings: 54039,06 euros

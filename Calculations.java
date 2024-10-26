@@ -18,7 +18,7 @@ class Calculations {
                     afterIntrest += temp * increment;
                 }
                 investment.setPercentage((increment*100));
-                //System.out.println("Calculated percent: " + PERCENTAGE); //for bug checking
+                //System.out.println("Calculated percent: " + investment.getPercentage()); //for bug checking
             }
             else{
                 increment = (investment.getPercentage()/100);
@@ -26,18 +26,19 @@ class Calculations {
                     afterIntrest += temp * increment;
                 }
             }
+            investment.setAfterIntrest(afterIntrest);
        
             OtherFunctions.print(4);
 
-            System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", investment.getTime(), investment.getPeriod(), investment.getPercentage(), investment.getDeposit(), afterIntrest);
-            float earnings = afterIntrest - investment.getDeposit();
-            System.out.printf("Your earnings are: %.2f euros. \n", earnings);
+            System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", investment.getTime(), investment.getPeriod(), investment.getPercentage(), investment.getDeposit(), investment.getAfterIntrest());
+            investment.setEarnings(investment.getAfterIntrest()-investment.getDeposit());
+            System.out.printf("Your earnings are: %.2f euros. \n", investment.getEarnings());
 
              if (!Test.test.getTestCase()) {
-                StoreData(afterIntrest, earnings, investment);
+                StoreData(investment);
             }
 
-            Files.SaveFile(myScanner, afterIntrest, earnings, investment);  
+            Files.SaveFile(myScanner, investment);  
  
         }
 
@@ -70,18 +71,18 @@ class Calculations {
         }
 
         newPercentage = (average/increments.length);
-        //System.out.println("Volatility percentage " + (newPercentage)); //for bug checking
+        //System.out.println("Volatility percentage " + newPercentage); //for bug checking
         return newPercentage;
     
         }
 
-        private static void StoreData(float afterIntrest, float earnings, Investment investment){
+        private static void StoreData(Investment investment){
             DecimalFormat df = new DecimalFormat("0.00");
             String toStore = "Time: " + investment.getTime() + " " + investment.getPeriod();
             toStore += "\nPercentage: " + df.format(investment.getPercentage());
             toStore += "\nDeposit: " + df.format(investment.getDeposit());
-            toStore += "\nAfter intrest: " + df.format(afterIntrest);
-            toStore += "\nEarnings: " + df.format(earnings);
+            toStore += "\nAfter intrest: " + df.format(investment.getAfterIntrest());
+            toStore += "\nEarnings: " + df.format(investment.getEarnings());
             Storage.add(toStore);
         } 
 }

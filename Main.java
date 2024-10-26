@@ -127,10 +127,10 @@ class OtherFunctions{
     }
 
      public static void ShowCache(){
-        int round = 1;
+        int entry = 1;
         for (String data : Calculations.Storage) {
-                System.out.println("\nRound: " + round + "\n" + data);
-                round++;
+                System.out.println("\nEntry: " + entry + "\n" + data);
+                entry++;
         }
     } 
 }

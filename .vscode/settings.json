@@ -8,6 +8,7 @@
         "f:\\Java-programs\\javafx-sdk-23\\lib\\javafx.media.jar",
         "f:\\Java-programs\\javafx-sdk-23\\lib\\javafx.swing.jar",
         "f:\\Java-programs\\javafx-sdk-23\\lib\\javafx.web.jar",
-        "f:\\Java-programs\\javafx-sdk-23\\lib\\javafx-swt.jar"
+        "f:\\Java-programs\\javafx-sdk-23\\lib\\javafx-swt.jar",
+        "f:\\Java-programs\\gson\\gson-2.11.0.jar"
     ]
 }

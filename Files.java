@@ -12,7 +12,7 @@ class Files{
     private static LocalDateTime currentDate = LocalDateTime.now();
 
 
-    public static void SaveFile(Scanner myScanner, float afterIntrest, float earnings, Investment investment){
+    public static void SaveFile(Scanner myScanner, Investment investment){
         int userInput;
         System.out.println("\nDo you wish to save this data?\n1.Yes\n2.No");
 
@@ -39,7 +39,7 @@ class Files{
             return;
         }
 
-        String dataToSave = toSave(investment, afterIntrest, earnings);
+        String dataToSave = toSave(investment);
 
         while (true) {
             String name;
@@ -139,15 +139,15 @@ class Files{
         }
     }
 
-    private static String toSave(Investment investment, float afterIntrest, float earnings){
+    private static String toSave(Investment investment){
         DecimalFormat df = new DecimalFormat("0.00");
         String dataToSave = "Current date: " + currentDate;
         dataToSave += CalcAndType(investment.getType(), investment.getVolatility()); 
         dataToSave += "\n\nInvesting time: " + investment.getTime() + " " + investment.getPeriod();
         dataToSave += "\nPercentage:  "+ df.format(investment.getPercentage()) + "%";
         dataToSave += "\nInitial deposit:  " + df.format(investment.getDeposit()) + " euros";
-        dataToSave += "\nAfter intrest: "  + df.format(afterIntrest) + " euros";
-        dataToSave += "\nEarnings: " + df.format(earnings) + " euros";
+        dataToSave += "\nAfter intrest: "  + df.format(investment.getAfterIntrest()) + " euros";
+        dataToSave += "\nEarnings: " + df.format(investment.getEarnings()) + " euros";
         return dataToSave;
     }
 
