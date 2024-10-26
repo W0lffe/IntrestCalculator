@@ -2,7 +2,6 @@ import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.text.DecimalFormat;
 import java.io.File;
 import java.awt.Desktop;
 
@@ -12,14 +11,13 @@ class Files{
     private static LocalDateTime currentDate = LocalDateTime.now();
 
 
-    public static void SaveFile(Scanner myScanner, int time, float percentage, float deposit, float afterIntrest, float earnings, String period){
+    public static void SaveFile(Scanner myScanner, Investment investment){
         int userInput;
         System.out.println("\nDo you wish to save this data?\n1.Yes\n2.No");
 
         do {
 
-
-            if(Test.testCase==true){
+            if(Test.test.getTestCase()){
                 userInput = 1;
                 break;
             }
@@ -40,12 +38,12 @@ class Files{
             return;
         }
 
-        String dataToSave = toSave(time, period, percentage, deposit, afterIntrest, earnings);
+        String dataToSave = toSave(investment);
 
         while (true) {
             String name;
             
-            if(Test.testCase==true){
+            if(Test.test.getTestCase()){
                 name = "Testcase";
             }
             else{
@@ -140,23 +138,17 @@ class Files{
         }
     }
 
-    private static String toSave(int time, String period, float percentage, float deposit, float afterIntrest, float earnings){
-        DecimalFormat df = new DecimalFormat("0.00");
+    private static String toSave(Investment investment){
         String dataToSave = "Current date: " + currentDate;
-        dataToSave += CalcAndType(); 
-        dataToSave += "\n\nInvesting time: " + time + " " + period;
-        dataToSave += "\nPercentage:  "+ df.format(percentage) + "%";
-        dataToSave += "\nInitial deposit:  " + df.format(deposit) + " euros";
-        dataToSave += "\nAfter intrest: "  + df.format(afterIntrest) + " euros";
-        dataToSave += "\nEarnings: " + df.format(earnings) + " euros";
+        dataToSave += CalcAndType(investment.getType(), investment.getVolatility()); 
+        dataToSave += "\n" + investment.toString();
         return dataToSave;
     }
 
-    private static String CalcAndType(){
+    private static String CalcAndType(float type, boolean mode){
         String dataToSave = "";
-        float type = Calculations.VOLATILITY_PERCENTAGE;
 
-        if (DataCollect.VolatilityCalc == true) {
+        if (mode) {
             dataToSave += " (METHOD: VOLATILITY)";
         }
         else{

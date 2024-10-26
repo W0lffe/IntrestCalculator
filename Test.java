@@ -1,9 +1,24 @@
 import java.util.Scanner;
 
-class Test{
+public class Test{
 
-    public static boolean testCase = false;
+    private boolean testCase;
+    
+    private Test(boolean testCase) {
+        this.testCase = testCase;
+    }
 
+    public boolean getTestCase() {
+        return testCase;
+    }
+
+    private void setTestCase(boolean testCase) {
+        this.testCase = testCase;
+    }
+
+    public static Test test = new Test(false);
+
+    
     public static void TestMain(Scanner myScanner){
         
         System.out.println("TEST CASE");
@@ -25,22 +40,18 @@ class Test{
     }
 
     private static void TestCase(Scanner myScanner){
-        testCase = true;
+        test.setTestCase(true);
         
-        DataCollect.LinearCalc = true;
-        Calculations.Calculate(12, 1.5f, 10000, myScanner, DataCollect.MONTH[0]);
-        Calculations.Calculate(1, 18.0f, 10000, myScanner, DataCollect.YEAR[0]);
-        DataCollect.LinearCalc = false;
+        Investment investment1 = new Investment(false, 12, 1.5f, 10000, 0, "months", "month", 0f, 0f);
+        Investment investment2 = new Investment(false, 1, 18f, 10000, 0, "years", "year", 0f, 0f);
+        Investment investment3 = new Investment(true, 12, 1.5f, 10000, 0.15f, "months", "month", 0f, 0f);
+        Investment investment4 = new Investment(true, 1, 18f, 10000, 0.15f, "years", "year", 0f, 0f);
+        Calculations.Calculate(myScanner, investment1);
+        Calculations.Calculate(myScanner, investment2);
+        Calculations.Calculate(myScanner, investment3);
+        Calculations.Calculate(myScanner, investment4);
 
-
-        DataCollect.VolatilityCalc = true;
-        Calculations.VOLATILITY_PERCENTAGE=0.15f;
-        Calculations.Calculate(12, 1.5f, 10000, myScanner, DataCollect.MONTH[0]);
-        Calculations.Calculate(1, 18.0f, 10000, myScanner, DataCollect.YEAR[0]);
-        Calculations.VOLATILITY_PERCENTAGE=0f;
-        DataCollect.VolatilityCalc = false;
-
-        testCase = false;
+        test.setTestCase(false);
     }
 
 

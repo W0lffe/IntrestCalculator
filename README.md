@@ -2,11 +2,8 @@ Roadmap:
 
 1. Linear calculations -- DONE
 2. Advanced calculations -- DONE
-4. Saving to textfile -- DONE
-5. Reading textfiles with the software -- DONE
-6. Testcases for debugging -- DONE
+3. Saving to textfile -- DONE
+4. Reading textfiles with the software -- DONE
+5. Testcases for debugging -- DONE
+6. Backend - Very basic POST and GET works
 7. Exploring to GUI options
-8. Backend??
-
-
-!!!USE OOP VERSION!!!
