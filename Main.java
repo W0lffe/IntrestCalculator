@@ -3,6 +3,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
+//java -cp "F:\Java-programs\gson\gson-2.11.0.jar;." Main  RUN
+//javac -cp "F:\Java-programs\gson\gson-2.11.0.jar;." Main.java Calculations.java Test.java Files.java Cache.java Investment.java DataCollect.java Validation.java 
 
 public class Main{
 
@@ -33,7 +35,7 @@ public class Main{
                     break;
                 case 3:
                      if (!Calculations.Storage.isEmpty()) {
-                        OtherFunctions.ShowCache();
+                        Cache.ShowCache(myScanner);
                         break;
                     }
                     else{
@@ -126,11 +128,4 @@ class OtherFunctions{
         } 
     }
 
-     public static void ShowCache(){
-        int entry = 1;
-        for (String data : Calculations.Storage) {
-                System.out.println("\nEntry: " + entry + "\n" + data);
-                entry++;
-        }
     } 
-}

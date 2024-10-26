@@ -1,11 +1,10 @@
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 class Calculations {
     
     /*DEFINES VARIABLES*/
-    public static ArrayList<String> Storage = new ArrayList<String>();
+    public static ArrayList<Investment> Storage = new ArrayList<>();
     
     public static void Calculate(Scanner myScanner, Investment investment){
             float afterIntrest = investment.getDeposit();
@@ -35,7 +34,8 @@ class Calculations {
             System.out.printf("Your earnings are: %.2f euros. \n", investment.getEarnings());
 
              if (!Test.test.getTestCase()) {
-                StoreData(investment);
+                Investment copiedInvestment = investment.clone();
+                Storage.add(copiedInvestment);
             }
 
             Files.SaveFile(myScanner, investment);  
@@ -76,13 +76,4 @@ class Calculations {
     
         }
 
-        private static void StoreData(Investment investment){
-            DecimalFormat df = new DecimalFormat("0.00");
-            String toStore = "Time: " + investment.getTime() + " " + investment.getPeriod();
-            toStore += "\nPercentage: " + df.format(investment.getPercentage());
-            toStore += "\nDeposit: " + df.format(investment.getDeposit());
-            toStore += "\nAfter intrest: " + df.format(investment.getAfterIntrest());
-            toStore += "\nEarnings: " + df.format(investment.getEarnings());
-            Storage.add(toStore);
-        } 
 }

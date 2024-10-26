@@ -1,3 +1,5 @@
+import java.text.DecimalFormat;
+
 public class Investment {
 
     private boolean volatility;
@@ -22,7 +24,21 @@ public class Investment {
         this.earnings = earnings;
 
     }
+    
+    public Investment clone(){
+        Investment copy = new Investment(volatility, time, percentage, deposit, type, period, duration, afterIntrest, earnings);
+        copy.deposit = this.deposit;
+        copy.time = this.time;
+        copy.percentage = this.percentage;
+        copy.volatility = this.volatility;
+        copy.type = this.type;
+        copy.period = this.period;
+        copy.duration = this.duration;
+        copy.afterIntrest = this.afterIntrest;
+        copy.earnings = this.earnings;
 
+        return copy;
+    }
 
     public String getPeriod() {
         return period;
@@ -87,7 +103,6 @@ public class Investment {
         return type;
     }
 
-
     public void setType(float type) {
         this.type = type;
     }
@@ -112,6 +127,24 @@ public class Investment {
     }
 
 
+    @Override
+    public String toString() {
+        DecimalFormat df = new DecimalFormat("0.00");
+        String enabled;
+        if (getVolatility()) {
+            enabled = "Yes";
+        }
+        else{
+            enabled = "No";
+        }
+        return "Volatility: " + enabled + 
+                "\nTime: " + getTime() + " " + getPeriod() + 
+                "\nPercentage: " + df.format(getPercentage()) + 
+                "\nDeposit: " + df.format(getDeposit()) + 
+                "\nAfter intrest: " + df.format(getAfterIntrest()) + 
+                "\nEarnings: " + df.format(getEarnings()) +
+                "\n";
+    }
 
 
 }

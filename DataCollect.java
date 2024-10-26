@@ -12,7 +12,6 @@ class DataCollect{
         new Integer[]{0, 1, 2, 3, 4, 5, 9},
         new Integer[]{0, 1, 2, 3}
     ));
-
     private static Investment investment = new Investment(false, 0, 0, 0, 0, null, null, 0, 0);
 
 
@@ -46,7 +45,7 @@ class DataCollect{
 
     /*Function collects all information needed for calculating intrest */
     public static void CollectData(Scanner myScanner){
-    
+        
         int userInput;  
         do {
             OtherFunctions.print(3);
@@ -100,7 +99,7 @@ class DataCollect{
                         System.out.println("Insufficient Setup!\n");
                     }
                 case 0:
-                    ResetValues();
+                    /* ResetValues(); */
                     return;
     
             }
@@ -204,7 +203,7 @@ class DataCollect{
 
         }
 
-        private static void ResetValues(){
+    /*     private static void ResetValues(){
             investment.setDeposit(0);
             investment.setDuration("");
             investment.setPercentage(0);
@@ -212,6 +211,6 @@ class DataCollect{
             investment.setTime(0);
             investment.setType(0);
             investment.setVolatility(false);
-        }
+        } */
 
 }
