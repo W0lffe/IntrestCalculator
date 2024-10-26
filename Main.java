@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-//java -cp "F:\Java-programs\gson\gson-2.11.0.jar;." Main  RUN
+//java -cp "F:\Java-programs\gson\gson-2.11.0.jar;." Main  
 //javac -cp "F:\Java-programs\gson\gson-2.11.0.jar;." Main.java Calculations.java Test.java Files.java Cache.java Investment.java DataCollect.java Validation.java 
 
 public class Main{
@@ -12,7 +12,7 @@ public class Main{
         
         Scanner myScanner = new Scanner(System.in);      
         int userInput;
-        ArrayList<Integer> validInputs = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4));
+        ArrayList<Integer> validInputs = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5));
         System.out.println("KORKOLASKURI\n");
         System.out.println("!!Please follow the instructions carefully!!");
 
@@ -43,6 +43,9 @@ public class Main{
                         break;
                     } 
                 case 4:
+                    Cache.ShowServerCache();
+                    break;
+                case 5:
                     Test.TestMain(myScanner);
                     break;
                 case 0:
@@ -75,8 +78,9 @@ class OtherFunctions{
                 System.out.println("\nSelect one: ");
                 System.out.println("1. CALCULATE INTREST");
                 System.out.println("2. READ PREVIOUSLY SAVED FILES");
-                System.out.println("3. SHOW CACHE");
-                System.out.println("4. TEST CASE");
+                System.out.println("3. SHOW CACHE(LOCAL)");
+                System.out.println("4. SHOW CACHE(SERVER)");
+                System.out.println("5. TEST CASE");
                 System.out.println("0. CLOSE PROGRAM");
                 break;
             

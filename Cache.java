@@ -1,5 +1,14 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.lang.reflect.Type;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Cache {
 
@@ -34,7 +43,7 @@ public class Cache {
                     System.out.println("\n" + Calculations.Storage.get(choice-1));
                     String selectedEntry = gson.toJson(Calculations.Storage.get(choice-1));
                     //System.out.println(selectedEntry);
-                    
+                    SendToServer(selectedEntry);
                     break;
                 }
                 else{
@@ -46,5 +55,78 @@ public class Cache {
             return;
         }
 }
+
+
+private static void SendToServer(String StringJSON){
+
+        try {
+
+            URL server_url = new URL("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
+            HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoOutput(true);
+
+            try(OutputStream os = connection.getOutputStream()){
+                byte[] input = StringJSON.getBytes("utf-8");
+                os.write(input);
+            }
+
+            int Response = connection.getResponseCode();
+
+            if(Response == HttpURLConnection.HTTP_OK){
+                System.out.println("Data successfully sent!");
+            }
+            else{
+                System.out.println("Error! " + Response);
+            }
+            connection.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+ public static void ShowServerCache(){
+        Gson gson = new Gson();
+        
+        try {
+            URL server_url = new URL("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
+            HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
+            connection.setRequestMethod("GET");
+
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
+                
+                BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                StringBuilder response = new StringBuilder();
+                String line;
+
+                while((line = br.readLine()) != null){
+                    response.append(line);
+                }
+
+                Type listType = new TypeToken<List<Investment>>() {}.getType();
+                List<Investment> Entries = gson.fromJson(response.toString(), listType);
+
+                if (Entries != null) {
+                    for (Investment entry : Entries) {
+                        System.out.println(entry);
+                    }
+                }
+                else{
+                    System.out.println("No data found.");
+                }
+            }
+            else{
+                System.out.println("Error: " + connection.getResponseCode());
+            }
+            connection.disconnect();
+      
+        } catch (IOException e) {
+           System.out.println("Error fetching data: " + e.getMessage());
+           e.printStackTrace();
+        }
+    
+}
+
 
 }

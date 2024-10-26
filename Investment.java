@@ -139,10 +139,10 @@ public class Investment {
         }
         return "Volatility: " + enabled + 
                 "\nTime: " + getTime() + " " + getPeriod() + 
-                "\nPercentage: " + df.format(getPercentage()) + 
-                "\nDeposit: " + df.format(getDeposit()) + 
-                "\nAfter intrest: " + df.format(getAfterIntrest()) + 
-                "\nEarnings: " + df.format(getEarnings()) +
+                "\nPercentage: " + df.format(getPercentage()) + "%" +
+                "\nDeposit: " + df.format(getDeposit()) + "€" +
+                "\nAfter intrest: " + df.format(getAfterIntrest()) + "€" +
+                "\nEarnings: " + df.format(getEarnings()) + "€" +
                 "\n";
     }
 

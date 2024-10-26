@@ -140,14 +140,9 @@ class Files{
     }
 
     private static String toSave(Investment investment){
-        DecimalFormat df = new DecimalFormat("0.00");
         String dataToSave = "Current date: " + currentDate;
         dataToSave += CalcAndType(investment.getType(), investment.getVolatility()); 
-        dataToSave += "\n\nInvesting time: " + investment.getTime() + " " + investment.getPeriod();
-        dataToSave += "\nPercentage:  "+ df.format(investment.getPercentage()) + "%";
-        dataToSave += "\nInitial deposit:  " + df.format(investment.getDeposit()) + " euros";
-        dataToSave += "\nAfter intrest: "  + df.format(investment.getAfterIntrest()) + " euros";
-        dataToSave += "\nEarnings: " + df.format(investment.getEarnings()) + " euros";
+        dataToSave += "\n" + investment.toString();
         return dataToSave;
     }
 
