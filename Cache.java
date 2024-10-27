@@ -49,6 +49,7 @@ public class Cache {
                 }
                 else{
                     System.out.println("Entry doesnt exist.");
+                    return;
                 }
             }
         }
@@ -87,7 +88,7 @@ private static void SendToServer(String StringJSON){
         }
     }
 
- public static void ShowServerCache(){
+ public static void ShowServerCache(Scanner myScanner){
         Gson gson = new Gson();
         
         try {
@@ -112,12 +113,15 @@ private static void SendToServer(String StringJSON){
 
                 if (Entries != null) {
                     for (Investment entry : Entries) {
+                        System.out.println("Entry: " + entry.getId());
                         System.out.println(entry);
                     }
                 }
                 else{
                     System.out.println("No data found.");
                 }
+
+                SelectDataToDelete(Entries, myScanner);
             }
             else{
                 System.out.println("Error: " + connection.getResponseCode());
@@ -128,8 +132,71 @@ private static void SendToServer(String StringJSON){
            System.out.println("Error fetching data: " + e.getMessage());
            e.printStackTrace();
         }
-    
-}
 
+}
+        private static void SelectDataToDelete(List<Investment> Entries, Scanner myScanner){
+            int userInput;
+
+            System.out.println("Do you wish to delete entry?\n1.Yes\n2.No");
+            
+            while (true) {
+                userInput = Validation.UserInput(myScanner);
+                if(userInput == 1 || userInput ==2){
+                    break;
+                }
+                else{
+                    System.out.println("Invalid choice!");
+                }
+            }
+
+            if(userInput == 1){
+                int choice;
+                System.out.println("Wich entry would you like to be deleted?");
+                while (true) {
+                    choice = Validation.UserInput(myScanner);
+                    if(choice > 0 && choice <= Entries.size()){
+    
+                        System.out.println("\n" + Entries.get(choice-1));
+                        int selectedID = Entries.get(choice-1).getId();
+                        //System.out.println(Entries.indexOf(Entries.get(choice-1)));
+                        //System.out.println(selectedID);
+                        
+                        DeleteData(selectedID);
+                        break;
+                    }
+                    else{
+                        System.out.println("Entry doesnt exist.");
+                        return;
+                    }
+                }
+            }
+            else{
+                return;
+            }
+        }
+
+        private static void DeleteData(int id){
+
+            try {
+
+                URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php?id=" + id);
+                URL server_url = serverURI.toURL();
+                HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
+                connection.setRequestMethod("DELETE");
+
+                int Response = connection.getResponseCode();
+
+                if(Response == HttpURLConnection.HTTP_OK){
+                    System.out.println("Data successfully deleted!");
+                }
+                else{
+                    System.out.println("Error! " + Response);
+                }
+                connection.disconnect();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
 
 }

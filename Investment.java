@@ -11,6 +11,7 @@ public class Investment {
     private String duration;
     private float afterIntrest;
     private float earnings;
+    private int id;
     
     public Investment(boolean volatility, int time, float percentage, float deposit, float type, String period, String duration, float afterIntrest, float earnings) {
         this.volatility = volatility;
@@ -38,6 +39,10 @@ public class Investment {
         copy.earnings = this.earnings;
 
         return copy;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getPeriod() {

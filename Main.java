@@ -43,7 +43,7 @@ public class Main{
                         break;
                     } 
                 case 4:
-                    Cache.ShowServerCache();
+                    Cache.ShowServerCache(myScanner);
                     break;
                 case 5:
                     Test.TestMain(myScanner);

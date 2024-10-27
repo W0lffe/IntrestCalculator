@@ -14,3 +14,12 @@ Percentage: 2,90%
 Deposit: 5000,00€
 After intrest: 6740,00€
 Earnings: 1740,00€
+
+
+Current date: 2024-10-26T22:03:10.643791900 (METHOD: VOLATILITY) (TYPE: Stocks, Cryptocurrencies, Commodities)
+Volatility: Yes
+Time: 5 years
+Percentage: 15,62%
+Deposit: 10000,00€
+After intrest: 17810,09€
+Earnings: 7810,09€
