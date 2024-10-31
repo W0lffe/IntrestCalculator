@@ -13,6 +13,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class Cache {
 
+    private static int method = 1;
     public static void ShowCache(Scanner myScanner){
         Gson gson = new Gson();
 
@@ -93,7 +94,7 @@ private static void SendToServer(String StringJSON){
         
         try {
            
-            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
+            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php?method=" + method);
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("GET");

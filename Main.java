@@ -3,9 +3,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-//java -cp "F:\Java-programs\gson\gson-2.11.0.jar;." Main  
-//javac -cp "F:\Java-programs\gson\gson-2.11.0.jar;." Main.java Calculations.java Test.java Files.java Cache.java Investment.java DataCollect.java Validation.java 
-
 public class Main{
 
     public static void main(String[] args) {
