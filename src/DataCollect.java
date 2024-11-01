@@ -90,7 +90,7 @@ class DataCollect{
 
                     }
                     else{
-                        System.out.println("You have chosen volatility calculation!");
+                        System.out.println("You have chosen linear calculation!");
                         break;
                     }
                 case 9:
@@ -167,6 +167,9 @@ class DataCollect{
                     userInput = Float.parseFloat(myScanner.nextLine());
                     if (userInput > 0) {
                         break;
+                    }
+                    else{
+                        System.out.println("Invalid amount!");
                     }
                 } catch (Exception e) {
                     System.out.println("\nUnknown input format! \nEnter again!");

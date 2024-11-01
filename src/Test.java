@@ -31,8 +31,11 @@ public class Test{
                 userInput = Validation.UserInput(myScanner);
                 if(userInput == 1){
                     TestCase(myScanner);   
+                    break;
                 }
-                break;
+                else if(userInput == 0){
+                    return;
+                }
             } catch (Exception e) {
                 System.out.println("Error occured!");
             }

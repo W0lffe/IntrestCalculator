@@ -87,7 +87,7 @@ class Files{
         if(folder.exists() && folder.isDirectory()){
             File[] folderFiles = folder.listFiles(file -> file.isFile() && file.canRead() && file.canWrite());
 
-            System.out.println("\nFolder has files: ");
+            System.out.println("\nDirectory has files: \n0.Go back");
            
             for (File file : folderFiles) {
                 if (file.canRead() && file.canWrite()) {
@@ -104,6 +104,9 @@ class Files{
                     command = Integer.parseInt(myScanner.nextLine());
                     if (command > 0 && command < a) {
                         break;
+                    }
+                    else if(command == 0){
+                        return;
                     }
                     else{
                         System.out.println("File not found! Try again");

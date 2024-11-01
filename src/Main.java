@@ -48,6 +48,8 @@ public class Main{
                 case 0:
                     System.out.println("Exiting program...");
                     break;
+                default:
+                    System.out.println("Invalid choice!");
             }
         } while (userInput != 0);
         myScanner.close();
