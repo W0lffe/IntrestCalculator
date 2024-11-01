@@ -52,3 +52,12 @@ Percentage: 2,70%
 Deposit: 15000,00€
 After intrest: 24720,00€
 Earnings: 9720,00€
+
+
+Current date: 2024-11-01T21:08:15.977000200 (METHOD: LINEAR)
+Volatility: No
+Time: 5 years
+Percentage: 17,00%
+Deposit: 10000,00€
+After intrest: 18500,00€
+Earnings: 8500,00€
