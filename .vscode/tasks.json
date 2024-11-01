@@ -2,31 +2,34 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compile JavaFX Application",
+            "label": "Compile",
             "type": "shell",
             "command": "javac",
-            "args": [
-                "--module-path",
-                "F:/Java-Programs/javafx-sdk-23/lib",
-                "--add-modules",
-                "javafx.controls",
-                "Main.java"
+            "args": [ "-cp", "lib/gson/gson-2.11.0.jar",
+            "src\\*.java",
+            "-d", "out"
             ]
         },
         {
-            "type": "java (buildArtifact)",
-            "mainClass": "MainKorkolaskuri",
-            "targetPath": "${workspaceFolder}/${workspaceFolderBasename}.jar",
-            "elements": [
-                "${compileOutput}",
-                "${dependencies}"
-            ],
-            "problemMatcher": [],
-            "label": "java (buildArtifact): IntrestCalculator",
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
+            "label": "Run",
+            "type": "shell",
+            "command": "java",
+            "args": [ "-cp", "lib\\gson\\gson-2.11.0.jar\\",
+            "-cp", "out\\",
+            "Main"]
+        },
+        {
+            "label": "Build JAR",
+            "type": "shell",
+            "command": "jar",
+            "args": [ "cfm", "InvestmentTool.jar", "Manifest.txt",
+            "-C", "out", "."]
+        },
+        {
+            "label": "Run JAR",
+            "type": "shell",
+            "command": "java",
+            "args": [ "-jar", "InvestmentTool.jar"]
+        },
     ]
 }
