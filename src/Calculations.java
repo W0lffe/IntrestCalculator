@@ -3,7 +3,6 @@ import java.util.Scanner;
 
 class Calculations {
     
-    /*DEFINES VARIABLES*/
     public static ArrayList<Investment> Storage = new ArrayList<>();
     
     public static void Calculate(Scanner myScanner, Investment investment){
