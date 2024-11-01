@@ -17,7 +17,8 @@ This program is intended for personal use and experimentation with different pro
 * [x] Reading textfiles with the software
 
 ### Backend 
-* [x] Very basic POST, GET, DELETE Add user authenticating
+* [x] Very basic POST, GET, DELETE
+* [ ] Add user authenticating
 
 ### Debug 
 * [x] Testcases for debugging
