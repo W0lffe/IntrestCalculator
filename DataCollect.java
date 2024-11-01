@@ -7,7 +7,7 @@ class DataCollect{
     private static final String[] YEAR = {"years", "year"};
     private static final String[] MONTH = {"months", "month"};
    
-    private static ArrayList<Integer[]> validInputs = new ArrayList<>(Arrays.asList(
+    private static final ArrayList<Integer[]> validInputs = new ArrayList<>(Arrays.asList(
         new Integer[]{0, 1, 2},
         new Integer[]{0, 1, 2, 3, 4, 5, 9},
         new Integer[]{0, 1, 2, 3}
@@ -32,6 +32,9 @@ class DataCollect{
                 case 1:
                     investment.setVolatility(false);
                     System.out.println("\nYou chose: Linear calculation!\n");
+                    if (investment.getType() > 0f) {
+                        investment.setType(0f);
+                    }
                     break;
                 case 2:
                     investment.setVolatility(true);
@@ -99,7 +102,7 @@ class DataCollect{
                         System.out.println("Insufficient Setup!\n");
                     }
                 case 0:
-                    /* ResetValues(); */
+                    ResetValues(); 
                     return;
     
             }
@@ -203,14 +206,7 @@ class DataCollect{
 
         }
 
-    /*     private static void ResetValues(){
-            investment.setDeposit(0);
-            investment.setDuration("");
-            investment.setPercentage(0);
-            investment.setPeriod("");
-            investment.setTime(0);
-            investment.setType(0);
-            investment.setVolatility(false);
-        } */
-
+        private static void ResetValues(){
+            investment = new Investment(false, 0, 0, 0, 0, null, null, 0, 0);
+        }
 }

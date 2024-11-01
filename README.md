@@ -7,7 +7,6 @@ Roadmap:
 5. Testcases for debugging -- DONE
 6. Backend - Very basic POST, GET, DELETE works
     -Have to add handling to client side for missing file
-    -GET is broken!!!! due to changes in PHP 
 7. Exploring to GUI options, HTML or JavaFX
     -HTML display front ready
 

@@ -2,14 +2,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
 import java.util.List;
 import java.util.Scanner;
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
 public class Cache {
 
@@ -108,21 +106,23 @@ private static void SendToServer(String StringJSON){
                 while((line = br.readLine()) != null){
                     response.append(line);
                 }
+                br.close();
 
-                Type listType = new TypeToken<List<Investment>>() {}.getType();
-                List<Investment> Entries = gson.fromJson(response.toString(), listType);
+                Investment responseData = gson.fromJson(response.toString(), Investment.class); 
+                List<Investment> Entries = responseData.getData();
+                
 
                 if (Entries != null) {
                     for (Investment entry : Entries) {
                         System.out.println("Entry: " + entry.getId());
                         System.out.println(entry);
                     }
+                    SelectDataToDelete(Entries, myScanner);   
                 }
                 else{
                     System.out.println("No data found.");
                 }
 
-                SelectDataToDelete(Entries, myScanner);
             }
             else{
                 System.out.println("Error: " + connection.getResponseCode());

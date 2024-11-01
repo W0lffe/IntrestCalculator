@@ -1,4 +1,5 @@
 import java.text.DecimalFormat;
+import java.util.List;
 
 public class Investment {
 
@@ -12,6 +13,7 @@ public class Investment {
     private float afterIntrest;
     private float earnings;
     private int id;
+    private List<Investment> Data;
     
     public Investment(boolean volatility, int time, float percentage, float deposit, float type, String period, String duration, float afterIntrest, float earnings) {
         this.volatility = volatility;
@@ -131,6 +133,9 @@ public class Investment {
         this.earnings = earnings;
     }
 
+    public List<Investment> getData() {
+        return Data;
+    }
 
     @Override
     public String toString() {
@@ -143,11 +148,11 @@ public class Investment {
             enabled = "No";
         }
         return "Volatility: " + enabled + 
-                "\nTime: " + getTime() + " " + getPeriod() + 
-                "\nPercentage: " + df.format(getPercentage()) + "%" +
-                "\nDeposit: " + df.format(getDeposit()) + "€" +
-                "\nAfter intrest: " + df.format(getAfterIntrest()) + "€" +
-                "\nEarnings: " + df.format(getEarnings()) + "€" +
+                "\nTime: " + time + " " + period + 
+                "\nPercentage: " + df.format(percentage) + "%" +
+                "\nDeposit: " + df.format(deposit) + "€" +
+                "\nAfter intrest: " + df.format(afterIntrest) + "€" +
+                "\nEarnings: " + df.format(earnings) + "€" +
                 "\n";
     }
 

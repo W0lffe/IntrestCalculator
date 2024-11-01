@@ -7,15 +7,6 @@ After intrest: 30159,86€
 Earnings: 20159,86€
 
 
-Current date: 2024-10-26T18:38:22.351297 (METHOD: LINEAR) (TYPE: Stocks, Cryptocurrencies, Commodities)
-Volatility: No
-Time: 12 months
-Percentage: 2,90%
-Deposit: 5000,00€
-After intrest: 6740,00€
-Earnings: 1740,00€
-
-
 Current date: 2024-10-26T22:03:10.643791900 (METHOD: VOLATILITY) (TYPE: Stocks, Cryptocurrencies, Commodities)
 Volatility: Yes
 Time: 5 years
@@ -23,3 +14,41 @@ Percentage: 15,62%
 Deposit: 10000,00€
 After intrest: 17810,09€
 Earnings: 7810,09€
+
+
+Current date: 2024-11-01T18:09:55.843682 (METHOD: VOLATILITY)
+Volatility: Yes
+Time: 5 years
+Percentage: 17,90%
+Deposit: 5000,00€
+After intrest: 9474,61€
+Earnings: 4474,61€
+
+
+Current date: 2024-11-01T18:19:49.328675900 (METHOD: VOLATILITY) (TYPE: Index Funds, Medium-Risk ETF)
+Volatility: Yes
+Time: 5 years
+Percentage: 23,65%
+Deposit: 10000,00€
+After intrest: 21824,17€
+Earnings: 11824,17€
+
+
+
+
+Current date: 2024-11-01T18:24:45.782677600 (METHOD: VOLATILITY) (TYPE: Bonds, Low-Risk ETF)
+Volatility: Yes
+Time: 10 years
+Percentage: 11,47%
+Deposit: 15000,00€
+After intrest: 32200,37€
+Earnings: 17200,37€
+
+
+Current date: 2024-11-01T18:24:45.782677600 (METHOD: LINEAR)
+Volatility: No
+Time: 24 months
+Percentage: 2,70%
+Deposit: 15000,00€
+After intrest: 24720,00€
+Earnings: 9720,00€

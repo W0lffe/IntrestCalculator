@@ -141,24 +141,24 @@ class Files{
     private static String toSave(Investment investment){
         String dataToSave = "Current date: " + currentDate;
         dataToSave += CalcAndType(investment.getType(), investment.getVolatility()); 
-        dataToSave += "\n" + investment.toString();
+        dataToSave += "\n" + investment;
         return dataToSave;
     }
 
     private static String CalcAndType(float type, boolean mode){
         String dataToSave = "";
 
-        if (mode) {
+        if(mode) {
             dataToSave += " (METHOD: VOLATILITY)";
         }
         else{
             dataToSave += " (METHOD: LINEAR)";
         } 
         
-        if (type == 0.10f) {
+        if(type == 0.10f) {
             dataToSave += " (TYPE: Bonds, Low-Risk ETF)";   
         }
-        else if(type == 0.18f){
+        else if(type == 0.20f){
             dataToSave += " (TYPE: Index Funds, Medium-Risk ETF)";
         }
         else if(type == 0.40f){
