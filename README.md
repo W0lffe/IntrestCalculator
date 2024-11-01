@@ -19,7 +19,7 @@ This program is intended for personal use and experimentation with different pro
 * [x] Very basic POST, GET, DELETE Add user authenticating
 
 ### Debug 
-*[x] Testcases for debugging
+* [x] Testcases for debugging
 
 ### GUI 
 * [x] HTML User Inteface -- Displays data from this app and other API [] JavaFX
