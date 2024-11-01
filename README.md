@@ -6,15 +6,15 @@ This program is intended for personal use and experimentation with different pro
 Roadmap:
 1. Linear calculations -- DONE
 2. Advanced calculations -- DONE
-    --!planning to rewrite advanced calculations to include STOCKS and FUNDS/ETF separetly!
+ 2.1 --!planning to rewrite advanced calculations to include STOCKS and FUNDS/ETF separetly!
 3. Saving to textfile -- DONE
 4. Reading textfiles with the software -- DONE
 5. Testcases for debugging -- DONE
 6. Backend - Very basic POST, GET, DELETE works
-    --Add user authenticating
+ 6.1 --Add user authenticating
 7. Exploring to GUI options, HTML, JavaFX
-    -HTML user interface ready -- Displays data from this app and other API
-    -JavaFX planned
+ 7.1 --HTML user interface ready -- Displays data from this app and other API
+ 7.2 --JavaFX planned
 
 
 
