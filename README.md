@@ -8,21 +8,21 @@ This program is intended for personal use and experimentation with different pro
 
 ## Roadmap: 
 ### Calculations 
-[x] Linear calculations 
-[x] Advanced calculations Advanced calculations - Rewrite advanced calculations to include STOCKS and FUNDS/ETF separetly
+* [x] Linear calculations 
+* [x] Advanced calculations Advanced calculations - Rewrite advanced calculations to include STOCKS and FUNDS/ETF separetly
 
 ### Saving data 
-[x] Saving to textfile 
-[x] Reading textfiles with the software
+* [x] Saving to textfile 
+* [x] Reading textfiles with the software
 
 ### Backend 
-[x] Very basic POST, GET, DELETE Add user authenticating
+* [x] Very basic POST, GET, DELETE Add user authenticating
 
 ### Debug 
-[x] Testcases for debugging
+*[x] Testcases for debugging
 
 ### GUI 
-[x] HTML User Inteface -- Displays data from this app and other API [] JavaFX
+* [x] HTML User Inteface -- Displays data from this app and other API [] JavaFX
 
 
 
