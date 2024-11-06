@@ -19,7 +19,7 @@ This program is intended for personal use and experimentation with different pro
 
 ### Backend 
 * [x] Very basic POST, GET, DELETE 
-    * [ ]Add user authenticating
+    * [ ] Add user authenticating
 
 ### Debug 
 * [x] Testcases for debugging
