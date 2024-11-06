@@ -12,23 +12,23 @@ import com.google.gson.Gson;
 public class Cache {
 
     private static int method = 1;
-    public static void ShowCache(Scanner myScanner){
+
+    public static void ShowCache(Scanner myScanner) {
         Gson gson = new Gson();
 
         int entry = 1;
         for (Investment investment : Calculations.Storage) {
-                System.out.println("\nEntry: " + entry + "\n" + investment);
-                entry++;
+            System.out.println("\nEntry: " + entry + "\n" + investment);
+            entry++;
         }
         int userInput;
-        System.out.println("Would you like to save entry to server? \n1.Yes\n2.No");  
-        
+        System.out.println("Would you like to save entry to server? \n1.Yes\n2.No");
+
         while (true) {
             userInput = Validation.UserInput(myScanner);
             if (userInput == 1 || userInput == 2) {
                 break;
-            }
-            else{
+            } else {
                 System.out.println("Invalid choice!");
             }
         }
@@ -38,46 +38,42 @@ public class Cache {
             System.out.println("Wich entry would you like to be saved?");
             while (true) {
                 choice = Validation.UserInput(myScanner);
-                if(choice > 0 && choice <= Calculations.Storage.size()){
+                if (choice > 0 && choice <= Calculations.Storage.size()) {
 
-                    System.out.println("\n" + Calculations.Storage.get(choice-1));
-                    String selectedEntry = gson.toJson(Calculations.Storage.get(choice-1));
-                    //System.out.println(selectedEntry);
+                    System.out.println("\n" + Calculations.Storage.get(choice - 1));
+                    String selectedEntry = gson.toJson(Calculations.Storage.get(choice - 1));
+                    // System.out.println(selectedEntry);
                     SendToServer(selectedEntry);
                     break;
-                }
-                else{
+                } else {
                     System.out.println("Entry doesnt exist.");
                     return;
                 }
             }
-        }
-        else{
+        } else {
             return;
         }
-}
+    }
 
-
-private static void SendToServer(String StringJSON){
+    private static void SendToServer(String StringJSON) {
 
         try {
-            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
+            URI serverURI = URI.create("");
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
 
-            try(OutputStream os = connection.getOutputStream()){
+            try (OutputStream os = connection.getOutputStream()) {
                 byte[] input = StringJSON.getBytes("utf-8");
                 os.write(input);
             }
 
             int Response = connection.getResponseCode();
 
-            if(Response == HttpURLConnection.HTTP_OK){
+            if (Response == HttpURLConnection.HTTP_OK) {
                 System.out.println("Data successfully sent!");
-            }
-            else{
+            } else {
                 System.out.println("Error! " + Response);
             }
             connection.disconnect();
@@ -87,117 +83,120 @@ private static void SendToServer(String StringJSON){
         }
     }
 
- public static void ShowServerCache(Scanner myScanner){
+    public static void ShowServerCache(Scanner myScanner) {
         Gson gson = new Gson();
-        
+
         try {
-           
-            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php?method=" + method);
+
+            URI serverURI = URI.create("?method=" + method);
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("GET");
 
-            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK){
-                
+            if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) {
+
                 BufferedReader br = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                 StringBuilder response = new StringBuilder();
                 String line;
 
-                while((line = br.readLine()) != null){
+                while ((line = br.readLine()) != null) {
                     response.append(line);
                 }
                 br.close();
-
-                Investment responseData = gson.fromJson(response.toString(), Investment.class); 
+           
+                Investment responseData = gson.fromJson(response.toString(), Investment.class);
                 List<Investment> Entries = responseData.getData();
-                
 
                 if (Entries != null) {
                     for (Investment entry : Entries) {
                         System.out.println("Entry: " + entry.getId());
                         System.out.println(entry);
+
+                      /*   
+                        if (entry instanceof Stocks) {
+                            Stocks stock = (Stocks)entry;
+                            System.out.println(stock);
+                        }
+                        else{
+                            System.out.println(entry);
+                        } */
                     }
-                    SelectDataToDelete(Entries, myScanner);   
-                }
-                else{
+                    SelectDataToDelete(Entries, myScanner);
+                } else {
                     System.out.println("No data found.");
                 }
 
-            }
-            else{
+            } else {
                 System.out.println("Error: " + connection.getResponseCode());
             }
             connection.disconnect();
-      
+
         } catch (IOException e) {
-           System.out.println("Error fetching data: " + e.getMessage());
-           e.printStackTrace();
+            System.out.println("Error fetching data: " + e.getMessage());
+            e.printStackTrace();
         }
 
-}
-        private static void SelectDataToDelete(List<Investment> Entries, Scanner myScanner){
-            int userInput;
+    }
 
-            System.out.println("Do you wish to delete entry?\n1.Yes\n2.No");
-            
+    private static void SelectDataToDelete(List<Investment> Entries, Scanner myScanner) {
+        int userInput;
+
+        System.out.println("Do you wish to delete entry?\n1.Yes\n2.No");
+
+        while (true) {
+            userInput = Validation.UserInput(myScanner);
+            if (userInput == 1 || userInput == 2) {
+                break;
+            } else {
+                System.out.println("Invalid choice!");
+            }
+        }
+
+        if (userInput == 1) {
+            int choice;
+            System.out.println("Wich entry would you like to be deleted?");
             while (true) {
-                userInput = Validation.UserInput(myScanner);
-                if(userInput == 1 || userInput ==2){
+                choice = Validation.UserInput(myScanner);
+                if (choice > 0 && choice <= Entries.size()) {
+
+                    System.out.println("\n" + Entries.get(choice - 1));
+                    int selectedID = Entries.get(choice - 1).getId();
+                    // System.out.println(Entries.indexOf(Entries.get(choice-1)));
+                    // System.out.println(selectedID);
+
+                    DeleteData(selectedID);
                     break;
-                }
-                else{
-                    System.out.println("Invalid choice!");
-                }
-            }
-
-            if(userInput == 1){
-                int choice;
-                System.out.println("Wich entry would you like to be deleted?");
-                while (true) {
-                    choice = Validation.UserInput(myScanner);
-                    if(choice > 0 && choice <= Entries.size()){
-    
-                        System.out.println("\n" + Entries.get(choice-1));
-                        int selectedID = Entries.get(choice-1).getId();
-                        //System.out.println(Entries.indexOf(Entries.get(choice-1)));
-                        //System.out.println(selectedID);
-                        
-                        DeleteData(selectedID);
-                        break;
-                    }
-                    else{
-                        System.out.println("Entry doesnt exist.");
-                        return;
-                    }
+                } else {
+                    System.out.println("Entry doesnt exist.");
+                    return;
                 }
             }
-            else{
-                return;
-            }
+        } else {
+            return;
         }
+    }
 
-        private static void DeleteData(int id){
+    private static void DeleteData(int id) {
 
-            try {
+        try {
 
-                URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php?id=" + id);
-                URL server_url = serverURI.toURL();
-                HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
-                connection.setRequestMethod("DELETE");
+            URI serverURI = URI.create("?id=" + id);
+            URL server_url = serverURI.toURL();
+            HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
+            connection.setRequestMethod("DELETE");
 
-                int Response = connection.getResponseCode();
+            int Response = connection.getResponseCode();
 
-                if(Response == HttpURLConnection.HTTP_OK){
-                    System.out.println("Data successfully deleted!");
-                }
-                else{
-                    System.out.println("Error! " + Response);
-                }
-                connection.disconnect();
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            if (Response == HttpURLConnection.HTTP_OK) {
+                System.out.println("Data successfully deleted!");
+            } else {
+                System.out.println("Error! " + Response);
             }
+            connection.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+    }
 
 }

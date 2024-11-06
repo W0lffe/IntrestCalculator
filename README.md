@@ -9,15 +9,17 @@ This program is intended for personal use and experimentation with different pro
 ## Roadmap: 
 ### Calculations 
 * [x] Linear calculations 
-* [x] Advanced calculations
-* [ ] Advanced calculations - Rewrite advanced calculations to include STOCKS and FUNDS/ETF separetly
+* [X] Advanced calculations
+    * [X] Stocks calculation
+    * [X] Funds calculation
 
 ### Saving data 
 * [x] Saving to textfile 
 * [x] Reading textfiles with the software
 
 ### Backend 
-* [x] Very basic POST, GET, DELETE Add user authenticating
+* [x] Very basic POST, GET, DELETE 
+    * [ ]Add user authenticating
 
 ### Debug 
 * [x] Testcases for debugging
@@ -26,6 +28,9 @@ This program is intended for personal use and experimentation with different pro
 * [x] HTML User Inteface -- Displays data from this app and other API
 * [ ]  JavaFX
 
+#### To Fix
+* Data deserialization on Server to App, only uses parent class information now
+* VS Code Task: Run
 
 
 

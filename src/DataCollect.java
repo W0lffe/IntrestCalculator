@@ -8,20 +8,18 @@ class DataCollect{
     private static final String[] MONTH = {"months", "month"};
    
     private static final ArrayList<Integer[]> validInputs = new ArrayList<>(Arrays.asList(
-        new Integer[]{0, 1, 2},
         new Integer[]{0, 1, 2, 3, 4, 5, 9},
-        new Integer[]{0, 1, 2, 3}
+        new Integer[]{0, 1, 2, 3},
+        new Integer[]{0, 1, 2}
     ));
-    private static Investment investment = new Investment(false, 0, 0, 0, 0, null, null, 0, 0);
 
-
-    private static void Mode(Scanner myScanner){
-        OtherFunctions.print(2);
+    public static void Mode(Scanner myScanner){
+        Utility.print(2);
         int userInput;
 
         while (true) {
             userInput = Validation.UserInput(myScanner);
-                if (Arrays.asList(validInputs.get(0)).contains(userInput)) {
+                if (Arrays.asList(validInputs.get(1)).contains(userInput)) {
                     break;       
                 }
                 else{
@@ -30,15 +28,19 @@ class DataCollect{
         }
             switch (userInput) {
                 case 1:
-                    investment.setVolatility(false);
                     System.out.println("\nYou chose: Linear calculation!\n");
-                    if (investment.getType() > 0f) {
-                        investment.setType(0f);
-                    }
+                    Investment linear = new Investment(0, 0f, 0f, "", "", 0f, 0f, "Linear");
+                    CollectData(myScanner, linear);
                     break;
                 case 2:
-                    investment.setVolatility(true);
-                    System.out.println("\nYou chose: Volatility included calculation!\n");
+                    System.out.println("\nYou chose: Stocks!\n");
+                    Investment stocks = new Stocks(0, 0f, 0f, "", "", 0f, 0f, "Stocks", 0);
+                    CollectData(myScanner, stocks);
+                    break;
+                case 3:
+                    System.out.println("\nYou chose: Funds/ETF!\n");
+                    Investment funds = new Funds(0, 0f, 0f, "", "", 0f, 0f, "Funds/ETF");
+                    CollectData(myScanner, funds);
                     break;
                 case 0:
                     return;
@@ -47,15 +49,15 @@ class DataCollect{
     }
 
     /*Function collects all information needed for calculating intrest */
-    public static void CollectData(Scanner myScanner){
+    private static void CollectData(Scanner myScanner, Investment investment){
         
         int userInput;  
         do {
-            OtherFunctions.print(3);
+            Utility.print(3);
 
             do {
                 userInput = Validation.UserInput(myScanner);
-                if(Arrays.asList(validInputs.get(1)).contains(userInput)){         
+                if(Arrays.asList(validInputs.get(0)).contains(userInput)){         
                     break;
                 }
                 else{
@@ -66,33 +68,24 @@ class DataCollect{
 
             switch (userInput) {
                 case 1:
-                    Mode(myScanner);
+                    InputTime(myScanner, investment);
                     break;
                 case 2:
-                    InputTime(myScanner);
-                    break;
-                case 3:
-                    if (investment.getTime() != 0) {
-                        InputPercentage(myScanner);
+                    if(investment.getTime() != 0) {
+                        InputPercentage(myScanner, investment);
                         break;
                     }
                     else{
                         System.out.println("Please enter time first!\n");
                         break;
                     }
-                case 4:
-                    InputDeposit(myScanner);
+                case 3:
+                    InputDeposit(myScanner, investment);
                     break;
-                case 5:
-                    if (investment.getVolatility()) {
-                        InvestmentType(myScanner);  
-                        break;
-
-                    }
-                    else{
-                        System.out.println("You have chosen linear calculation!");
-                        break;
-                    }
+                case 4:
+                    System.out.printf("Type: %s \nTime: %d %s \nPercentage: %.2f \nDeposit: %.2f \n", investment.getType(), investment.getTime(), 
+                                            investment.getPeriod(), investment.getPercentage(), investment.getDeposit());
+                    break;
                 case 9:
                     if (investment.getTime() !=0 && investment.getPercentage() !=0 && investment.getDeposit() !=0){
                         Calculations.Calculate(myScanner, investment);
@@ -102,7 +95,6 @@ class DataCollect{
                         System.out.println("Insufficient Setup!\n");
                     }
                 case 0:
-                    ResetValues(); 
                     return;
     
             }
@@ -110,12 +102,12 @@ class DataCollect{
                 
         }
 
-        private static void InputTime(Scanner myScanner){
+        private static void InputTime(Scanner myScanner, Investment investment){
             System.out.println("\n1. Yearly\n2. Monthly\n0. Go Back");
             int userInput;
             while (true) {
                 userInput = Validation.UserInput(myScanner);
-                if (Arrays.asList(validInputs.get(0)).contains(userInput)) {
+                if (Arrays.asList(validInputs.get(2)).contains(userInput)) {
                     break;   
                 }
                 else{
@@ -142,7 +134,7 @@ class DataCollect{
          
         } 
 
-        private static void InputPercentage(Scanner myScanner){
+        private static void InputPercentage(Scanner myScanner, Investment investment){
             float userInput;
     
             while (true) {
@@ -159,11 +151,21 @@ class DataCollect{
             investment.setPercentage(userInput);
         }
 
-        private static void InputDeposit(Scanner myScanner){
+        private static void InputDeposit(Scanner myScanner, Investment investment){
             float userInput;
+            String toPrint = "";
+            int stocksQuantity;
+            
+            if (investment instanceof Stocks){
+                toPrint = "Enter price per stock: ";
+            }
+            else{
+                toPrint = "Enter initial deposit amount: ";
+            }
+
             while (true) {
                 try {
-                    System.out.print("Enter initial deposit amount: ");
+                    System.out.print(toPrint);
                     userInput = Float.parseFloat(myScanner.nextLine());
                     if (userInput > 0) {
                         break;
@@ -176,40 +178,31 @@ class DataCollect{
                 }
             }
 
-            investment.setDeposit(userInput);
+            if (investment instanceof Stocks){
+                float sum;
 
-        }
-
-        private static void InvestmentType(Scanner myScanner){
-            OtherFunctions.print(5);
-            int userInput;
-            while (true) {
-                userInput = Validation.UserInput(myScanner);
-                if(Arrays.asList(validInputs.get(2)).contains(userInput)){
-                    break;
-                }
-                else{
-                    System.out.println("Invalid choice!");
+                while (true) {
+                    try {
+                        System.out.print("Enter amount of stocks you want to buy: ");
+                        stocksQuantity = Integer.parseInt(myScanner.nextLine());
+                        if (stocksQuantity > 0) {
+                            sum = stocksQuantity * userInput;
+                            investment.setDeposit(sum);
+                            Stocks stock = (Stocks)investment;
+                            stock.setQuantity(stocksQuantity);
+                            break;
+                        }
+                        else{
+                            System.out.println("Invalid amount!");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("\nUnknown input format! \nEnter again!");
+                    }
                 }
             }
-
-            switch (userInput) {
-                case 1:
-                    investment.setType(0.10f);
-                    break;
-                case 2:
-                    investment.setType(0.20f);
-                    break;
-                case 3:
-                    investment.setType(0.40f);
-                    break;
-                case 0:
-                    return;
+            else{
+                investment.setDeposit(userInput);
             }
-
         }
 
-        private static void ResetValues(){
-            investment = new Investment(false, 0, 0, 0, 0, null, null, 0, 0);
-        }
 }

@@ -1,5 +1,5 @@
-Current date: 2024-10-26T18:38:22.351297 (METHOD: LINEAR)
-Volatility: No
+Current date: 2024-11-06T20:39:07.739742200 (METHOD: Linear) 
+Type: Linear
 Time: 12 months
 Percentage: 1,50%
 Deposit: 10000,00€
@@ -7,8 +7,8 @@ After intrest: 11800,00€
 Earnings: 1800,00€
 
 
-Current date: 2024-10-26T18:38:22.351297 (METHOD: LINEAR)
-Volatility: No
+Current date: 2024-11-06T20:39:07.739742200 (METHOD: Linear) 
+Type: Linear
 Time: 1 years
 Percentage: 18,00%
 Deposit: 10000,00€
@@ -16,19 +16,39 @@ After intrest: 11800,00€
 Earnings: 1800,00€
 
 
-Current date: 2024-10-26T18:38:22.351297 (METHOD: VOLATILITY)
-Volatility: Yes
+Current date: 2024-11-06T20:39:07.739742200 (METHOD: Funds/ETF) 
+Type: Funds/ETF
 Time: 12 months
-Percentage: 1,49%
+Percentage: 1,30%
 Deposit: 10000,00€
-After intrest: 11782,15€
-Earnings: 1782,15€
+After intrest: 11564,18€
+Earnings: 1564,18€
 
 
-Current date: 2024-10-26T18:38:22.351297 (METHOD: VOLATILITY)
-Volatility: Yes
+Current date: 2024-11-06T20:39:07.739742200 (METHOD: Funds/ETF) 
+Type: Funds/ETF
 Time: 1 years
-Percentage: 20,58%
+Percentage: 19,58%
 Deposit: 10000,00€
-After intrest: 12058,45€
-Earnings: 2058,45€
+After intrest: 11957,80€
+Earnings: 1957,80€
+
+
+Current date: 2024-11-06T20:39:07.739742200 (METHOD: Stocks) 
+Type: Stocks
+Time: 12 months
+Percentage: 1,22%
+Total price of stocks: 1008,00€
+Amount of stocks: 60
+After intrest: 1155,83€
+Earnings: 147,83€
+
+
+Current date: 2024-11-06T20:39:07.739742200 (METHOD: Stocks) 
+Type: Stocks
+Time: 1 years
+Percentage: −9,75%
+Total price of stocks: 1008,00€
+Amount of stocks: 60
+After intrest: 909,76€
+Earnings: −98,24€

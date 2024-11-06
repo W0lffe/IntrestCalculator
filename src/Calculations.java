@@ -10,8 +10,9 @@ class Calculations {
             float temp = afterIntrest;
             float increment;
 
-            if(investment.getVolatility()) {
+            if(investment instanceof Stocks || investment instanceof Funds) {
                 increment = CalculateVolatilityAverage(investment);
+
                 for (int i = 0; i < investment.getTime(); i++) {
                     afterIntrest += temp * increment;
                 }
@@ -20,20 +21,21 @@ class Calculations {
             }
             else{
                 increment = (investment.getPercentage()/100);
+
                 for (int i = 0; i < investment.getTime(); i++) {
                     afterIntrest += temp * increment;
                 }
             }
             investment.setAfterIntrest(afterIntrest);
        
-            OtherFunctions.print(4);
+            Utility.print(4);
 
             System.out.printf("\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n", investment.getTime(), investment.getPeriod(), investment.getPercentage(), investment.getDeposit(), investment.getAfterIntrest());
             investment.setEarnings(investment.getAfterIntrest()-investment.getDeposit());
             System.out.printf("Your earnings are: %.2f euros. \n", investment.getEarnings());
 
              if (!Test.test.getTestCase()) {
-                Investment copiedInvestment = investment.clone();
+                Investment copiedInvestment = investment.Clone();
                 Storage.add(copiedInvestment);
             }
 
@@ -42,18 +44,32 @@ class Calculations {
         }
 
     private static float CalculateVolatilityAverage(Investment investment){   
-            
         float increment;
         float newPercentage = 0f;
         float average = 0f;
-        float volatility;
+        float volatility = 0f;
+        
+        if (investment instanceof Stocks) {
+            Stocks stock = (Stocks)investment;
+            
+            if (stock.getDuration().equals("month")){
+                volatility = stock.getVolatility()/12f;
+            }
+            else{
+                volatility = stock.getVolatility();
+            }
+        }
+        else if(investment instanceof Funds){
+            Funds fund = (Funds)investment;
 
-        if (investment.getDuration().equals("month")){
-            volatility = investment.getType()/12f;
+            if (fund.getDuration().equals("month")){
+                volatility = fund.getVolatility()/12f;
+            }
+            else{
+                volatility = fund.getVolatility();
+            }
         }
-        else{
-            volatility = investment.getType();
-        }
+       
         
         float[] increments = new float[investment.getTime()];
         float percent = (investment.getPercentage()/100f);
@@ -65,8 +81,8 @@ class Calculations {
             increments[j] = increment;
         }
 
-        for (float f : increments) {
-                average += f;
+        for (float increase : increments) {
+                average += increase;
         }
 
         newPercentage = (average/increments.length);

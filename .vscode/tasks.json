@@ -14,9 +14,9 @@
             "label": "Run",
             "type": "shell",
             "command": "java",
-            "args": [ "-cp", "lib\\gson\\gson-2.11.0.jar\\",
-            "-cp", "out\\",
-            "Main"]
+            "args": [ "-cp", "lib\\gson\\gson-2.11.0.jar", 
+            "-cp", "out\\", "Main"
+            ]
         },
         {
             "label": "Build JAR",
