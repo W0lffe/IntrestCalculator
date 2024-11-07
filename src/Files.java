@@ -5,35 +5,31 @@ import java.io.IOException;
 import java.io.File;
 import java.awt.Desktop;
 
-class Files{
+class Files {
 
     private static String path = "saved/";
     private static LocalDateTime currentDate = LocalDateTime.now();
 
-
-    public static void SaveFile(Scanner myScanner, Investment investment){
+    public static void SaveFile(Scanner myScanner, Investment investment) {
         int userInput;
         System.out.println("\nDo you wish to save this data?\n1.Yes\n2.No");
 
         do {
 
-            if(Test.test.getTestCase()){
+            if (Test.test.getTestCase()) {
                 userInput = 1;
                 break;
-            }
-            else{
+            } else {
                 userInput = Validation.UserInput(myScanner);
-            } 
+            }
             if (userInput == 1 || userInput == 2) {
                 break;
-            }
-            else{
+            } else {
                 System.out.println("Invalid choice!");
-            }   
-            
+            }
 
         } while (true);
-        
+
         if (userInput == 2) {
             return;
         }
@@ -42,17 +38,16 @@ class Files{
 
         while (true) {
             String name;
-            
-            if(Test.test.getTestCase()){
+
+            if (Test.test.getTestCase()) {
                 name = "Testcase";
-            }
-            else{
+            } else {
                 System.out.print("Give a name to file: ");
                 name = myScanner.nextLine();
             }
 
             String newFilePath = path + name + ".txt";
-    
+
             try {
                 File newFile = new File(newFilePath);
                 if (newFile.createNewFile()) {
@@ -61,8 +56,7 @@ class Files{
                     myWriter.write(dataToSave);
                     myWriter.close();
                     break;
-                }
-                else if(!newFile.createNewFile()){
+                } else if (!newFile.createNewFile()) {
                     System.out.println("File already exists! Data appended! \n");
                     FileWriter myWriter = new FileWriter(newFile, true);
                     myWriter.append("\n\n" + dataToSave);
@@ -73,29 +67,29 @@ class Files{
                 System.out.println("Something went wrong!");
             }
         }
-       
+
         Utility.Delay();
         System.out.println("Data saved!");
     }
 
-    public static void ReadFile(Scanner myScanner){
+    public static void ReadFile(Scanner myScanner) {
 
         File folder = new File(path);
         int a = 1;
         int command;
 
-        if(folder.exists() && folder.isDirectory()){
+        if (folder.exists() && folder.isDirectory()) {
             File[] folderFiles = folder.listFiles(file -> file.isFile() && file.canRead() && file.canWrite());
 
             System.out.println("\nDirectory has files: \n0. Go back");
-           
+
             for (File file : folderFiles) {
                 if (file.canRead() && file.canWrite()) {
-                    System.out.println(a + ". " +file.getName());
+                    System.out.println(a + ". " + file.getName());
                     a++;
                 }
             }
-            
+
             System.out.println("Which file would you like to read?\n");
 
             while (true) {
@@ -104,11 +98,9 @@ class Files{
                     command = Integer.parseInt(myScanner.nextLine());
                     if (command > 0 && command < a) {
                         break;
-                    }
-                    else if(command == 0){
+                    } else if (command == 0) {
                         return;
-                    }
-                    else{
+                    } else {
                         System.out.println("File not found! Try again");
                     }
                 } catch (Exception e) {
@@ -116,32 +108,30 @@ class Files{
                 }
             }
 
-            System.out.println("You chose file: " + folderFiles[command-1].getName());
-            
-            String newPath = path + folderFiles[command-1].getName();
+            System.out.println("You chose file: " + folderFiles[command - 1].getName());
+
+            String newPath = path + folderFiles[command - 1].getName();
             File file = new File(newPath);
 
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();
                 Utility.Delay();
-                    try {
-                        desktop.open(file);
-                        
-                    } catch (IOException e) {
-                       System.out.println("Unable to open file!");
-                       e.printStackTrace();
-                    }
+                try {
+                    desktop.open(file);
+
+                } catch (IOException e) {
+                    System.out.println("Unable to open file!");
+                    e.printStackTrace();
                 }
-            else{
+            } else {
                 System.out.println("This system is not capable for desktop operations.");
-            }    
-        }
-        else{
+            }
+        } else {
             System.out.println("Folder is not found.");
         }
     }
 
-    private static String toSave(Investment investment){
+    private static String toSave(Investment investment) {
         String dataToSave = "Current date: " + currentDate;
         dataToSave += " (METHOD: " + investment.getType() + ") ";
         dataToSave += "\n" + investment;

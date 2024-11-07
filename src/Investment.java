@@ -1,5 +1,4 @@
 import java.text.DecimalFormat;
-import java.util.List;
 
 public class Investment {
     public static DecimalFormat df = new DecimalFormat("0.00");
@@ -12,7 +11,6 @@ public class Investment {
     private float afterIntrest;
     private float earnings;
     private int id;
-    private List<Investment> Data;
     private String type;
 
     public Investment(int time, float percentage, float deposit, String period, String duration, float afterIntrest,
@@ -110,10 +108,6 @@ public class Investment {
         return id;
     }
 
-    public List<Investment> getData() {
-        return Data;
-    }
-
     @Override
     public String toString() {
         return "Type: " + type +
@@ -194,17 +188,6 @@ class Funds extends Investment {
 
     public float getVolatility() {
         return volatility;
-    }
-
-    @Override
-    public String toString() {
-        return "Type: " + getType() +
-                "\nTime: " + getTime() + " " + getPeriod() +
-                "\nPercentage: " + df.format(getPercentage()) + "%" +
-                "\nDeposit: " + df.format(getDeposit()) + "€" +
-                "\nAfter intrest: " + df.format(getAfterIntrest()) + "€" +
-                "\nEarnings: " + df.format(getEarnings()) + "€" +
-                "\n";
     }
 
     public Funds Clone() {

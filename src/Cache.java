@@ -5,7 +5,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
-import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 import com.google.gson.Gson;
 
@@ -58,7 +58,7 @@ public class Cache {
     private static void SendToServer(String StringJSON) {
 
         try {
-            URI serverURI = URI.create("");
+            URI serverURI = URI.create("yourURLhere");
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("POST");
@@ -88,7 +88,7 @@ public class Cache {
 
         try {
 
-            URI serverURI = URI.create("?method=" + method);
+            URI serverURI = URI.create("yourURLhere?method=" + method);
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("GET");
@@ -103,23 +103,13 @@ public class Cache {
                     response.append(line);
                 }
                 br.close();
-           
-                Investment responseData = gson.fromJson(response.toString(), Investment.class);
-                List<Investment> Entries = responseData.getData();
+
+                ArrayList<Investment> Entries = Utility.JsonDataParser(response.toString(), gson);
 
                 if (Entries != null) {
                     for (Investment entry : Entries) {
                         System.out.println("Entry: " + entry.getId());
                         System.out.println(entry);
-
-                      /*   
-                        if (entry instanceof Stocks) {
-                            Stocks stock = (Stocks)entry;
-                            System.out.println(stock);
-                        }
-                        else{
-                            System.out.println(entry);
-                        } */
                     }
                     SelectDataToDelete(Entries, myScanner);
                 } else {
@@ -138,7 +128,7 @@ public class Cache {
 
     }
 
-    private static void SelectDataToDelete(List<Investment> Entries, Scanner myScanner) {
+    private static void SelectDataToDelete(ArrayList<Investment> Entries, Scanner myScanner) {
         int userInput;
 
         System.out.println("Do you wish to delete entry?\n1.Yes\n2.No");
@@ -180,7 +170,7 @@ public class Cache {
 
         try {
 
-            URI serverURI = URI.create("?id=" + id);
+            URI serverURI = URI.create("yourURLhere?id=" + id);
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("DELETE");

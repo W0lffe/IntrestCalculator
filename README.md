@@ -19,7 +19,7 @@ This program is intended for personal use and experimentation with different pro
 
 ### Backend 
 * [x] Very basic POST, GET, DELETE 
-    * [ ] Add user authenticating
+    * [ ]  Add user authenticating
 
 ### Debug 
 * [x] Testcases for debugging
@@ -28,8 +28,10 @@ This program is intended for personal use and experimentation with different pro
 * [x] HTML User Inteface -- Displays data from this app and other API
 * [ ]  JavaFX
 
+### Other
+* [ ] Documentation / Comment source code
+
 #### To Fix
-* Data deserialization on Server to App, only uses parent class information now
 * VS Code Task: Run
 
 

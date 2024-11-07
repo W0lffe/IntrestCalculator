@@ -3,11 +3,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class Main{
+public class Main {
 
     public static void main(String[] args) {
-        
-        Scanner myScanner = new Scanner(System.in);      
+
+        Scanner myScanner = new Scanner(System.in);
         int userInput;
         ArrayList<Integer> validInputs = new ArrayList<>(Arrays.asList(0, 1, 2, 3, 4, 5));
         System.out.println("KORKOLASKURI\n");
@@ -17,11 +17,10 @@ public class Main{
             Utility.print(1);
             do {
                 userInput = Validation.UserInput(myScanner);
-                if(validInputs.contains(userInput)){         
+                if (validInputs.contains(userInput)) {
                     break;
                 }
             } while (true);
-            
 
             switch (userInput) {
                 case 1:
@@ -31,14 +30,13 @@ public class Main{
                     Files.ReadFile(myScanner);
                     break;
                 case 3:
-                     if (!Calculations.Storage.isEmpty()) {
+                    if (!Calculations.Storage.isEmpty()) {
                         Cache.ShowCache(myScanner);
                         break;
-                    }
-                    else{
+                    } else {
                         System.out.println("Cache is empty! Nothing to show..");
                         break;
-                    } 
+                    }
                 case 4:
                     Cache.ShowServerCache(myScanner);
                     break;
