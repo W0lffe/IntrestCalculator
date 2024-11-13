@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class Calculations {
@@ -9,12 +7,6 @@ public class Calculations {
     public static ArrayList<Investment> Storage = new ArrayList<>();
 
     public static void Calculate(Investment investment, Stage primaryStage){
-
-        VBox container = new VBox(5);
-        TextArea result = new TextArea("");
-        Label info = new Label("Press button to continue");
-        Button proceed = new Button("Proceed");
-
         float afterIntrest = investment.getDeposit();
         float temp = afterIntrest;
         float increment;
@@ -37,25 +29,24 @@ public class Calculations {
         }
         investment.setAfterIntrest(afterIntrest);
         investment.setEarnings(investment.getAfterIntrest() - investment.getDeposit());
-        
-        container.getChildren().addAll(result, info, proceed);
-        Scene resultsScene = new Scene(container, 600, 400);
-        
-        result.appendText(GetResult(investment)); 
 
+        inputBox results = new inputBox(10, "Calculation Results:", "Click here to Proceed");
+        results.getTextArea().setText(GetResult(investment));
 
         if (!Test.test.getTestCase()) {
             Investment copiedInvestment = investment.Clone();
             Storage.add(copiedInvestment);
-            primaryStage.setScene(resultsScene);
         } 
         else if(Test.test.getTestCase()){
             Files.SaveFile(primaryStage, investment);
         }
         
-        proceed.setOnAction(e -> {
+        results.getButton().setOnAction(e -> {
             Files.SaveFile(primaryStage, investment);
         });
+
+        Scene resultScene = new Scene(results, 600, 400);
+        primaryStage.setScene(resultScene);
 
 
     }
@@ -107,8 +98,7 @@ public class Calculations {
     }
 
     private static String GetResult(Investment investment){
-        String result = "Calculation results: ";
-        result += "\nAfter: " + investment.getTime() + " " + investment.getPeriod() +
+        String result = "\nAfter: " + investment.getTime() + " " + investment.getPeriod() +
                         "\nWith: " + investment.getPercentage() +
                         "\nYour initial deposit: " + investment.getDeposit() + " euros" +
                         "\nHas theoretically risen to: " + investment.getAfterIntrest() + " euros" +

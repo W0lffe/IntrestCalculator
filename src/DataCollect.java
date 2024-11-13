@@ -102,7 +102,7 @@ public class DataCollect{
                     collect.getChildren().removeAll(percentage);
                 }
                 else{
-                    collect.setTitle("Please input a percentage value!");
+                    percentage.setTitle("Please input a percentage value!");
                 }
             });
         });
@@ -138,14 +138,21 @@ public class DataCollect{
                         collect.getChildren().removeAll(deposit);
                     }
                     else{
-                        deposit.setText("Enter a valid price!");
+                        deposit.setText("Enter a valid amount!");
                     }
                 });
             }
         });
 
         collect.getButton4().setOnAction(e -> {
-            //Calculations.Calculate(investment, primaryStage);
+            if (investment.getTime() !=0 && investment.getDeposit() !=0 && investment.getPercentage() !=0){
+                Calculations.Calculate(investment, primaryStage);
+            }
+            else{
+                collect.setTitle("Insufficient Setup!");
+            }
+                
+            
         });
         
         collect.getButton5().setOnAction(e -> {
