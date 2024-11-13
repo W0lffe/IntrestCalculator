@@ -9,13 +9,13 @@ This program is intended for personal use and experimentation with different pro
 ## To run:
 
 compile:
-´´´
+```
 javac -cp "lib/javafx-sdk-23/lib/*;lib/gson/*" src/*.java -d out
-´´´
+```
 run:
-´´´
+```
 java --module-path "lib/javafx-sdk-23/lib/" --add-modules javafx.controls,javafx.fxml -cp "out;lib/gson/*" Main
-´´´
+```
 
 ## Roadmap: 
 ### Calculations 
