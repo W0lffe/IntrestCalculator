@@ -1,11 +1,20 @@
 import java.util.ArrayList;
-import java.util.Scanner;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 
-class Calculations {
-
+public class Calculations {
+    
     public static ArrayList<Investment> Storage = new ArrayList<>();
 
-    public static void Calculate(Scanner myScanner, Investment investment) {
+    public static void Calculate(Investment investment, Stage primaryStage){
+
+        VBox container = new VBox(5);
+        TextArea result = new TextArea("");
+        Label info = new Label("Press button to continue");
+        Button proceed = new Button("Proceed");
+
         float afterIntrest = investment.getDeposit();
         float temp = afterIntrest;
         float increment;
@@ -27,25 +36,31 @@ class Calculations {
             }
         }
         investment.setAfterIntrest(afterIntrest);
-
-        Utility.print(4);
-
-        System.out.printf(
-                "\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n",
-                investment.getTime(), investment.getPeriod(), investment.getPercentage(), investment.getDeposit(),
-                investment.getAfterIntrest());
         investment.setEarnings(investment.getAfterIntrest() - investment.getDeposit());
-        System.out.printf("Your earnings are: %.2f euros. \n", investment.getEarnings());
+        
+        container.getChildren().addAll(result, info, proceed);
+        Scene resultsScene = new Scene(container, 600, 400);
+        
+        result.appendText(GetResult(investment)); 
+
 
         if (!Test.test.getTestCase()) {
             Investment copiedInvestment = investment.Clone();
             Storage.add(copiedInvestment);
+            primaryStage.setScene(resultsScene);
+        } 
+        else if(Test.test.getTestCase()){
+            Files.SaveFile(primaryStage, investment);
         }
+        
+        proceed.setOnAction(e -> {
+            Files.SaveFile(primaryStage, investment);
+        });
 
-        Files.SaveFile(myScanner, investment);
 
     }
 
+    
     private static float CalculateVolatilityAverage(Investment investment) {
         float increment;
         float newPercentage = 0f;
@@ -91,4 +106,15 @@ class Calculations {
 
     }
 
+    private static String GetResult(Investment investment){
+        String result = "Calculation results: ";
+        result += "\nAfter: " + investment.getTime() + " " + investment.getPeriod() +
+                        "\nWith: " + investment.getPercentage() +
+                        "\nYour initial deposit: " + investment.getDeposit() + " euros" +
+                        "\nHas theoretically risen to: " + investment.getAfterIntrest() + " euros" +
+                        "\nYour earnings are: " + investment.getEarnings() + " euros";
+        
+        return result;
+    }
 }
+
