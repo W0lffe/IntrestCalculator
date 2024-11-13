@@ -6,6 +6,17 @@ Currently, it includes basic functions for calculating interest on deposits, sav
 The user interface is created with HTML and JavaScript, while PHP fetches additional investment-related information for the HTML page. 
 This program is intended for personal use and experimentation with different programming techniques and is subject to change
 
+## To run:
+
+compile:
+´´´
+javac -cp "lib/javafx-sdk-23/lib/*;lib/gson/*" src/*.java -d out
+´´´
+run:
+´´´
+java --module-path "lib/javafx-sdk-23/lib/" --add-modules javafx.controls,javafx.fxml -cp "out;lib/gson/*" Main
+´´´
+
 ## Roadmap: 
 ### Calculations 
 * [x] Linear calculations 
