@@ -1,6 +1,4 @@
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class DataCollect{
@@ -10,108 +8,81 @@ public class DataCollect{
 
     public static void ModeScene(Stage primaryStage){
 
-
-            VBox container = new VBox(5);
-            VBox inputBox = new VBox(5);
+            Container1 mode = new Container1(10,"Select one:" , "Linear Calculation", "Funds/ETF", "Stocks");
         
-            Label select = new Label("Select one:");
-            Button linear = new Button("Linear Calculation");
-            Button funds = new Button("Funds/ETF");
-            Button stocks = new Button("Stocks");
-
-            linear.setOnAction(event -> {
+            mode.getButton1().setOnAction(event -> {
                 Investment linearInvestment = new Investment(0, 0f, 0f, "", "", 0f, 0f, "Linear");
                 CollectScene(linearInvestment, primaryStage);
             });
 
-            funds.setOnAction(event -> {
+            mode.getButton2().setOnAction(event -> {
                 Investment fundInvestment = new Funds(0, 0f, 0f, "", "", 0f, 0f, "Funds/ETF");
                 CollectScene(fundInvestment, primaryStage);
             });
 
-            stocks.setOnAction(event -> {
-                Label amount = new Label("How many stocks?");
-                TextField stockAmount = new TextField();
-                stockAmount.setMaxWidth(150);
-                Button submit = new Button("Submit");
-                Label info = new Label("");
-              
-                inputBox.getChildren().addAll(info, amount, stockAmount, submit);
+            mode.getButton3().setOnAction(event -> {
+
+                inputBox1 stocks = new inputBox1(10, "How many stocks?", "Submit", "");
+                mode.getChildren().addAll(stocks);
                 
-                submit.setOnAction(submitEvent -> {
-                    int quantity = Utility.UserInputINT(stockAmount.getText());
+                stocks.getButton().setOnAction(submitEvent -> {
+                    int quantity = Utility.UserInputINT(stocks.getTextArea().getText());
 
                     if (quantity > 0){
                         Investment stockInvestment = new Stocks(0, 0f, 0f, "", "", 0f, 0f, "Stocks", quantity);
-
-                        inputBox.getChildren().removeAll(info, amount, stockAmount, submit);
                         CollectScene(stockInvestment, primaryStage);
                     }
                     else{
-                        info.setText("Invalid quantity!");
+                        stocks.setText("Invalid quantity!");
                     }
                 });
             });
 
-            container.getChildren().addAll(select, linear, funds, stocks, inputBox);
-            Scene modeScene = new Scene(container, 600, 400);
+            Scene modeScene = new Scene(mode, 600, 400);
             primaryStage.setScene(modeScene);
     }
 
     private static void CollectScene(Investment investment, Stage primaryStage){
-        TextField textField = new TextField();
-        Button submit = new Button("Submit");
-        textField.setMaxWidth(150);
 
-        Label info = new Label("");
-        
-        VBox container = new VBox(5);
-        VBox verticalBox = new VBox(15);
-        VBox inputBox = new VBox(5);
-
-        Label collect = new Label("Settings for Calculation");
-        Button inputTime = new Button("Time");
-        Button inputPercentage = new Button("Percentage");
-        Button inputDeposit = new Button("Deposit");
-        Button calculate = new Button("Calculate");
-        Button backToMainMenu = new Button("Main Menu");
-        
-        inputTime.setOnAction(e -> {
-            CheckBox monthly = new CheckBox();
-            Label month = new Label("Monthly");
-            CheckBox yearly = new CheckBox();
-            Label year = new Label("Yearly");
-            
-            inputBox.getChildren().addAll(info, monthly, month,  yearly, year, textField, submit);
+        Container2 collect = new Container2(10, "Settings for Calculation", "Time", "Percentage",
+                                             "Deposit", "Calculate", "Main Menu");
        
-            submit.setOnAction(event -> {
-                int time = Utility.UserInputINT(textField.getText());
+        
+  
+    
+        collect.getButton1().setOnAction(e -> {
+            inputBox2 investingTime = new inputBox2(10, "Set time", "Submit", "Monthly", "Yearly");
+            
+            collect.getChildren().addAll(investingTime);
 
-                if (time > 0 && (monthly.isSelected() || yearly.isSelected())) {
+            investingTime.getButton().setOnAction(event -> {
+                int time = Utility.UserInputINT(investingTime.getTextArea().getText());
+                boolean monthly = investingTime.getCb1().isSelected();
+                boolean yearly = investingTime.getCb2().isSelected();
+
+
+                if (time > 0 && (monthly || yearly)) {
                     investment.setTime(time);
 
-                    if (monthly.isSelected()) {
+                    if (monthly) {
                         investment.setPeriod(MONTH[0]);
                         investment.setDuration(MONTH[1]);
                     }
-                    else if(yearly.isSelected()){
+                    else if(yearly){
                         investment.setPeriod(YEAR[0]);
                         investment.setDuration(YEAR[1]);
                     }
-
-                    info.setText("");
-                    textField.clear();
-                    inputBox.getChildren().removeAll(info, textField,submit, monthly, yearly, month, year);
+                    collect.getChildren().remove(investingTime);
                 }
                 else{
                     if(time <= 0){
-                        info.setText("Time must be a positive number.");
+                        investingTime.setTitle("Time must be a positive number.");
                     }
-                    else if(!monthly.isSelected() || !yearly.isSelected()){
-                        info.setText("Please select either monthly or yearly for the payment period.");
+                    else if(!monthly || !yearly){
+                        investingTime.setTitle("Please select either monthly or yearly for the payment period.");
                     }
                     else{
-                        info.setText("Please enter a valid time and select either monthly or yearly for the payment period.");
+                        investingTime.setTitle("Please enter a valid time and select either monthly or yearly for the payment period.");
                     }
                 }
                 
@@ -119,77 +90,69 @@ public class DataCollect{
 
         });
 
-        inputPercentage.setOnAction(e -> {
-            Label percent = new Label("Enter percentage:");
-          
-            inputBox.getChildren().addAll(info, percent, textField, submit);
+        collect.getButton2().setOnAction(e -> {
+            inputBox percentage = new inputBox(10, "Enter estimated percentage", "Submit");
+            collect.getChildren().addAll(percentage);
 
-            submit.setOnAction(event -> {
-                float percentage = Utility.UserInputFL(textField.getText());
-                if (percentage > 0f) {
-                    investment.setPercentage(percentage);
-                    info.setText("");
-                    textField.clear();
-                    inputBox.getChildren().removeAll(info, percent, textField, submit);
+            percentage.getButton().setOnAction(event -> {
+                
+                float userInput = Utility.UserInputFL(percentage.getTextArea().getText());
+                if (userInput > 0f) {
+                    investment.setPercentage(userInput);
+                    collect.getChildren().removeAll(percentage);
                 }
                 else{
-                    info.setText("Please input a percentage value!");
+                    collect.setTitle("Please input a percentage value!");
                 }
             });
         });
 
-        inputDeposit.setOnAction(e -> {
-            Label depositLabel = new Label("");
-          
-            inputBox.getChildren().addAll(info, depositLabel, textField, submit);
+        collect.getButton3().setOnAction(e -> {
+
+            inputBox1 deposit = new inputBox1(0, "", "Submit", "");
+            collect.getChildren().addAll(deposit);
 
             if(investment instanceof Stocks){
                 Stocks stock = (Stocks) investment;
-                depositLabel.setText("Enter price per stock: ");
+                deposit.setTitle("Enter price per stock: ");
                 
-                submit.setOnAction(event -> {
-                    float price = Utility.UserInputFL(textField.getText());
+                deposit.getButton().setOnAction(event -> {
+                    float price = Utility.UserInputFL(deposit.getTextArea().getText());
                     if(price > 0f){
-                        float deposit = stock.getQuantity() * price;
-                        stock.setDeposit(deposit);
-                        textField.clear();
-                        inputBox.getChildren().removeAll(info, depositLabel, textField, submit);
-                        
+                        float sum = stock.getQuantity() * price;
+                        stock.setDeposit(sum);
+                        collect.getChildren().removeAll(deposit);
                     }
                     else{
-                        info.setText("Enter a valid price!");
+                        deposit.setText("Enter a valid price!");
                     }
                 });
             }
             else{
-                depositLabel.setText("Enter deposit amount:");
+                deposit.setTitle("Enter deposit amount:");
                 
-                submit.setOnAction(event -> {
-                    float deposit = Utility.UserInputFL(textField.getText());
-                    if (deposit > 0f) {
-                        investment.setDeposit(deposit);
-                        textField.clear();
-                        inputBox.getChildren().removeAll(info, depositLabel, textField, submit);
-
+                deposit.getButton().setOnAction(event -> {
+                    float userInput = Utility.UserInputFL(deposit.getTextArea().getText());
+                    if (userInput > 0f) {
+                        investment.setDeposit(userInput);
+                        collect.getChildren().removeAll(deposit);
                     }
                     else{
-                        info.setText("Enter a valid amount!");
+                        deposit.setText("Enter a valid price!");
                     }
                 });
             }
         });
 
-        calculate.setOnAction(e -> {
-            Calculations.Calculate(investment, primaryStage);
+        collect.getButton4().setOnAction(e -> {
+            //Calculations.Calculate(investment, primaryStage);
         });
         
-        backToMainMenu.setOnAction(e -> {
+        collect.getButton5().setOnAction(e -> {
             primaryStage.setScene(Main.mainMenu);
         });
 
-        verticalBox.getChildren().addAll(collect,inputTime,inputDeposit,inputPercentage,calculate, backToMainMenu);
-        container.getChildren().addAll(verticalBox, inputBox);
-        Scene dataCollectScene = new Scene(container, 600, 400);
+        Scene dataCollectScene = new Scene(collect, 600, 400);
         primaryStage.setScene(dataCollectScene);
     }
 }

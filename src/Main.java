@@ -1,9 +1,6 @@
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
-
 
 public class Main extends Application {
     
@@ -12,38 +9,37 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage){
 
-        VBox verticalBox = new VBox(15);
+       Container3 main = new Container3(10, "Main Menu", "Calculate Intrest", "Read Saved Files",
+                                        "Show Local Cache", "Show Server Cache", "Test Case", "");
 
-        Button collectData = new Button("CALCULATE INTREST");
-        Button readFile = new Button("SAVED FILES");
-        Button showLocalCache = new Button("SHOW LOCAL CACHE");
-        Button showServerCache = new Button("SHOW SERVER CACHE");
-        Button testCase = new Button("RUN TESTCASE");
-
-
-        collectData.setOnAction(e -> {
+        main.getButton1().setOnAction(e -> {
             DataCollect.ModeScene(primaryStage);
         });
 
-        readFile.setOnAction(e -> {
-            Files.ReadFile(primaryStage);
+        main.getButton2().setOnAction(e -> {
+            //Files.ReadFile(primaryStage);
         });
 
-        showLocalCache.setOnAction(e -> {
-            Cache.ShowCache(primaryStage);
+        main.getButton3().setOnAction(e -> {
+            if (!Calculations.Storage.isEmpty()) {
+                //Cache.ShowCache(primaryStage);
+            }
+            else{
+                main.setInfo("Cache is empty!");
+            }
+            
         });
 
-        showServerCache.setOnAction(e -> {
+        main.getButton4().setOnAction(e -> {
             //showServerCache function
         });
 
-        testCase.setOnAction(e -> {
+        main.getButton5().setOnAction(e -> {
             //Test.TestMain(primaryStage);
         });
         
-        verticalBox.getChildren().addAll(collectData, readFile, showLocalCache, showServerCache, testCase);
 
-        mainMenu = new Scene(verticalBox, 600, 400);
+        mainMenu = new Scene(main, 600, 400);
         primaryStage.setTitle("Investment Tool");
         primaryStage.setScene(mainMenu);
         primaryStage.show();
