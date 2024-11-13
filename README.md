@@ -26,8 +26,7 @@ This program is intended for personal use and experimentation with different pro
 
 ### GUI 
 * [x] HTML User Inteface -- Displays data from this app and other API
-* [ ]  JavaFX
-      * JavaFX experimenting started, very primitive so far. Will keep working on it
+* [ ]  JavaFX -- experimenting started, very primitive so far. Will keep working on it
 
 ### Other
 * [ ] Documentation / Comment source code
