@@ -1,7 +1,5 @@
 import javafx.stage.Stage;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.VBox;
 
 public class Test {
 
@@ -23,27 +21,24 @@ public class Test {
 
     public static void TestMain(Stage primaryStage) {
 
-        VBox container = new VBox(5);
-        Label info = new Label("TEST CASE");
-        Button run = new Button("Run");
-        Button back  = new Button("Go Back");
+        Container1 testCaseWindow = new Container1(10, "Test Case", "Run", "Go Back");
 
-        back.setOnAction(e -> {
+        testCaseWindow.getButton1().setOnAction(e -> {
+            String test = TestCase(primaryStage);
+            Interface info = new Interface(10, test);
+            Utility.Delay();
+            testCaseWindow.getChildren().add(info);
+        });
+
+        testCaseWindow.getButton2().setOnAction(e -> {
             primaryStage.setScene(Main.mainMenu);
         });
 
-        run.setOnAction(e -> {
-            TestCase(primaryStage);
-        });
-
-        container.getChildren().addAll(info, run, back);
-        Scene testScene = new Scene(container, 600, 400);
+        Scene testScene = new Scene(testCaseWindow, 600, 400);
         primaryStage.setScene(testScene);
-
-        
     }
 
-    private static void TestCase(Stage primaryStage) {
+    private static String TestCase(Stage primaryStage) {
         test.setTestCase(true);
 
         Investment investment1 = new Investment(12, 1.5f, 10000, "months", "month", 0, 0, "Linear");
@@ -63,6 +58,7 @@ public class Test {
         Calculations.Calculate(stock2, primaryStage);
 
         test.setTestCase(false);
-    }
 
+        return "Test completed! Inspect calculations from file.";
+    }
 }

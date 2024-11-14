@@ -33,21 +33,38 @@ public class Calculations {
         inputBox results = new inputBox(10, "Calculation Results:", "Click here to Proceed");
         results.getTextArea().setText(GetResult(investment));
 
-        if (!Test.test.getTestCase()) {
-            Investment copiedInvestment = investment.Clone();
-            Storage.add(copiedInvestment);
-        } 
-        else if(Test.test.getTestCase()){
-            Files.SaveFile(primaryStage, investment);
-        }
-        
-        results.getButton().setOnAction(e -> {
-            Files.SaveFile(primaryStage, investment);
+        results.getButton().setOnAction(event -> {
+            
+            Container1 saveFile = new Container1(10, "Do you wanna locally save this data?", "Yes", "No");
+            results.getChildren().add(saveFile);
+    
+            saveFile.getButton1().setOnAction(e -> {
+                inputBox saveFileData = new inputBox(10, "Please enter a name for your file", "Confirm");
+                saveFile.getChildren().addAll(saveFileData);
+    
+                saveFileData.getButton().setOnAction(save -> {
+                    String fileName = saveFileData.getTextArea().getText();
+                    String response = Files.SaveFile(fileName, investment);
+                    saveFileData.getTextArea().appendText("\n" + response);
+                    saveFile.getButton2().setText("Main Menu");
+                });
+            });
+
+            saveFile.getButton2().setOnAction(e -> {
+                primaryStage.setScene(Main.mainMenu);
+            });
+    
         });
 
         Scene resultScene = new Scene(results, 600, 400);
-        primaryStage.setScene(resultScene);
-
+        if (!Test.test.getTestCase()) {
+            Investment copiedInvestment = investment.Clone();
+            Storage.add(copiedInvestment);
+            primaryStage.setScene(resultScene);
+        }
+        else{
+            Files.SaveFile("", investment);
+        }
 
     }
 

@@ -14,10 +14,12 @@ public class Main extends Application {
 
         main.getButton1().setOnAction(e -> {
             DataCollect.ModeScene(primaryStage);
+            main.setInfo("");
         });
 
         main.getButton2().setOnAction(e -> {
-            //Files.ReadFile(primaryStage);
+            Files.ReadFile(primaryStage);
+            main.setInfo("");
         });
 
         main.getButton3().setOnAction(e -> {
@@ -32,13 +34,14 @@ public class Main extends Application {
 
         main.getButton4().setOnAction(e -> {
             Cache.ShowServerCache(primaryStage);
+            main.setInfo("");
         });
 
         main.getButton5().setOnAction(e -> {
-            //Test.TestMain(primaryStage);
+            Test.TestMain(primaryStage);
+            main.setInfo("");
         });
         
-
         mainMenu = new Scene(main, 600, 400);
         primaryStage.setTitle("Investment Tool");
         primaryStage.setScene(mainMenu);

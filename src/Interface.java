@@ -19,7 +19,7 @@ public class Interface extends VBox {
     public void setTitle(String text) {
         title.setText(text);
     }
-    
+
 }
 
 class EntryContainer extends Interface{
@@ -89,6 +89,16 @@ class Container1 extends Interface{
     public Button getButton3() {
         return button3;
     }
+
+    public Container1(double arg0, String titleText, String b1text, String b2text) {
+        super(arg0, titleText);
+        this.button1 = new Button(b1text);
+        this.button2 = new Button(b2text);
+
+        this.getChildren().addAll(button1, button2);
+    }
+
+    
     
 }
 

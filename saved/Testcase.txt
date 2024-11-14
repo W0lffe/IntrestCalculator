@@ -1,4 +1,4 @@
-Current date: 2024-11-06T20:39:07.739742200 (METHOD: Linear) 
+Current date: 2024-11-14T12:24:55.227030700 (METHOD: Linear) 
 Type: Linear
 Time: 12 months
 Percentage: 1,50%
@@ -7,7 +7,7 @@ After intrest: 11800,00€
 Earnings: 1800,00€
 
 
-Current date: 2024-11-06T20:39:07.739742200 (METHOD: Linear) 
+Current date: 2024-11-14T12:24:55.227030700 (METHOD: Linear) 
 Type: Linear
 Time: 1 years
 Percentage: 18,00%
@@ -16,39 +16,95 @@ After intrest: 11800,00€
 Earnings: 1800,00€
 
 
-Current date: 2024-11-06T20:39:07.739742200 (METHOD: Funds/ETF) 
+Current date: 2024-11-14T12:24:55.227030700 (METHOD: Funds/ETF) 
 Type: Funds/ETF
 Time: 12 months
-Percentage: 1,30%
+Percentage: 1,16%
 Deposit: 10000,00€
-After intrest: 11564,18€
-Earnings: 1564,18€
+After intrest: 11391,46€
+Earnings: 1391,46€
 
 
-Current date: 2024-11-06T20:39:07.739742200 (METHOD: Funds/ETF) 
+Current date: 2024-11-14T12:24:55.227030700 (METHOD: Funds/ETF) 
 Type: Funds/ETF
 Time: 1 years
-Percentage: 19,58%
+Percentage: 31,04%
 Deposit: 10000,00€
-After intrest: 11957,80€
-Earnings: 1957,80€
+After intrest: 13103,68€
+Earnings: 3103,68€
 
 
-Current date: 2024-11-06T20:39:07.739742200 (METHOD: Stocks) 
+Current date: 2024-11-14T12:24:55.227030700 (METHOD: Stocks) 
 Type: Stocks
 Time: 12 months
-Percentage: 1,22%
+Percentage: 1,75%
 Total price of stocks: 1008,00€
 Amount of stocks: 60
-After intrest: 1155,83€
-Earnings: 147,83€
+After intrest: 1219,50€
+Earnings: 211,50€
 
 
-Current date: 2024-11-06T20:39:07.739742200 (METHOD: Stocks) 
+Current date: 2024-11-14T12:24:55.227030700 (METHOD: Stocks) 
 Type: Stocks
 Time: 1 years
-Percentage: −9,75%
+Percentage: 27,56%
 Total price of stocks: 1008,00€
 Amount of stocks: 60
-After intrest: 909,76€
-Earnings: −98,24€
+After intrest: 1285,78€
+Earnings: 277,78€
+
+
+Current date: 2024-11-14T12:26:07.914764500 (METHOD: Linear) 
+Type: Linear
+Time: 12 months
+Percentage: 1,50%
+Deposit: 10000,00€
+After intrest: 11800,00€
+Earnings: 1800,00€
+
+
+Current date: 2024-11-14T12:26:07.914764500 (METHOD: Linear) 
+Type: Linear
+Time: 1 years
+Percentage: 18,00%
+Deposit: 10000,00€
+After intrest: 11800,00€
+Earnings: 1800,00€
+
+
+Current date: 2024-11-14T12:26:07.914764500 (METHOD: Funds/ETF) 
+Type: Funds/ETF
+Time: 12 months
+Percentage: 1,51%
+Deposit: 10000,00€
+After intrest: 11809,62€
+Earnings: 1809,62€
+
+
+Current date: 2024-11-14T12:26:07.914764500 (METHOD: Funds/ETF) 
+Type: Funds/ETF
+Time: 1 years
+Percentage: 20,34%
+Deposit: 10000,00€
+After intrest: 12034,11€
+Earnings: 2034,11€
+
+
+Current date: 2024-11-14T12:26:07.914764500 (METHOD: Stocks) 
+Type: Stocks
+Time: 12 months
+Percentage: 0,63%
+Total price of stocks: 1008,00€
+Amount of stocks: 60
+After intrest: 1083,81€
+Earnings: 75,81€
+
+
+Current date: 2024-11-14T12:26:07.914764500 (METHOD: Stocks) 
+Type: Stocks
+Time: 1 years
+Percentage: 29,01%
+Total price of stocks: 1008,00€
+Amount of stocks: 60
+After intrest: 1300,47€
+Earnings: 292,47€
