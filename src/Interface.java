@@ -1,4 +1,5 @@
 import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class Interface extends VBox {
@@ -20,6 +21,7 @@ public class Interface extends VBox {
         title.setText(text);
     }
 
+
 }
 
 class EntryContainer extends Interface{
@@ -29,14 +31,13 @@ class EntryContainer extends Interface{
     public EntryContainer(double arg0, String titleText, String buttonLabel) {
         super(arg0, titleText);
         this.button = new Button(buttonLabel);
-
+        
         this.getChildren().add(button);
     }
 
     public Button getButton() {
         return button;
     }
-
 
 }
 
@@ -213,4 +214,66 @@ class inputBox2 extends inputBox{
     public CheckBox getCb2() {
         return cb2;
     }
+}
+
+class MainMenu extends HBox{
+
+    private Button button1;
+    private Button button2;
+    private Button button3;
+    private Button button4;
+    private Button button5;
+    private Label title;
+    private Label info;
+    
+    public MainMenu(double arg0, String titleText, String b1text, String b2text, String b3text, String b4text, String b5text, String infoText) {
+        super(arg0);
+        this.button1 = new Button(b1text);
+        this.button2 = new Button(b2text);
+        this.button3 = new Button(b3text);
+        this.button4 = new Button(b4text);
+        this.button5 = new Button(b5text);
+        this.title = new Label(titleText);
+        this.info = new Label(infoText);
+
+        this.getChildren().addAll(button1,button2,button3,button4,button5,title,info);
+    }
+
+    public Button getButton1() {
+        return button1;
+    }
+
+    public Button getButton2() {
+        return button2;
+    }
+
+    public Button getButton3() {
+        return button3;
+    }
+
+    public Button getButton4() {
+        return button4;
+    }
+
+    public Button getButton5() {
+        return button5;
+    }
+
+    public Label getInfo() {
+        return info;
+    }
+    
+    public void setInfo(String infoString) {
+        info.setText(infoString);
+    }
+    
+
+    
+
+
+    
+
+
+
+
 }

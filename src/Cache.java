@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 public class Cache {
 
     private static int method = 1;
-    private static String URL = "";
+    private static String URL = "https://www.cc.puv.fi/~e2301740/IC_Backend";
 
     public static void ShowCache(Stage primaryStage) {
         Gson gson = new Gson();
@@ -79,7 +79,7 @@ public class Cache {
 
         CacheContainer cache = new CacheContainer(10, "Server Cache", 
                                                 "Press button to delete entry from server, or go back to Main Menu", "Main Menu");
-
+            
         try {
 
             URI serverURI = URI.create(URL + "/IC_Backend.php?method=" + method);

@@ -1,12 +1,12 @@
 import java.util.ArrayList;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
+
 
 public class Calculations {
     
     public static ArrayList<Investment> Storage = new ArrayList<>();
 
-    public static void Calculate(Investment investment, Stage primaryStage){
+    public static void Calculate(Investment investment, BorderPane root){
         float afterIntrest = investment.getDeposit();
         float temp = afterIntrest;
         float increment;
@@ -30,37 +30,41 @@ public class Calculations {
         investment.setAfterIntrest(afterIntrest);
         investment.setEarnings(investment.getAfterIntrest() - investment.getDeposit());
 
-        inputBox results = new inputBox(10, "Calculation Results:", "Click here to Proceed");
+        Vertical container = new Vertical(10, "Calculation Results");
+        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/2);
+        root.setCenter(container);
+
+        VerticalInputBox results = new VerticalInputBox(10, "", "Click here to Proceed");
+        container.getChildren().addAll(results);
+
         results.getTextArea().setText(GetResult(investment));
 
         results.getButton().setOnAction(event -> {
-            
-            Container1 saveFile = new Container1(10, "Do you wanna locally save this data?", "Yes", "No");
-            results.getChildren().add(saveFile);
+
+            HorizontalMenu menu = new HorizontalMenu(10, "Do you wanna locally save this data?", "Yes", "No");
+            container.getChildren().add(menu);
     
-            saveFile.getButton1().setOnAction(e -> {
-                inputBox saveFileData = new inputBox(10, "Please enter a name for your file", "Confirm");
-                saveFile.getChildren().addAll(saveFileData);
+            menu.getButton1().setOnAction(e -> {
+                VerticalInputBox saveFileData = new VerticalInputBox(10, "Please enter a name for your file", "Confirm");
+                container.getChildren().addAll(saveFileData);
     
                 saveFileData.getButton().setOnAction(save -> {
                     String fileName = saveFileData.getTextArea().getText();
                     String response = Files.SaveFile(fileName, investment);
                     saveFileData.getTextArea().appendText("\n" + response);
-                    saveFile.getButton2().setText("Main Menu");
+                    menu.getButton2().setText("Reset");
                 });
             });
 
-            saveFile.getButton2().setOnAction(e -> {
-                primaryStage.setScene(Main.mainMenu);
+            menu.getButton2().setOnAction(e -> {
+                root.setCenter(null);
             });
     
         });
 
-        Scene resultScene = new Scene(results, 600, 400);
         if (!Test.test.getTestCase()) {
             Investment copiedInvestment = investment.Clone();
             Storage.add(copiedInvestment);
-            primaryStage.setScene(resultScene);
         }
         else{
             Files.SaveFile("", investment);

@@ -1,4 +1,5 @@
 import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.Scene;
 
 public class Test {
@@ -19,26 +20,23 @@ public class Test {
 
     public static Test test = new Test(false);
 
-    public static void TestMain(Stage primaryStage) {
+    public static void TestMain(BorderPane root) {
 
         Container1 testCaseWindow = new Container1(10, "Test Case", "Run", "Go Back");
 
         testCaseWindow.getButton1().setOnAction(e -> {
-            String test = TestCase(primaryStage);
+            String test = TestCase(root);
             Interface info = new Interface(10, test);
             Utility.Delay();
             testCaseWindow.getChildren().add(info);
         });
 
         testCaseWindow.getButton2().setOnAction(e -> {
-            primaryStage.setScene(Main.mainMenu);
+            root.setCenter(null);
         });
-
-        Scene testScene = new Scene(testCaseWindow, 600, 400);
-        primaryStage.setScene(testScene);
     }
 
-    private static String TestCase(Stage primaryStage) {
+    private static String TestCase(BorderPane root) {
         test.setTestCase(true);
 
         Investment investment1 = new Investment(12, 1.5f, 10000, "months", "month", 0, 0, "Linear");
@@ -50,12 +48,12 @@ public class Test {
         Stocks stock1 = new Stocks(12, 1.5f, 1008, "months", "month", 0, 0, "Stocks", 60);
         Stocks stock2 = new Stocks(1, 18f, 1008, "years", "year", 0, 0, "Stocks", 60);
 
-        Calculations.Calculate(investment1, primaryStage);
-        Calculations.Calculate(investment2, primaryStage);
-        Calculations.Calculate(fund1, primaryStage);
-        Calculations.Calculate(fund2, primaryStage);
-        Calculations.Calculate(stock1, primaryStage);
-        Calculations.Calculate(stock2, primaryStage);
+        Calculations.Calculate(investment1, root);
+        Calculations.Calculate(investment2, root);
+        Calculations.Calculate(fund1, root);
+        Calculations.Calculate(fund2, root);
+        Calculations.Calculate(stock1, root);
+        Calculations.Calculate(stock2, root);
 
         test.setTestCase(false);
 
