@@ -37,7 +37,7 @@ java --module-path "lib/javafx-sdk-23/lib/" --add-modules javafx.controls,javafx
 
 ### GUI 
 * [x] HTML User Inteface -- Displays data from this app and other API
-* [ ]  JavaFX -- experimenting started, very primitive so far. Will keep working on it
+* [ ]  JavaFX -- Ready for use, missing styling, needs refining. But usable.
 
 ### Other
 * [ ] Documentation / Comment source code
