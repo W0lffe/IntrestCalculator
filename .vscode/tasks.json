@@ -5,7 +5,7 @@
             "label": "Compile",
             "type": "shell",
             "command": "javac",
-            "args": [ "-cp", "lib/gson/gson-2.11.0.jar",
+            "args": [ "-cp", "lib\\gson\\gson-2.11.0.jar;lib\\javafx-sdk-23\\lib\\*",
             "src\\*.java",
             "-d", "out"
             ]
@@ -14,8 +14,9 @@
             "label": "Run",
             "type": "shell",
             "command": "java",
-            "args": [ "-cp", "lib\\gson\\gson-2.11.0.jar", 
-            "-cp", "out\\", "Main"
+            "args": [ "--module-path", "lib\\javafx-sdk-23\\lib\\", 
+            "--add-modules", "javafx.controls,javafx.fxml",
+            "-cp", "out\\;lib\\gson\\*", "Main"
             ]
         },
         {
@@ -33,3 +34,6 @@
         },
     ]
 }
+// javac -cp "lib/javafx-sdk-23/lib/*;lib/gson/*" src/*.java -d out
+
+// java --module-path "lib/javafx-sdk-23/lib/" --add-modules javafx.controls,javafx.fxml -cp "out;lib/gson/*" Main

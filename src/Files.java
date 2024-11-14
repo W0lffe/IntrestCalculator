@@ -1,8 +1,9 @@
-import java.util.Scanner;
 import java.time.LocalDateTime;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 import java.awt.Desktop;
 
 class Files {
@@ -10,131 +11,102 @@ class Files {
     private static String path = "saved/";
     private static LocalDateTime currentDate = LocalDateTime.now();
 
-    public static void SaveFile(Scanner myScanner, Investment investment) {
-        int userInput;
-        System.out.println("\nDo you wish to save this data?\n1.Yes\n2.No");
-
-        do {
-
-            if (Test.test.getTestCase()) {
-                userInput = 1;
-                break;
-            } else {
-                userInput = Validation.UserInput(myScanner);
-            }
-            if (userInput == 1 || userInput == 2) {
-                break;
-            } else {
-                System.out.println("Invalid choice!");
-            }
-
-        } while (true);
-
-        if (userInput == 2) {
-            return;
-        }
-
+    public static String SaveFile(String fileName, Investment investment) {
+        
         String dataToSave = toSave(investment);
-
-        while (true) {
-            String name;
-
-            if (Test.test.getTestCase()) {
-                name = "Testcase";
-            } else {
-                System.out.print("Give a name to file: ");
-                name = myScanner.nextLine();
-            }
-
-            String newFilePath = path + name + ".txt";
-
-            try {
-                File newFile = new File(newFilePath);
-                if (newFile.createNewFile()) {
-                    System.out.println("Created file: " + newFile.getName());
-                    FileWriter myWriter = new FileWriter(newFile);
-                    myWriter.write(dataToSave);
-                    myWriter.close();
-                    break;
-                } else if (!newFile.createNewFile()) {
-                    System.out.println("File already exists! Data appended! \n");
-                    FileWriter myWriter = new FileWriter(newFile, true);
-                    myWriter.append("\n\n" + dataToSave);
-                    myWriter.close();
-                    break;
-                }
-            } catch (IOException e) {
-                System.out.println("Something went wrong!");
-            }
+        String name = fileName;
+       
+        if (Test.test.getTestCase()) {
+            name = "Testcase";
         }
+       
+        String newFilePath = path + name + ".txt";
+        String returnResponse = "";
 
-        Utility.Delay();
-        System.out.println("Data saved!");
+        try {
+            File newFile = new File(newFilePath);
+            if (newFile.createNewFile()) {
+                //System.out.println("Created file: " + newFile.getName());
+                returnResponse = "Created file: " + newFile.getName();
+                FileWriter myWriter = new FileWriter(newFile);
+                myWriter.write(dataToSave);
+                myWriter.close();
+
+            } else if (!newFile.createNewFile()) {
+                //System.out.println("File already exists! Data appended! \n");
+                returnResponse = "File already exists! Data appended!";
+                FileWriter myWriter = new FileWriter(newFile, true);
+                myWriter.append("\n\n" + dataToSave);
+                myWriter.close();
+                }
+
+            return returnResponse;
+        } catch (IOException ex) {
+            System.out.println("Something went wrong!");
+            return "Something went wrong!";
+        }
+           
+
     }
 
-    public static void ReadFile(Scanner myScanner) {
+    public static void ReadFile(Stage primaryStage) {
+       
+        CacheContainer fileRead = new CacheContainer(10, "Read Saved Files", "Select file to read", "Main Menu");
 
         File folder = new File(path);
-        int a = 1;
-        int command;
-
+        
         if (folder.exists() && folder.isDirectory()) {
             File[] folderFiles = folder.listFiles(file -> file.isFile() && file.canRead() && file.canWrite());
+            int i = 1;
 
-            System.out.println("\nDirectory has files: \n0. Go back");
-
-            for (File file : folderFiles) {
-                if (file.canRead() && file.canWrite()) {
-                    System.out.println(a + ". " + file.getName());
-                    a++;
-                }
-            }
-
-            System.out.println("Which file would you like to read?\n");
-
-            while (true) {
-                try {
-                    System.out.print("Your choice: ");
-                    command = Integer.parseInt(myScanner.nextLine());
-                    if (command > 0 && command < a) {
-                        break;
-                    } else if (command == 0) {
-                        return;
-                    } else {
-                        System.out.println("File not found! Try again");
+            if (folderFiles.length > 0) {
+                for (File file : folderFiles) {
+                    if (file.canRead() && file.canWrite()) {
+                        String fileEntry = i + ". " + file.getName();
+                        EntryContainer files = new EntryContainer(10, fileEntry, "Read File");
+    
+                        files.getButton().setOnAction(e -> {
+                        File fileToOpen = file;
+    
+                            if (Desktop.isDesktopSupported()) {
+                                Desktop desktop = Desktop.getDesktop();
+                                Utility.Delay();
+                                try {
+                                    desktop.open(fileToOpen);
+                
+                                } catch (IOException ex) {
+                                    fileRead.setInfo("Unable to open file!");
+                                    ex.printStackTrace();
+                                }
+                            } else {
+                                fileRead.setInfo("This system is not capable for desktop operations.");
+                            }
+                        });
+                        fileRead.getChildren().addAll(files);
+                        i++;
                     }
-                } catch (Exception e) {
-                    System.out.println("Error occured!");
                 }
             }
-
-            System.out.println("You chose file: " + folderFiles[command - 1].getName());
-
-            String newPath = path + folderFiles[command - 1].getName();
-            File file = new File(newPath);
-
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                Utility.Delay();
-                try {
-                    desktop.open(file);
-
-                } catch (IOException e) {
-                    System.out.println("Unable to open file!");
-                    e.printStackTrace();
-                }
-            } else {
-                System.out.println("This system is not capable for desktop operations.");
+            else {
+                fileRead.setInfo("Directory is empty.");
             }
-        } else {
-            System.out.println("Folder is not found.");
         }
-    }
+        else {
+            fileRead.setInfo("Directory does not exist!");
+        }
 
+        fileRead.getButton().setOnAction(e -> {
+            primaryStage.setScene(Main.mainMenu);
+        });
+
+    Scene readScene = new Scene(fileRead, 600, 400);
+    primaryStage.setScene(readScene);
+}
+   
     private static String toSave(Investment investment) {
         String dataToSave = "Current date: " + currentDate;
         dataToSave += " (METHOD: " + investment.getType() + ") ";
         dataToSave += "\n" + investment;
         return dataToSave;
     }
-}
+} 

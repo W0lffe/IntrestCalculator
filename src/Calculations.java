@@ -1,11 +1,12 @@
 import java.util.ArrayList;
-import java.util.Scanner;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-class Calculations {
-
+public class Calculations {
+    
     public static ArrayList<Investment> Storage = new ArrayList<>();
 
-    public static void Calculate(Scanner myScanner, Investment investment) {
+    public static void Calculate(Investment investment, Stage primaryStage){
         float afterIntrest = investment.getDeposit();
         float temp = afterIntrest;
         float increment;
@@ -27,25 +28,47 @@ class Calculations {
             }
         }
         investment.setAfterIntrest(afterIntrest);
-
-        Utility.print(4);
-
-        System.out.printf(
-                "\nAfter: %d %s\nWith %.2f%%\nYour initial deposit: %.2f euros\nhas theoretically risen to: %.2f euros. \n",
-                investment.getTime(), investment.getPeriod(), investment.getPercentage(), investment.getDeposit(),
-                investment.getAfterIntrest());
         investment.setEarnings(investment.getAfterIntrest() - investment.getDeposit());
-        System.out.printf("Your earnings are: %.2f euros. \n", investment.getEarnings());
 
+        inputBox results = new inputBox(10, "Calculation Results:", "Click here to Proceed");
+        results.getTextArea().setText(GetResult(investment));
+
+        results.getButton().setOnAction(event -> {
+            
+            Container1 saveFile = new Container1(10, "Do you wanna locally save this data?", "Yes", "No");
+            results.getChildren().add(saveFile);
+    
+            saveFile.getButton1().setOnAction(e -> {
+                inputBox saveFileData = new inputBox(10, "Please enter a name for your file", "Confirm");
+                saveFile.getChildren().addAll(saveFileData);
+    
+                saveFileData.getButton().setOnAction(save -> {
+                    String fileName = saveFileData.getTextArea().getText();
+                    String response = Files.SaveFile(fileName, investment);
+                    saveFileData.getTextArea().appendText("\n" + response);
+                    saveFile.getButton2().setText("Main Menu");
+                });
+            });
+
+            saveFile.getButton2().setOnAction(e -> {
+                primaryStage.setScene(Main.mainMenu);
+            });
+    
+        });
+
+        Scene resultScene = new Scene(results, 600, 400);
         if (!Test.test.getTestCase()) {
             Investment copiedInvestment = investment.Clone();
             Storage.add(copiedInvestment);
+            primaryStage.setScene(resultScene);
         }
-
-        Files.SaveFile(myScanner, investment);
+        else{
+            Files.SaveFile("", investment);
+        }
 
     }
 
+    
     private static float CalculateVolatilityAverage(Investment investment) {
         float increment;
         float newPercentage = 0f;
@@ -91,4 +114,14 @@ class Calculations {
 
     }
 
+    private static String GetResult(Investment investment){
+        String result = "\nAfter: " + investment.getTime() + " " + investment.getPeriod() +
+                        "\nWith: " + investment.getPercentage() +
+                        "\nYour initial deposit: " + investment.getDeposit() + " euros" +
+                        "\nHas theoretically risen to: " + investment.getAfterIntrest() + " euros" +
+                        "\nYour earnings are: " + investment.getEarnings() + " euros";
+        
+        return result;
+    }
 }
+

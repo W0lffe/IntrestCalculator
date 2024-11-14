@@ -6,59 +6,44 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.Scanner;
 import com.google.gson.Gson;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
 public class Cache {
 
     private static int method = 1;
 
-    public static void ShowCache(Scanner myScanner) {
+    public static void ShowCache(Stage primaryStage) {
         Gson gson = new Gson();
+        CacheContainer cache = new CacheContainer(10, "Local Cache", "Press button to save entry, or go back to Main Menu", "Main Menu");
 
         int entry = 1;
         for (Investment investment : Calculations.Storage) {
-            System.out.println("\nEntry: " + entry + "\n" + investment);
+            String entryText = "Entry: " + entry + "\n" + investment;
+            EntryContainer localEntry = new EntryContainer(10, entryText, "Save Entry");
+
+            localEntry.getButton().setOnAction(e -> {
+                String selectedEntry = gson.toJson(investment);
+                String response = SendToServer(selectedEntry);
+                cache.setInfo(response);
+            });
+            cache.getChildren().addAll(localEntry);
             entry++;
         }
-        int userInput;
-        System.out.println("Would you like to save entry to server? \n1.Yes\n2.No");
 
-        while (true) {
-            userInput = Validation.UserInput(myScanner);
-            if (userInput == 1 || userInput == 2) {
-                break;
-            } else {
-                System.out.println("Invalid choice!");
-            }
-        }
+        cache.getButton().setOnAction(e -> {
+            primaryStage.setScene(Main.mainMenu);
+        });
 
-        if (userInput == 1) {
-            int choice;
-            System.out.println("Wich entry would you like to be saved?");
-            while (true) {
-                choice = Validation.UserInput(myScanner);
-                if (choice > 0 && choice <= Calculations.Storage.size()) {
-
-                    System.out.println("\n" + Calculations.Storage.get(choice - 1));
-                    String selectedEntry = gson.toJson(Calculations.Storage.get(choice - 1));
-                    // System.out.println(selectedEntry);
-                    SendToServer(selectedEntry);
-                    break;
-                } else {
-                    System.out.println("Entry doesnt exist.");
-                    return;
-                }
-            }
-        } else {
-            return;
-        }
+        Scene cacheScene = new Scene(cache, 600, 400);
+        primaryStage.setScene(cacheScene);
     }
 
-    private static void SendToServer(String StringJSON) {
+     private static String SendToServer(String StringJSON) {
 
         try {
-            URI serverURI = URI.create("yourURLhere");
+            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("POST");
@@ -71,24 +56,32 @@ public class Cache {
 
             int Response = connection.getResponseCode();
 
+            String message;
             if (Response == HttpURLConnection.HTTP_OK) {
-                System.out.println("Data successfully sent!");
+                //System.out.println("Data successfully sent!");
+                message = "Data successfully sent!";
             } else {
-                System.out.println("Error! " + Response);
+                message = "Error! " + Response;
+                //System.out.println("Error! " + Response);
             }
             connection.disconnect();
+            return message;
 
         } catch (Exception e) {
             e.printStackTrace();
+            return e.getMessage();
         }
     }
-
-    public static void ShowServerCache(Scanner myScanner) {
+ 
+    public static void ShowServerCache(Stage primaryStage) {
         Gson gson = new Gson();
+
+        CacheContainer cache = new CacheContainer(10, "Server Cache", 
+                                                "Press button to delete entry from server, or go back to Main Menu", "Main Menu");
 
         try {
 
-            URI serverURI = URI.create("yourURLhere?method=" + method);
+            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php?method=" + method);
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("GET");
@@ -108,85 +101,65 @@ public class Cache {
 
                 if (Entries != null) {
                     for (Investment entry : Entries) {
-                        System.out.println("Entry: " + entry.getId());
-                        System.out.println(entry);
+                        String entryText = "Entry: " + entry.getId() + "\n" + entry;
+                        EntryContainer serverEntry = new EntryContainer(10, entryText, "Delete Entry");
+
+                        serverEntry.getButton().setOnAction(e -> {
+                            String serverResponse = DeleteData(entry.getId());
+                            cache.setInfo(serverResponse);
+                            Utility.Delay();
+                            ShowServerCache(primaryStage);
+                        });
+
+                        cache.getChildren().addAll(serverEntry);
                     }
-                    SelectDataToDelete(Entries, myScanner);
                 } else {
-                    System.out.println("No data found.");
+                    cache.setInfo("No data found.");
                 }
 
             } else {
-                System.out.println("Error: " + connection.getResponseCode());
+                cache.setInfo("Error: " + connection.getResponseCode());
             }
             connection.disconnect();
 
         } catch (IOException e) {
-            System.out.println("Error fetching data: " + e.getMessage());
+            cache.setInfo("Error fetching data: " + e.getMessage());
             e.printStackTrace();
         }
 
+        cache.getButton().setOnAction(e -> {
+            primaryStage.setScene(Main.mainMenu);
+        });
+
+        Scene serverScene = new Scene(cache, 600, 400);
+        primaryStage.setScene(serverScene);
+
     }
-
-    private static void SelectDataToDelete(ArrayList<Investment> Entries, Scanner myScanner) {
-        int userInput;
-
-        System.out.println("Do you wish to delete entry?\n1.Yes\n2.No");
-
-        while (true) {
-            userInput = Validation.UserInput(myScanner);
-            if (userInput == 1 || userInput == 2) {
-                break;
-            } else {
-                System.out.println("Invalid choice!");
-            }
-        }
-
-        if (userInput == 1) {
-            int choice;
-            System.out.println("Wich entry would you like to be deleted?");
-            while (true) {
-                choice = Validation.UserInput(myScanner);
-                if (choice > 0 && choice <= Entries.size()) {
-
-                    System.out.println("\n" + Entries.get(choice - 1));
-                    int selectedID = Entries.get(choice - 1).getId();
-                    // System.out.println(Entries.indexOf(Entries.get(choice-1)));
-                    // System.out.println(selectedID);
-
-                    DeleteData(selectedID);
-                    break;
-                } else {
-                    System.out.println("Entry doesnt exist.");
-                    return;
-                }
-            }
-        } else {
-            return;
-        }
-    }
-
-    private static void DeleteData(int id) {
+    private static String DeleteData(int id) {
 
         try {
 
-            URI serverURI = URI.create("yourURLhere?id=" + id);
+            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php?id=" + id);
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("DELETE");
 
             int Response = connection.getResponseCode();
 
+            String message;
             if (Response == HttpURLConnection.HTTP_OK) {
-                System.out.println("Data successfully deleted!");
+                message = "Data successfully deleted!";
             } else {
-                System.out.println("Error! " + Response);
+                message = "Error! " + Response;
             }
             connection.disconnect();
+            return message;
 
         } catch (Exception e) {
             e.printStackTrace();
+            return "Error! " + e.getMessage();
         }
     }
 
 }
+ 

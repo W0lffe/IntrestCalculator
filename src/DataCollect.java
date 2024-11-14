@@ -1,199 +1,167 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Scanner;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
 
-class DataCollect {
+public class DataCollect{
 
     private static final String[] YEAR = { "years", "year" };
     private static final String[] MONTH = { "months", "month" };
 
-    private static final ArrayList<Integer[]> validInputs = new ArrayList<>(Arrays.asList(
-            new Integer[] { 0, 1, 2, 3, 4, 5, 9 },
-            new Integer[] { 0, 1, 2, 3 },
-            new Integer[] { 0, 1, 2 }));
+    public static void ModeScene(Stage primaryStage){
 
-    public static void Mode(Scanner myScanner) {
-        Utility.print(2);
-        int userInput;
+            Container1 mode = new Container1(10,"Select one:" , "Linear Calculation", "Funds/ETF", "Stocks");
+        
+            mode.getButton1().setOnAction(event -> {
+                Investment linearInvestment = new Investment(0, 0f, 0f, "", "", 0f, 0f, "Linear");
+                CollectScene(linearInvestment, primaryStage);
+            });
 
-        while (true) {
-            userInput = Validation.UserInput(myScanner);
-            if (Arrays.asList(validInputs.get(1)).contains(userInput)) {
-                break;
-            } else {
-                System.out.println("Invalid choice!\n");
-            }
-        }
-        switch (userInput) {
-            case 1:
-                System.out.println("\nYou chose: Linear calculation!\n");
-                Investment linear = new Investment(0, 0f, 0f, "", "", 0f, 0f, "Linear");
-                CollectData(myScanner, linear);
-                break;
-            case 2:
-                System.out.println("\nYou chose: Stocks!\n");
-                Investment stocks = new Stocks(0, 0f, 0f, "", "", 0f, 0f, "Stocks", 0);
-                CollectData(myScanner, stocks);
-                break;
-            case 3:
-                System.out.println("\nYou chose: Funds/ETF!\n");
-                Investment funds = new Funds(0, 0f, 0f, "", "", 0f, 0f, "Funds/ETF");
-                CollectData(myScanner, funds);
-                break;
-            case 0:
-                return;
-        }
+            mode.getButton2().setOnAction(event -> {
+                Investment fundInvestment = new Funds(0, 0f, 0f, "", "", 0f, 0f, "Funds/ETF");
+                CollectScene(fundInvestment, primaryStage);
+            });
 
-    }
+            mode.getButton3().setOnAction(event -> {
 
-    /* Function collects all information needed for calculating intrest */
-    private static void CollectData(Scanner myScanner, Investment investment) {
+                inputBox1 stocks = new inputBox1(10, "How many stocks?", "Submit", "");
+                mode.getChildren().addAll(stocks);
+                
+                stocks.getButton().setOnAction(submitEvent -> {
+                    int quantity = Utility.UserInputINT(stocks.getTextArea().getText());
 
-        int userInput;
-        do {
-            Utility.print(3);
-
-            do {
-                userInput = Validation.UserInput(myScanner);
-                if (Arrays.asList(validInputs.get(0)).contains(userInput)) {
-                    break;
-                } else {
-                    System.out.println("Invalid choice!");
-                }
-
-            } while (true);
-
-            switch (userInput) {
-                case 1:
-                    InputTime(myScanner, investment);
-                    break;
-                case 2:
-                    if (investment.getTime() != 0) {
-                        InputPercentage(myScanner, investment);
-                        break;
-                    } else {
-                        System.out.println("Please enter time first!\n");
-                        break;
+                    if (quantity > 0){
+                        Investment stockInvestment = new Stocks(0, 0f, 0f, "", "", 0f, 0f, "Stocks", quantity);
+                        CollectScene(stockInvestment, primaryStage);
                     }
-                case 3:
-                    InputDeposit(myScanner, investment);
-                    break;
-                case 4:
-                    System.out.printf("Type: %s \nTime: %d %s \nPercentage: %.2f \nDeposit: %.2f \n",
-                            investment.getType(), investment.getTime(),
-                            investment.getPeriod(), investment.getPercentage(), investment.getDeposit());
-                    break;
-                case 9:
-                    if (investment.getTime() != 0 && investment.getPercentage() != 0 && investment.getDeposit() != 0) {
-                        Calculations.Calculate(myScanner, investment);
-                        break;
-                    } else {
-                        System.out.println("Insufficient Setup!\n");
+                    else{
+                        stocks.setTitle("Invalid quantity! Quantity has to be a positive number.");
                     }
-                case 0:
-                    return;
+                });
+            });
 
-            }
-        } while (userInput != 0);
-
+            Scene modeScene = new Scene(mode, 600, 400);
+            primaryStage.setScene(modeScene);
     }
 
-    private static void InputTime(Scanner myScanner, Investment investment) {
-        System.out.println("\n1. Yearly\n2. Monthly\n0. Go Back");
-        int userInput;
-        while (true) {
-            userInput = Validation.UserInput(myScanner);
-            if (Arrays.asList(validInputs.get(2)).contains(userInput)) {
-                break;
-            } else {
-                System.out.println("Invalid choice!");
-            }
-        }
+    private static void CollectScene(Investment investment, Stage primaryStage){
 
-        switch (userInput) {
-            case 1:
-                System.out.println("You chose yearly expectation.");
-                investment.setPeriod(YEAR[0]);
-                investment.setDuration(YEAR[1]);
-                break;
-            case 2:
-                System.out.println("You chose monthly expectation.");
-                investment.setPeriod(MONTH[0]);
-                investment.setDuration(MONTH[1]);
-                break;
-            case 0:
-                return;
-        }
+        Container2 collect = new Container2(10, "Settings for Calculation", "Time", "Percentage",
+                                             "Deposit", "Calculate", "Main Menu");
+       
+        
+  
+    
+        collect.getButton1().setOnAction(e -> {
+            inputBox2 investingTime = new inputBox2(10, "Set time", "Submit", "Monthly", "Yearly");
+            
+            collect.getChildren().addAll(investingTime);
 
-        investment.setTime(Validation.Time(myScanner, investment.getPeriod()));
+            investingTime.getButton().setOnAction(event -> {
+                int time = Utility.UserInputINT(investingTime.getTextArea().getText());
+                boolean monthly = investingTime.getCb1().isSelected();
+                boolean yearly = investingTime.getCb2().isSelected();
 
-    }
 
-    private static void InputPercentage(Scanner myScanner, Investment investment) {
-        float userInput;
+                if (time > 0 && (monthly || yearly)) {
+                    investment.setTime(time);
 
-        while (true) {
-            try {
-                System.out.printf("Enter estimated growth percentage per %s: ", investment.getDuration());
-                userInput = Float.parseFloat(myScanner.nextLine());
-                if (userInput > 0 || userInput < 0) {
-                    break;
-                }
-            } catch (Exception e) {
-                System.out.println("\nUnknown input format! Enter again!\n");
-            }
-        }
-        investment.setPercentage(userInput);
-    }
-
-    private static void InputDeposit(Scanner myScanner, Investment investment) {
-        float userInput;
-        String toPrint = "";
-        int stocksQuantity;
-
-        if (investment instanceof Stocks) {
-            toPrint = "Enter price per stock: ";
-        } else {
-            toPrint = "Enter initial deposit amount: ";
-        }
-
-        while (true) {
-            try {
-                System.out.print(toPrint);
-                userInput = Float.parseFloat(myScanner.nextLine());
-                if (userInput > 0) {
-                    break;
-                } else {
-                    System.out.println("Invalid amount!");
-                }
-            } catch (Exception e) {
-                System.out.println("\nUnknown input format! \nEnter again!");
-            }
-        }
-
-        if (investment instanceof Stocks) {
-            float sum;
-
-            while (true) {
-                try {
-                    System.out.print("Enter amount of stocks you want to buy: ");
-                    stocksQuantity = Integer.parseInt(myScanner.nextLine());
-                    if (stocksQuantity > 0) {
-                        sum = stocksQuantity * userInput;
-                        investment.setDeposit(sum);
-                        Stocks stock = (Stocks) investment;
-                        stock.setQuantity(stocksQuantity);
-                        break;
-                    } else {
-                        System.out.println("Invalid amount!");
+                    if (monthly) {
+                        investment.setPeriod(MONTH[0]);
+                        investment.setDuration(MONTH[1]);
                     }
-                } catch (Exception e) {
-                    System.out.println("\nUnknown input format! \nEnter again!");
+                    else if(yearly){
+                        investment.setPeriod(YEAR[0]);
+                        investment.setDuration(YEAR[1]);
+                    }
+                    collect.getChildren().remove(investingTime);
                 }
-            }
-        } else {
-            investment.setDeposit(userInput);
-        }
-    }
+                else{
+                    if(time <= 0){
+                        investingTime.setTitle("Time must be a positive number.");
+                    }
+                    else if(!monthly || !yearly){
+                        investingTime.setTitle("Please select either monthly or yearly for the investing period.");
+                    }
+                    else{
+                        investingTime.setTitle("Please enter a valid time and select either monthly or yearly for the investing period.");
+                    }
+                }
+                
+            });
 
+        });
+
+        collect.getButton2().setOnAction(e -> {
+            inputBox percentage = new inputBox(10, "Enter estimated percentage", "Submit");
+            collect.getChildren().addAll(percentage);
+
+            percentage.getButton().setOnAction(event -> {
+                
+                float userInput = Utility.UserInputFL(percentage.getTextArea().getText());
+                if (userInput > 0f) {
+                    investment.setPercentage(userInput);
+                    collect.getChildren().removeAll(percentage);
+                }
+                else{
+                    percentage.setTitle("Please input a percentage value!");
+                }
+            });
+        });
+
+        collect.getButton3().setOnAction(e -> {
+
+            inputBox1 deposit = new inputBox1(0, "", "Submit", "");
+            collect.getChildren().addAll(deposit);
+
+            if(investment instanceof Stocks){
+                Stocks stock = (Stocks) investment;
+                deposit.setTitle("Enter price per stock: ");
+                
+                deposit.getButton().setOnAction(event -> {
+                    float price = Utility.UserInputFL(deposit.getTextArea().getText());
+                    if(price > 0f){
+                        float sum = stock.getQuantity() * price;
+                        stock.setDeposit(sum);
+                        collect.getChildren().removeAll(deposit);
+                    }
+                    else{
+                        deposit.setTitle("Enter a valid price!");
+                    }
+                });
+            }
+            else{
+                deposit.setTitle("Enter deposit amount:");
+                
+                deposit.getButton().setOnAction(event -> {
+                    float userInput = Utility.UserInputFL(deposit.getTextArea().getText());
+                    if (userInput > 0f) {
+                        investment.setDeposit(userInput);
+                        collect.getChildren().removeAll(deposit);
+                    }
+                    else{
+                        deposit.setTitle("Enter a valid amount!");
+                    }
+                });
+            }
+        });
+
+        collect.getButton4().setOnAction(e -> {
+            if (investment.getTime() !=0 && investment.getDeposit() !=0 && investment.getPercentage() !=0){
+                Calculations.Calculate(investment, primaryStage);
+            }
+            else{
+                collect.setTitle("Insufficient Setup!");
+            }
+                
+            
+        });
+        
+        collect.getButton5().setOnAction(e -> {
+            primaryStage.setScene(Main.mainMenu);
+        });
+
+        Scene dataCollectScene = new Scene(collect, 600, 400);
+        primaryStage.setScene(dataCollectScene);
+    }
 }
+   
+      
