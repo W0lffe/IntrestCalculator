@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 public class Cache {
 
     private static int method = 1;
+    private static String URL = "";
 
     public static void ShowCache(Stage primaryStage) {
         Gson gson = new Gson();
@@ -43,7 +44,7 @@ public class Cache {
      private static String SendToServer(String StringJSON) {
 
         try {
-            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php");
+            URI serverURI = URI.create(URL + "/IC_Backend.php");
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("POST");
@@ -81,7 +82,7 @@ public class Cache {
 
         try {
 
-            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php?method=" + method);
+            URI serverURI = URI.create(URL + "/IC_Backend.php?method=" + method);
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("GET");
@@ -139,7 +140,7 @@ public class Cache {
 
         try {
 
-            URI serverURI = URI.create("https://www.cc.puv.fi/~e2301740/IC_Backend/IC_Backend.php?id=" + id);
+            URI serverURI = URI.create(URL + "/IC_Backend.php?id=" + id);
             URL server_url = serverURI.toURL();
             HttpURLConnection connection = (HttpURLConnection) server_url.openConnection();
             connection.setRequestMethod("DELETE");
