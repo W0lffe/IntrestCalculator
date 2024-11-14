@@ -18,9 +18,48 @@ public class Interface extends VBox {
 
     public void setTitle(String text) {
         title.setText(text);
+    }
     
+}
+
+class EntryContainer extends Interface{
+
+    private Button button;
+
+    public EntryContainer(double arg0, String titleText, String buttonLabel) {
+        super(arg0, titleText);
+        this.button = new Button(buttonLabel);
+
+        this.getChildren().add(button);
+    }
+
+    public Button getButton() {
+        return button;
+    }
+
 
 }
+
+class CacheContainer extends Interface{
+
+    private Label info;
+    private Button button;
+    
+    public CacheContainer(double arg0, String titleText, String infoText, String buttonLabel) {
+        super(arg0, titleText);
+        this.info = new Label(infoText);
+        this.button = new Button(buttonLabel);
+
+        this.getChildren().addAll(info, button);
+    }
+
+    public void setInfo(String infoString) {
+        info.setText(infoString);
+    }
+
+    public Button getButton() {
+        return button;
+    }
 }
 
 

@@ -33,7 +33,7 @@ public class DataCollect{
                         CollectScene(stockInvestment, primaryStage);
                     }
                     else{
-                        stocks.setText("Invalid quantity!");
+                        stocks.setTitle("Invalid quantity! Quantity has to be a positive number.");
                     }
                 });
             });
@@ -79,10 +79,10 @@ public class DataCollect{
                         investingTime.setTitle("Time must be a positive number.");
                     }
                     else if(!monthly || !yearly){
-                        investingTime.setTitle("Please select either monthly or yearly for the payment period.");
+                        investingTime.setTitle("Please select either monthly or yearly for the investing period.");
                     }
                     else{
-                        investingTime.setTitle("Please enter a valid time and select either monthly or yearly for the payment period.");
+                        investingTime.setTitle("Please enter a valid time and select either monthly or yearly for the investing period.");
                     }
                 }
                 
@@ -124,7 +124,7 @@ public class DataCollect{
                         collect.getChildren().removeAll(deposit);
                     }
                     else{
-                        deposit.setText("Enter a valid price!");
+                        deposit.setTitle("Enter a valid price!");
                     }
                 });
             }
@@ -138,7 +138,7 @@ public class DataCollect{
                         collect.getChildren().removeAll(deposit);
                     }
                     else{
-                        deposit.setText("Enter a valid amount!");
+                        deposit.setTitle("Enter a valid amount!");
                     }
                 });
             }

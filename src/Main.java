@@ -22,7 +22,7 @@ public class Main extends Application {
 
         main.getButton3().setOnAction(e -> {
             if (!Calculations.Storage.isEmpty()) {
-                //Cache.ShowCache(primaryStage);
+                Cache.ShowCache(primaryStage);
             }
             else{
                 main.setInfo("Cache is empty!");
@@ -31,7 +31,7 @@ public class Main extends Application {
         });
 
         main.getButton4().setOnAction(e -> {
-            //showServerCache function
+            Cache.ShowServerCache(primaryStage);
         });
 
         main.getButton5().setOnAction(e -> {
