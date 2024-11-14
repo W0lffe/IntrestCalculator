@@ -10,7 +10,7 @@ This program utilizes jQuery and vanilla Javascript.
 This software is under GPL License.
 */
 
-
+const serverURL = ""; //your server url here
 let ClientData = []; //Initializing array for data that is made with Java
 let StockData = []; //Initializing array for data that comes from API request
 
@@ -40,7 +40,7 @@ description: This function fetches investment data that is made with Java from P
 loop through object properties and append to table*/
 function createClientDataList(){
     const method = 1; //method for PHP, gets client data from JSON file
-    $.get(`urlHere?method=${method}`, function(data){
+    $.get(`${serverURL}/IC_Backend.php?method=${method}`, function(data){
         console.log(data);
         ClientData = data;
 
@@ -101,7 +101,7 @@ function deleteData(id) {
         if (dataToDelete !== -1) {
 
             $.ajax({
-                url: `urlHere?id=${id}`,
+                url: `${serverURL}/IC_Backend.php?id=${id}`,
                 method: "DELETE",
                 success: function() {
                     console.log("Data deleted successfully");
@@ -122,7 +122,7 @@ description: This function will send a method to PHP wich will fetch latest data
 and return back here. This function will call createStockDataTable to handle the new data*/
 function getStockData(){
     const method = 2; //method for PHP, gets API data from JSON file
-    $.get(`urlHere?method=${method}`, function(data){
+    $.get(`${serverURL}/IC_Backend.php?method=${method}`, function(data){
         console.log(data);
         StockData = data;
         createStockDataTables();
@@ -137,7 +137,7 @@ function updateStockData(){
     if(apikey == null || apikey == ""){
         return;
     }
-    $.get(`urlHere?apikey=${apikey}`, function(data){
+    $.get(`${serverURL}/IC_Backend.php?apikey=${apikey}`, function(data){
         console.log(data);
         getStockData();
     })
