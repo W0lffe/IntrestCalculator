@@ -7,38 +7,61 @@ import java.net.URL;
 import java.net.URI;
 import java.util.ArrayList;
 import com.google.gson.Gson;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
+import javafx.scene.layout.BorderPane;
+
 
 public class Cache {
 
     private static int method = 1;
     private static String URL = "https://www.cc.puv.fi/~e2301740/IC_Backend";
 
-    public static void ShowCache(Stage primaryStage) {
+    public static void ShowCache(BorderPane root) {
         Gson gson = new Gson();
-        CacheContainer cache = new CacheContainer(10, "Local Cache", "Press button to save entry, or go back to Main Menu", "Main Menu");
+        
+        Vertical container = new Vertical(10, "Local Cache");
+        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/2);
 
-        int entry = 1;
+        VerticalChoicesBox2 entries = new VerticalChoicesBox2(10, "Select entry from the list", "Show Entry", "Save Entry");
+        container.getChildren().addAll(entries);
+        root.setCenter(container);
+
+
+        int entryNumber = 1;
         for (Investment investment : Calculations.Storage) {
-            String entryText = "Entry: " + entry + "\n" + investment;
-            EntryContainer localEntry = new EntryContainer(10, entryText, "Save Entry");
-
-            localEntry.getButton().setOnAction(e -> {
-                String selectedEntry = gson.toJson(investment);
-                String response = SendToServer(selectedEntry);
-                cache.setInfo(response);
-            });
-            cache.getChildren().addAll(localEntry);
-            entry++;
+            String entry = entryNumber + ". " + investment.getType();
+            entries.getChoices().getItems().addAll(entry);
+            entryNumber++;
         }
 
-        cache.getButton().setOnAction(e -> {
-            primaryStage.setScene(Main.mainMenu);
+        entries.getButton().setOnAction(e -> {
+            String selectedEntry = entries.getChoices().getValue();
+
+            if (selectedEntry != null) {
+                int selectedEntryIndex = entries.getChoices().getItems().indexOf(selectedEntry);
+                Investment investment = Calculations.Storage.get(selectedEntryIndex);
+                entries.getTextArea().setText(investment.toString());
+            }
+            else{
+                entries.setVBoxTitleLabel("Please select entry first!");
+            }
         });
 
-        Scene cacheScene = new Scene(cache, 600, 400);
-        primaryStage.setScene(cacheScene);
+        entries.getButton2().setOnAction(e -> {
+            String selectedEntry = entries.getChoices().getValue();
+
+            if (selectedEntry != null) {
+                int selectedEntryIndex = entries.getChoices().getItems().indexOf(selectedEntry);
+                Investment investment = Calculations.Storage.get(selectedEntryIndex);
+
+                String stringifiedData = gson.toJson(investment);
+                String response = SendToServer(stringifiedData);
+                entries.getTextArea().appendText(response);
+            }
+            else{
+                entries.setVBoxTitleLabel("Please select entry first!");
+            }
+        });
+       
     }
 
      private static String SendToServer(String StringJSON) {
@@ -74,12 +97,16 @@ public class Cache {
         }
     }
  
-    public static void ShowServerCache(Stage primaryStage) {
+    public static void ShowServerCache(BorderPane root) {
         Gson gson = new Gson();
 
-        CacheContainer cache = new CacheContainer(10, "Server Cache", 
-                                                "Press button to delete entry from server, or go back to Main Menu", "Main Menu");
-            
+        Vertical container = new Vertical(10, "Server Cache");
+        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/2);
+
+        VerticalChoicesBox2 entries = new VerticalChoicesBox2(10, "Select entry from the list", "Show Entry", "Delete Entry");
+        container.getChildren().addAll(entries);
+        root.setCenter(container);
+
         try {
 
             URI serverURI = URI.create(URL + "/IC_Backend.php?method=" + method);
@@ -99,43 +126,58 @@ public class Cache {
                 br.close();
 
                 ArrayList<Investment> Entries = Utility.JsonDataParser(response.toString(), gson);
-
+                
                 if (Entries != null) {
+
                     for (Investment entry : Entries) {
-                        String entryText = "Entry: " + entry.getId() + "\n" + entry;
-                        EntryContainer serverEntry = new EntryContainer(10, entryText, "Delete Entry");
-
-                        serverEntry.getButton().setOnAction(e -> {
-                            String serverResponse = DeleteData(entry.getId());
-                            cache.setInfo(serverResponse);
-                            Utility.Delay();
-                            ShowServerCache(primaryStage);
-                        });
-
-                        cache.getChildren().addAll(serverEntry);
-                    }
-                } else {
-                    cache.setInfo("No data found.");
+                        String entryText = "Entry: " + entry.getId();
+                        entries.getChoices().getItems().addAll(entryText);
+                    };
+                }
+                else{
+                    entries.setVBoxTitleLabel("No data found.");
                 }
 
-            } else {
-                cache.setInfo("Error: " + connection.getResponseCode());
+                entries.getButton().setOnAction(e -> {
+                    String selectedEntry = entries.getChoices().getValue();
+        
+                    if (selectedEntry != null) {
+                        int selectedEntryIndex = entries.getChoices().getItems().indexOf(selectedEntry);
+                        Investment investment = Entries.get(selectedEntryIndex);
+                        entries.getTextArea().setText(investment.toString());
+                    }
+                    else{
+                        entries.setVBoxTitleLabel("Please select entry first!");
+                    }
+                });
+
+                entries.getButton2().setOnAction(e -> {
+                    String selectedEntry = entries.getChoices().getValue();
+        
+                    if (selectedEntry != null) {
+                        int selectedEntryIndex = entries.getChoices().getItems().indexOf(selectedEntry);
+                        Investment investment = Entries.get(selectedEntryIndex);
+                        String serverResponse = DeleteData(investment.getId());
+                        entries.getTextArea().appendText(serverResponse);
+                    }
+                    else{
+                        entries.setVBoxTitleLabel("Please select entry first!");
+                    }
+                });
+            }
+            else {
+                entries.setVBoxTitleLabel("Error: " + connection.getResponseCode());
             }
             connection.disconnect();
 
         } catch (IOException e) {
-            cache.setInfo("Error fetching data: " + e.getMessage());
+            entries.setVBoxTitleLabel("Error fetching data: " + e.getMessage());
             e.printStackTrace();
         }
 
-        cache.getButton().setOnAction(e -> {
-            primaryStage.setScene(Main.mainMenu);
-        });
+ }
 
-        Scene serverScene = new Scene(cache, 600, 400);
-        primaryStage.setScene(serverScene);
-
-    }
+    
     private static String DeleteData(int id) {
 
         try {

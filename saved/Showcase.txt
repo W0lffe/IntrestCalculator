@@ -24,3 +24,12 @@ Percentage: 10,00%
 Deposit: 1000,00€
 After intrest: 2000,00€
 Earnings: 1000,00€
+
+
+Current date: 2024-11-15T13:35:22.761594800 (METHOD: Linear) 
+Type: Linear
+Time: 24 months
+Percentage: 3,60%
+Deposit: 5000,00€
+After intrest: 9320,00€
+Earnings: 4320,00€

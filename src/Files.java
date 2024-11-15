@@ -2,9 +2,9 @@ import java.time.LocalDateTime;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.File;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
 import java.awt.Desktop;
+import javafx.scene.layout.BorderPane;
+
 
 class Files {
 
@@ -49,59 +49,64 @@ class Files {
 
     }
 
-    public static void ReadFile(Stage primaryStage) {
-       
-        CacheContainer fileRead = new CacheContainer(10, "Read Saved Files", "Select file to read", "Main Menu");
+    public static void ReadFile(BorderPane root) {
+        Vertical container = new Vertical(10, "Select file to read");
+        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/2);
+
+        VerticalChoicesBox files = new VerticalChoicesBox(10, "", "Confirm");
+        container.getChildren().addAll(files);
+        root.setCenter(container);
 
         File folder = new File(path);
         
         if (folder.exists() && folder.isDirectory()) {
             File[] folderFiles = folder.listFiles(file -> file.isFile() && file.canRead() && file.canWrite());
-            int i = 1;
 
             if (folderFiles.length > 0) {
+
                 for (File file : folderFiles) {
+                    
                     if (file.canRead() && file.canWrite()) {
-                        String fileEntry = i + ". " + file.getName();
-                        EntryContainer files = new EntryContainer(10, fileEntry, "Read File");
-    
-                        files.getButton().setOnAction(e -> {
-                        File fileToOpen = file;
-    
-                            if (Desktop.isDesktopSupported()) {
-                                Desktop desktop = Desktop.getDesktop();
-                                Utility.Delay();
-                                try {
-                                    desktop.open(fileToOpen);
-                
-                                } catch (IOException ex) {
-                                    fileRead.setInfo("Unable to open file!");
-                                    ex.printStackTrace();
-                                }
-                            } else {
-                                fileRead.setInfo("This system is not capable for desktop operations.");
-                            }
-                        });
-                        fileRead.getChildren().addAll(files);
-                        i++;
+                        files.getChoices().getItems().addAll(file.getName());
                     }
                 }
             }
-            else {
-                fileRead.setInfo("Directory is empty.");
+            else{
+                files.setVBoxTitleLabel("Directory is empty!");
             }
         }
-        else {
-            fileRead.setInfo("Directory does not exist!");
+        else{
+            files.setVBoxTitleLabel("Directory is doesnt exist!");
         }
+            
+        files.getButton().setOnAction(e -> {
+            String fileName = files.getChoices().getValue();
 
-        fileRead.getButton().setOnAction(e -> {
-            primaryStage.setScene(Main.mainMenu);
-        });
+            if(fileName != null){
+                File fileToOpen = new File(path + fileName);
 
-    Scene readScene = new Scene(fileRead, 600, 400);
-    primaryStage.setScene(readScene);
-}
+                if (Desktop.isDesktopSupported()) {
+                    Desktop desktop = Desktop.getDesktop();
+                    Utility.Delay();
+                    try {
+                        desktop.open(fileToOpen);
+    
+                    } catch (IOException ex) {
+                        files.setVBoxTitleLabel("Unable to open file!");
+                        ex.printStackTrace();
+                    }
+                } else {
+                    files.setVBoxTitleLabel("This system is not capable for desktop operations.");
+                }
+            }
+            else{
+                files.setVBoxTitleLabel("Please select a file from the list.");
+            }
+        });     
+
+               
+      
+    }
    
     private static String toSave(Investment investment) {
         String dataToSave = "Current date: " + currentDate;
@@ -109,4 +114,4 @@ class Files {
         dataToSave += "\n" + investment;
         return dataToSave;
     }
-} 
+}

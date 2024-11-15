@@ -58,7 +58,8 @@ public class DataCollect{
     
         menu.getButton1().setOnAction(e -> {
             VerticalInputBox2 investingTime = new VerticalInputBox2(10, "Set time", "Submit");
-            
+            investingTime.getChoices().getItems().addAll("Monthly", "Yearly");
+
             container.getChildren().addAll(investingTime);
 
             investingTime.getButton().setOnAction(event -> {

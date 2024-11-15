@@ -28,7 +28,7 @@ public class Main extends Application {
         center.setPrefSize(WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
 
 
-        Interface2 root = new Interface2(menu, center, left, right);
+        Interface root = new Interface(menu, center, left, right);
       
 
         main.getButton1().setOnAction(e -> {
@@ -37,13 +37,13 @@ public class Main extends Application {
         });
 
         main.getButton2().setOnAction(e -> {
-            //Files.ReadFile(root);
+            Files.ReadFile(root);
             main.setMenuInfo("");
         });
 
         main.getButton3().setOnAction(e -> {
             if (!Calculations.Storage.isEmpty()) {
-                //Cache.ShowCache(root);
+                Cache.ShowCache(root);
             }
             else{
                 main.setMenuInfo("Cache is empty!");
@@ -52,7 +52,7 @@ public class Main extends Application {
         });
 
         main.getButton4().setOnAction(e -> {
-           //Cache.ShowServerCache(root);
+           Cache.ShowServerCache(root);
             main.setMenuInfo("");
         });
 

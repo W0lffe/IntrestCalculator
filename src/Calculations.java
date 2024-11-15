@@ -50,9 +50,15 @@ public class Calculations {
     
                 saveFileData.getButton().setOnAction(save -> {
                     String fileName = saveFileData.getTextArea().getText();
-                    String response = Files.SaveFile(fileName, investment);
-                    saveFileData.getTextArea().appendText("\n" + response);
-                    menu.getButton2().setText("Reset");
+                    if (!fileName.isEmpty()) {
+                        String response = Files.SaveFile(fileName, investment);
+                        saveFileData.getTextArea().appendText("\n" + response);
+                        menu.getButton2().setText("Reset");
+                    }
+                    else{
+                        saveFileData.setVBoxTitleLabel("Please enter a valid name!");
+                    }
+                   
                 });
             });
 
@@ -120,7 +126,7 @@ public class Calculations {
 
     private static String GetResult(Investment investment){
         String result = "\nAfter: " + investment.getTime() + " " + investment.getPeriod() +
-                        "\nWith: " + investment.getPercentage() +
+                        "\nWith: " + investment.getPercentage() + "%" +
                         "\nYour initial deposit: " + investment.getDeposit() + " euros" +
                         "\nHas theoretically risen to: " + investment.getAfterIntrest() + " euros" +
                         "\nYour earnings are: " + investment.getEarnings() + " euros";

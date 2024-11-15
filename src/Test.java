@@ -1,6 +1,4 @@
-import javafx.stage.Stage;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.Scene;
 
 public class Test {
 
