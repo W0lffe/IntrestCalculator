@@ -30,10 +30,12 @@
             "label": "Run JAR",
             "type": "shell",
             "command": "java",
-            "args": [ "-jar", "InvestmentTool.jar"]
+            "args": [ "--module-path", "lib/javafx-sdk-23/lib/",
+            "--add-modules","javafx.controls,javafx.fxml",
+            "-jar", "InvestmentTool.jar"]
         },
     ]
 }
 // javac -cp "lib/javafx-sdk-23/lib/*;lib/gson/*" src/*.java -d out
-
 // java --module-path "lib/javafx-sdk-23/lib/" --add-modules javafx.controls,javafx.fxml -cp "out;lib/gson/*" Main
+//jpackage --input out --main-jar InvestmentTool.jar --module-path "lib/javafx-sdk-23/lib/" --add-modules javafx.controls,javafx.fxml --name InvestmentTool

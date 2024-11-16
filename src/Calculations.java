@@ -45,7 +45,7 @@ public class Calculations {
 
         results.getButton().setOnAction(event -> {
 
-            HorizontalMenu menu = new HorizontalMenu(10, "Do you wanna locally save this data?", "Yes", "No");
+            HorizontalMenu menu = new HorizontalMenu(10, "Do you want to locally save this data?", "Yes", "No");
             container.getChildren().add(menu);
     
             menu.getButton1().setOnAction(e -> {

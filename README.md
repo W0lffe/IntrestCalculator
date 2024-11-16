@@ -20,6 +20,9 @@ Development of the JavaFX graphical interface is still ongoing. While some eleme
 Continued work on JavaFX will enhance user experience and complete the visual components of the application.
 
 ## How to Use
+Use executable file 
+
+or
 
 compile:
 ```
@@ -29,6 +32,7 @@ run:
 ```
 java --module-path "lib/javafx-sdk-23/lib/" --add-modules javafx.controls,javafx.fxml -cp "out;lib/gson/*" Main
 ```
+
 
 Place HTML, JS, PHP files on a server. Add the URL to source files: Cache.java and IC_JS.js.
 
@@ -60,7 +64,7 @@ yourURLhere/IC_Backend.php
 
 ### Other
 * [ ] Documentation / Comment source code
-* [ ] Executable file
+* [x] Executable file
 
 
 
