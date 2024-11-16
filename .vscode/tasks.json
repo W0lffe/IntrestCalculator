@@ -23,7 +23,7 @@
             "label": "Build JAR",
             "type": "shell",
             "command": "jar",
-            "args": [ "cfm", "InvestmentTool.jar", "Manifest.txt",
+            "args": [ "cfm", "out/InvestmentTool.jar", "Manifest.txt",
             "-C", "out", "."]
         },
         {
@@ -32,7 +32,7 @@
             "command": "java",
             "args": [ "--module-path", "lib/javafx-sdk-23/lib/",
             "--add-modules","javafx.controls,javafx.fxml",
-            "-jar", "InvestmentTool.jar"]
+            "-jar", "out/InvestmentTool.jar"]
         },
     ]
 }
