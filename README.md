@@ -56,7 +56,7 @@ yourURLhere/IC_Backend.php
 
 ### GUI 
 * [x] HTML User Inteface -- Displays data from this app and other API
-* [ ]  JavaFX -- Ready for use, missing styling, needs refining. But usable.
+* [x]  JavaFX -- will be refined
 
 ### Other
 * [ ] Documentation / Comment source code
