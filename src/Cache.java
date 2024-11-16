@@ -13,7 +13,7 @@ import javafx.scene.layout.BorderPane;
 public class Cache {
 
     private static int method = 1;
-    private static String URL = "https://www.cc.puv.fi/~e2301740/IC_Backend";
+    private static String URL = "";
 
     public static void ShowCache(BorderPane root) {
         Gson gson = new Gson();
