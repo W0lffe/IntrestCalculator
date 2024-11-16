@@ -4,31 +4,34 @@ import javafx.scene.Scene;
 
 public class Main extends Application {
     
-    public static final int WINDOW_WIDTH = 900;
+    public static final int WINDOW_WIDTH = 1200;
     public static final int WINDOW_HEIGHT = 600;
     public static Scene mainMenu;
 
     @Override
     public void start(Stage primaryStage){
 
-        Vertical menu = new Vertical(10, "Main Menu");
+        Vertical menu = new Vertical(10, "");
         menu.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT/6);
 
         HorizontalMenu main = new HorizontalMenu(10, "", "Calculate Intrest", "Read Saved Files",
                                                 "Show Local Cache", "Show Server Cache", "Test Case", "");
         menu.getChildren().add(main);
 
-        Vertical left = new Vertical(10, "FILLER");
+        Vertical left = new Vertical(10, "");
         left.setPrefSize(WINDOW_WIDTH/4, 500);
 
-        Vertical right = new Vertical(10, "FILLER");
+        Vertical right = new Vertical(10, "");
         right.setPrefSize(WINDOW_WIDTH/4, 500);
 
-        Vertical center = new Vertical(10, "FILLER");
-        center.setPrefSize(WINDOW_WIDTH/2, WINDOW_HEIGHT/2);
+        Vertical center = new Vertical(10, "");
+        center.setPrefSize(WINDOW_WIDTH/2, WINDOW_HEIGHT/3);
+
+        Horizontal bottom = new Horizontal(10, "");
+        bottom.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT/6);
 
 
-        Interface root = new Interface(menu, center, left, right);
+        Interface root = new Interface(menu, center, left, right, bottom);
       
 
         main.getButton1().setOnAction(e -> {
@@ -57,11 +60,12 @@ public class Main extends Application {
         });
 
         main.getButton5().setOnAction(e -> {
-            //Test.TestMain(root);
+            Test.TestMain(root);
             main.setMenuInfo("");
         });
         
         mainMenu = new Scene(root, WINDOW_WIDTH, WINDOW_HEIGHT);
+        mainMenu.getStylesheets().add(getClass().getResource("styles.css").toExternalForm());
         primaryStage.setTitle("Investment Tool");
         primaryStage.setScene(mainMenu);
         primaryStage.show();

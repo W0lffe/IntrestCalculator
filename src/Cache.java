@@ -19,7 +19,8 @@ public class Cache {
         Gson gson = new Gson();
         
         Vertical container = new Vertical(10, "Local Cache");
-        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/2);
+        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/3);
+        container.getStyleClass().add("vertical");
 
         VerticalChoicesBox2 entries = new VerticalChoicesBox2(10, "Select entry from the list", "Show Entry", "Save Entry");
         container.getChildren().addAll(entries);
@@ -101,7 +102,8 @@ public class Cache {
         Gson gson = new Gson();
 
         Vertical container = new Vertical(10, "Server Cache");
-        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/2);
+        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/3);
+        container.getStyleClass().add("vertical");
 
         VerticalChoicesBox2 entries = new VerticalChoicesBox2(10, "Select entry from the list", "Show Entry", "Delete Entry");
         container.getChildren().addAll(entries);

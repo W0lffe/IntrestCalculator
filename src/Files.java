@@ -51,10 +51,11 @@ class Files {
 
     public static void ReadFile(BorderPane root) {
         Vertical container = new Vertical(10, "Select file to read");
-        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/2);
+        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/3);
 
         VerticalChoicesBox files = new VerticalChoicesBox(10, "", "Confirm");
         container.getChildren().addAll(files);
+        container.getStyleClass().add("vertical");
         root.setCenter(container);
 
         File folder = new File(path);

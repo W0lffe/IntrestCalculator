@@ -10,18 +10,20 @@ public class Interface extends BorderPane{
     private Vertical center;
     private Vertical left;
     private Vertical right;
+    private Horizontal bottom;
     
-    public Interface(Vertical top, Vertical center, Vertical left, Vertical right) {
+    public Interface(Vertical top, Vertical center, Vertical left, Vertical right, Horizontal bottom) {
         this.top = top;
         this.center = center;
         this.left = left;
         this.right = right;
-
+        this.bottom = bottom;
 
         this.setTop(top);
         this.setCenter(center);
         this.setLeft(left);
         this.setRight(right);
+        this.setBottom(bottom);
     }
 
 }
@@ -42,11 +44,6 @@ class Horizontal extends HBox{
     }
 }
 
-class HorizontalInputBox extends HBox{
-
-
-}
-
 class HorizontalMenu extends Horizontal{
 
     private Button button1;
@@ -65,7 +62,7 @@ class HorizontalMenu extends Horizontal{
         this.button5 = new Button(b5text);
         this.info = new Label(menuInfo);
 
-        this.getChildren().addAll(info, button1,button2,button3,button4,button5);
+        this.getChildren().addAll(button1,button2,button3,button4,button5, info);
     }
 
     public HorizontalMenu(double arg0, String title, String b1text, String b2text, String b3text) {

@@ -1,0 +1,83 @@
+/* General styling for the entire application */
+.root {
+    -fx-font-family: 'Arial';
+    -fx-background-color: #f4f4f9;
+}
+
+/* Styling for Vertical layout containers */
+.vertical {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.2), 5, 0.2, 2, 2);
+}
+
+/* Styling for Horizontal layout containers */
+.horizontal {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10;
+    -fx-border-color: #ddd;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-spacing: 10;
+}
+
+/* Styling for Labels */
+.label {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+}
+
+/* Styling for Buttons */
+.button {
+    -fx-background-color: #4CAF50; /* Green background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 14px;
+    -fx-padding: 10 20;
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
+    -fx-cursor: hand;
+}
+
+.button:hover {
+    -fx-background-color: #45a049; /* Slightly darker green on hover */
+}
+
+.button:pressed {
+    -fx-background-color: #3e8e41; /* Even darker green when clicked */
+}
+
+/* Styling for ChoiceBox */
+.choice-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+    -fx-padding: 5;
+}
+
+/* Styling for TextArea */
+.text-area {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #ccc;
+    -fx-border-radius: 5;
+    -fx-padding: 10;
+    -fx-font-size: 14px;
+}
+
+/* Styling for the BorderPane regions */
+.top, .center, .left, .right {
+    -fx-background-color: #e8eff5;
+    -fx-padding: 15;
+    -fx-border-color: #ccc;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+/* Adding padding for spacing between components */
+.container > * {
+    -fx-margin: 5;
+}

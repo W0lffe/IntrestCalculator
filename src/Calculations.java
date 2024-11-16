@@ -31,11 +31,15 @@ public class Calculations {
         investment.setEarnings(investment.getAfterIntrest() - investment.getDeposit());
 
         Vertical container = new Vertical(10, "Calculation Results");
-        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/2);
-        root.setCenter(container);
+        container.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/3);
+
+        if (!Test.test.getTestCase()) {
+            root.setCenter(container);
+        }
 
         VerticalInputBox results = new VerticalInputBox(10, "", "Click here to Proceed");
         container.getChildren().addAll(results);
+        container.getStyleClass().add("vertical");
 
         results.getTextArea().setText(GetResult(investment));
 

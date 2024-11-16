@@ -20,18 +20,18 @@ public class Test {
 
     public static void TestMain(BorderPane root) {
 
-        Container1 testCaseWindow = new Container1(10, "Test Case", "Run", "Go Back");
+        VerticalInputBox testCaseWindow = new VerticalInputBox(10, "Test Case", "Run");
+        root.setCenter(testCaseWindow);
+        testCaseWindow.setPrefSize(Main.WINDOW_WIDTH/2, Main.WINDOW_HEIGHT/3);
+        testCaseWindow.getStyleClass().add("vertical");
 
-        testCaseWindow.getButton1().setOnAction(e -> {
+
+        testCaseWindow.getButton().setOnAction(e -> {
             String test = TestCase(root);
-            Interface info = new Interface(10, test);
+            testCaseWindow.getTextArea().appendText(test);
             Utility.Delay();
-            testCaseWindow.getChildren().add(info);
         });
 
-        testCaseWindow.getButton2().setOnAction(e -> {
-            root.setCenter(null);
-        });
     }
 
     private static String TestCase(BorderPane root) {
